@@ -1,0 +1,733 @@
+html{
+    width: 100%;
+    overflow-x: hidden;
+    font-family: "Nunito", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+body{
+}
+header {
+    z-index: 5;
+    position: sticky;        
+    top: 0%;
+    height: 80px;
+    background-color: white;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+#topMenu {
+  height: 100%;
+}
+#logosection{
+    position: relative;
+    display: inline-block;
+    width: auto;
+    height: 80px;
+    border-right: solid #E0E0E0 1px;
+    padding-right: 20%;
+}
+.logo {
+    position: relative;
+    left: 10%;
+    top: 25%;
+    width: auto;
+    max-width: 100px;
+}
+#ulMain {
+    display: flex;
+    position: relative;
+    height: 50px;
+    font-weight: lighter;
+    opacity: 1;
+    font-size: 1px;
+}
+#topMenu ul {
+    top: 10%;
+    height: 60px;
+    margin: 0;
+}
+#topMenu ul li {
+    list-style: none;
+    display: inline-block;
+}
+
+#topMenu ul li a {
+    display: block;
+    padding: 0 25px;
+    text-decoration: none;
+    line-height: 60px;
+    font-size: 16px;
+}
+
+#topMenu ul li a:hover {
+    opacity: 1;
+}
+#topMenu ul ul li {
+    position: relative;
+    display: block;
+    right: 30%;
+}
+#topMenu ul ul {
+    position: relative;
+    top: -10%;
+    display: none;
+}
+#topMenu ul li:hover>ul {
+    position: relative;
+    width: 140px;
+    left: 5%;
+    height: auto;
+    background-color: #303030;
+    color: white;
+    border-radius: 5px;
+    display: block;
+}
+
+#topMenu ul li ul li a {
+    position: relative;
+    right: 10%;
+    width: 160px;
+    color: lightgray;
+    font-weight: lighter;
+    opacity: 0.7;
+    font-family: 'Radio Canada', sans-serif;
+}
+.arrow-icon {
+    position: relative;
+    background-color: #E9EBFD;
+    color: black;
+    border-radius: 5px;
+    opacity: 0.5;
+    border: 2px black;
+    top: 5px;
+    left: 10%;
+}
+
+.headerLinkStyle {
+    color: #777777;
+    font-family: 'Radio Canada', sans-serif;
+}
+
+.headerLinkStyle:hover {
+    color: #2A41EC;
+}
+
+.headerLinkStyle:hover .arrow-icon {
+    color: #2A41EC;
+    background-color: #E9EBFD;
+    opacity: 1;
+}
+ 
+.arrow {
+    position: absolute;
+    top: -15px;
+    left: 15%;
+    width: 0;
+    height: 0;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #303030;
+    border-top-color: transparent;
+    border-bottom-color: #303030;
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+#loginSection{
+    position: absolute;
+    width: auto;
+    height: 80px;
+    text-decoration: none;
+    font-family: 'Radio Canada', sans-serif;
+    border-left: solid #E0E0E0 1px;
+    padding-left: 1.5%;
+    
+}
+#loginSection a{
+    position: relative;
+    text-decoration: none;
+    color: #777777;
+    top: 25%;
+}
+#loginSection :hover{
+    color: #2A41EC;
+
+}
+#barIcon{
+    position: relative;
+    visibility: hidden;
+}
+/*SIDE BAR*/
+#sidebarnav{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    background-color: #2A2A2A;
+    width: 300px;
+    max-width: 45%;
+    height: 100vh;
+    float: left;
+    padding: 0%;
+    z-index: 10;
+}
+#sidebarTitle{
+    color: white;
+    background-color: #2A2A2A;
+    height: 80px;
+    align-items: center;
+    padding: 0%;
+    margin: 0%;
+    justify-content: center;
+    border-bottom: #E0E0E0 solid 1px;
+}
+#sidebarul{
+    position: relative;
+    right: 0%;
+    color: white;
+    padding: 0%;
+    margin: -5%;
+}
+#sidebarul li{
+    position: relative;
+    top: 5%;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    border-bottom: lightgray solid 1px;
+    line-height: 60px;
+    width: 100%;
+}
+/*Banner*/
+.introBanner{
+    position: relative;
+    background-image: url("../Images/introBanner1.jpeg");
+    height: 600px;
+    width: 100%;
+    background-position: center;
+    background-size:cover ;
+    background-repeat: no-repeat;
+    object-fit: cover;
+}
+#banner-content{
+    position: relative;
+    top: 20%;
+    left: 2%;
+}
+.banner-headline{
+    position: relative;
+    left: 5%;
+    display: block;
+    max-width: 60%;
+    margin-bottom:2%;
+}
+
+.banner-headline h3 {
+    font-size: 28px;
+    font-weight: 300;
+    color: #777;
+    line-height: 42px;
+}
+#search-bar{
+    position: relative;
+    padding:0% ;
+    max-width: 60%;
+    height: 55px;
+    left: 5%;
+    margin-bottom: 90px;
+}
+#job-count
+{
+    position: relative;
+    max-width: 40%;
+    position: relative;
+    left: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.banner-list-item
+{
+    border: none !important;
+    background-color: transparent !important;
+    border-right:1px solid lightgray !important ;
+    justify-content: center;
+    align-items: center;
+}
+.border-left{
+    border-left:1px solid lightgray !important ;
+    
+}
+.count{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#small-searchbar{
+    display: none;
+    width: 90%;
+}
+#badge1-color{
+    background-color: #2A41E8 !important;
+}
+#badge2-color{
+    background-color: #2A41E8 !important;
+}
+  /*End Banner*/
+
+/*Registration - Login*/
+
+#reg-container{
+    position: fixed;
+    padding-bottom: 2%;
+    top: 10%;
+    left: 0%;
+    right: 0%;
+    z-index:6;
+    height: auto;
+    padding-bottom: 2%;
+    width: 35%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+#user-select{
+    position: relative;
+    top: 2%;
+    padding-bottom: 2%;
+    margin: 0%;
+    border-bottom: 1px lightgray solid;
+}
+#login-reg-form{
+    margin-top: 1%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#welcome-text{
+    position: relative;
+    top: 5%;
+    text-align: center;
+}
+#welcome-text span{
+    color: #666;
+}
+#welcome-text h3{
+    font-size: 24px;
+}
+#welcome-text a{
+    text-decoration: none;
+}
+#login-form{
+    margin-top: 5%;
+    width: 90%;
+}
+#user-button{
+    background-color: #47BB67 ;
+    color: white;
+}
+
+#form-type-button{
+    color: #0B5ED7;
+    background-color: white;
+    font-weight: bolder;
+    box-shadow: none;
+}
+.default-from-type-button:hover
+{
+    background-color: #0B5ED7 !important;
+    color: white !important;
+}
+
+.user-button-defualt
+{
+    margin: 10px;
+    border-radius: 5px;
+    height: 80%;
+}
+.user-button-defualt:hover
+{
+    background-color: #E4F6E9 !important;
+    color: #47BB67 !important;
+}
+
+/*Reg  End*/
+
+/*Employeer*/
+.Employeer-introBanner
+{
+    position: relative; 
+    top: 0%;
+    background-image: url("../Images/home-background-02.jpg");
+    height: 600px;
+    width: 100%;
+    background-position: center;
+    background-size:cover ;
+    background-repeat: no-repeat;
+    object-fit: cover;
+}
+#background-dark{
+    position: absolute;
+    background: #333;
+    width: 100vw;
+    height: 600px;
+    opacity: 0.75;
+}
+#userAvatar{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    
+}
+#profile-popup{
+    position: absolute;
+    padding: 10px;
+    right: 0%;
+    background-color:  #303030;
+    color: white;
+    top: 100%;
+    border-radius: 10px;
+    height: 200%;
+    width: 200px;
+}
+#profile-popup ul{
+    list-style: none;
+    display: block;
+}
+#profile-popup ul li{
+    position: relative;
+    padding: 5%;
+    right: 29%;
+    display: block;
+    border-bottom: white solid 1px;
+    width: 200px;
+  
+}
+#profile-popup :hover
+{
+    /* color: white; */
+}
+.list-freelancer-form{
+   
+}
+.list-freelancer-form h3{  
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color: #333;
+    font-weight: 400;
+  
+}
+#free-list-button{
+    display: flex;
+    justify-content: center;
+}
+#free-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#single-freelancer{
+    background-image: url("../Images/single-freelancer.jpg");
+    background-position: center;
+    background-size:cover ;
+    background-repeat: no-repeat;
+    object-fit: cover;
+    height: 250px;
+}
+#background-white{
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to right,rgba(247,247,247,1) 50%,rgba(247,247,247,0.8) 70%,rgba(247,247,247,0.8) 90%);
+    width: 100vw;
+    height: 250px;
+    padding-left: 6%;
+}
+#big-avatar{
+    border-radius: 100%;
+    height: 65%;
+    width: 65%;
+    min-height: 40%;
+    min-width: 40%;
+    border: 1px solid lightgray;
+}
+#single-free-name h3{
+   font-weight: 400;
+}
+#single-free-name h4{
+    font-weight: 400;
+ }
+ #star i{
+    padding: 0%;
+    margin: 0%;
+ }
+ #free-aboutme{
+     margin-left: 10%;
+     margin-top: 5%;
+ }
+ #free-job-details{ 
+    margin-top: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.skill-badge{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 40px;
+    background-color:  #F0F2FD !important;
+    color: #0B5ED7;
+    border-radius: 5%;
+    margin: 1%;
+}
+#makeanoffer{
+    margin-top: 10%;
+}
+#dashboardSidebar
+{
+    height: 100vh;
+    width: 100%;
+    box-shadow:
+    inset 0 -3em 3em rgba(0,0,0,0.1),
+          0 0  0 2px rgb(255,255,255),
+          0.3em 0.3em 1em rgba(0,0,0,0.3);
+    padding: 0%;
+}
+
+#dashboardSidebar li 
+{
+  padding-left: 5%;
+  border: none;
+  display: block;
+  
+}
+#dashboardSidebar li:hover
+{
+  color: #0B5ED7;
+  background-color: #F7F8FE;
+}
+#dashboard-topnav{
+    background-color: #333333;
+    margin: 1% ;
+    border-radius: 10px;
+    display: none;
+}
+#postproject-form{
+    margin: 5%;
+  
+}
+#single-task{
+    display: flex ;
+    align-items: center;
+    background-image: url("../Images/single-task.jpg");
+    background-position: inherit;
+    background-size:cover ;
+    background-repeat: repeat;
+    object-fit: cover;
+    height: 250px;
+}
+#single-task-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background-color: white;
+    width: auto;
+    height: 150px;
+    left: 10%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 5%;
+}
+#single-task-name h3{
+    font-weight: 400;
+    font-size: 2rem;
+
+ }
+ #single-task-name h4{
+     font-weight: 400;
+  }
+  #attachment-span{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: aliceblue;
+      width: 20%;
+      height: 100px;
+      border-radius: 5px;
+  }
+  #attachment-span:hover{
+    background-color: #E0E0E0;
+}
+#days-left{
+    background-color: #E7F8EC;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #4CA358;
+}
+#budget{
+    background-color: #F0F0F0;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+#bid-form{
+    height: 400px;
+    background-color: #F9F9F9;    
+}
+#bid-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F0F0F0;
+    height: 15%;
+}
+#bid-controls{
+    margin-bottom: 40%;
+}
+/*End*/
+ /*Media starts*/ 
+@media (max-width:1125px) {
+    #sidebarnav{
+          max-width: 45%;
+    }
+    html{
+        overflow-x: hidden;
+    }
+    #ulMain{
+        display: none;
+    }
+    #loginSection{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        right: 5%;
+    }
+    #loginText{
+        display: none;
+    }
+    #barIcon{
+        visibility: visible;
+        margin-bottom:130% ;
+        left: 50%;
+    }
+    #login-icon{
+        visibility: visible;
+        margin-bottom:130% ;
+        left: 50%;
+    }
+    #logosection{
+        border: none;
+    }
+    #search-bar{
+        display: none;
+    }
+    .banner-headline{
+       max-width: 90%;
+       left: 0%;
+    }
+    .banner-headline h3 {
+        font-size: 1.5em;
+    }
+    #banner-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        top: 5%;
+        right: 2%;
+    }
+    #job-count{
+        display: none;
+    }
+    #small-searchbar{
+        position: relative;
+        left: 0%;
+        right: 5%;
+        display: block;
+        max-width: 100%;
+    }
+    #reg-container{
+        top:10%;
+        width: 95%;
+        height: auto;
+    }
+    #login-reg-form{
+        position: relative;
+    }
+    #userAvatar{
+        top: 0%;
+    }
+    .hide-in-small-screen{
+        display: none;
+    }
+    #profile-popup{
+        position: absolute;
+        top: 100%;
+    }
+    #filter-form{
+        min-width: 100%;
+    }
+    #list-freelancer{
+        min-width: 100%;
+    }
+    .text-align-center{
+        text-align: center;
+    }
+    
+    #free-list-button{
+        width: 100%;
+    }
+    #free-name{
+        padding-left: 5%;
+        min-width: 90%;
+    }
+    #background-white{
+        margin-left: 0%;
+    }
+    #free-aboutme{
+        width: 100%;
+        margin-left: 0%;
+    }
+    #makeanoffer{
+        margin-top: 10%;
+    }
+    #big-avatar{
+       background-color: #0B5ED7;
+       width: 100px;
+       height: 100px;
+    }
+    #profile-section{
+        position: relative;
+        bottom: 20%;
+        left: -3%;
+    }
+    #single-free-name{
+        position: relative;
+        width: 100%;
+        left: -20%;
+        top: 30%;
+    }
+    #dashboard-topnav{
+        display: block;
+    }
+    #form-col{
+      width: 100%;
+    }
+}
+.wrongcred{
+    margin-top: 3%;
+    font-size: 1.1rem;
+    color: red;
+  }
+/*Media Ends*/

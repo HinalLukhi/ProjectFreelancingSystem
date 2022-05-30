@@ -63,7 +63,4 @@ public class Authentication {
             return "verify_fail";
         }
     }
-
-
-
 }
