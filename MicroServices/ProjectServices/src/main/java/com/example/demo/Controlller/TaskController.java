@@ -5,7 +5,9 @@ import com.example.demo.Services.TaskServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/task")
@@ -16,9 +18,10 @@ public class TaskController {
     public TaskServices taskServices;
 
     @PostMapping("/add")
-    public Task add(@RequestBody Task task)
+    public List<Task> add(@RequestBody List<Task> tasks)
     {
-        return  taskServices.insertData(task);
+        List<Task> taskList =tasks.stream().map(task ->taskServices.insertData(task)).collect(Collectors.toList());
+        return  taskList;
     }
 
     @GetMapping("/all")
@@ -42,5 +45,10 @@ public class TaskController {
     @GetMapping("/project/{id}")
     public List<Task> getDataByProject(@PathVariable  Integer id){
         return taskServices.DisplayByProjectID(id);
+    }
+
+    @GetMapping("/checkprojecttask/{id}")
+    public int isDividedIntoTaksOrNot(@PathVariable Integer id){
+        return taskServices.isDividedIntoTaksOrNot(id);
     }
 }

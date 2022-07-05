@@ -62,4 +62,6 @@ public class ProjectServices {
     public  List<Projectskill> displayBidProjectId(Integer id){
         return projectskillRepository.displaySkill(id);
     }
+
+
 }

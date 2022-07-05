@@ -38,7 +38,7 @@ function ManageBidders() {
                 <RiIcons.RiAuctionLine size={30} style={{marginLeft:"1rem"}} color="blue"/>
               </section>
               {activeProjects.map((d) => (
-                <Toast style={{ width: "100%" }} className="mb-1 mt-4"> 
+                <Toast key={d.id} style={{ width: "100%" }} className="mb-1 mt-4"> 
                 <ToastHeader>{d.projectName}</ToastHeader>
                 <ToastBody>
                   <Row>

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +79,9 @@ public class BidsServices {
         Bid acceptedBid =  bidSRepository.save(bid);
 
         project = acceptedBid.getProject();
+        System.out.println(project.getId());
+        bidSRepository.rejectedAllBids(project.getId());
+        projectRepository.updateStatusTOActive(project.getId());
 
         Logininfo logininfo = logininfoRepository.findById(acceptedBid.getUser().getId()).orElse(null);
         try {
@@ -91,6 +95,15 @@ public class BidsServices {
         return acceptedBid;
     }
 
+    public Bid rejectBid(Integer id){
+        Bid bid = bidSRepository.findById(id).orElse(null);
+        bid.setStatus(statusdetailRepository.findById(8).orElse(null));
+        return bidSRepository.save(bid);
+    }
+
+    public List<Bid> displayBidsByFreelancer(Integer id) {
+        return bidSRepository.findByFreelanceId(id);
+    }
 
     private void sendNotificationEmail(Logininfo registration)
             throws MessagingException, UnsupportedEncodingException {
@@ -126,5 +139,15 @@ public class BidsServices {
     public List<Bid> DisplayByFreelanceID(Integer id)
     {
         return bidSRepository.findByFreelanceId(id);
+    }
+
+    public List<Bid> DisplayAcceptedBidsByFreelanceID(Integer id)
+    {
+        return bidSRepository.findAcceptedBidByFreelanceId(id);
+    }
+
+    public List<Bid> DisplayRejectedBidsByFreelanceID(Integer id)
+    {
+        return bidSRepository.findRejectedBidByFreelanceId(id);
     }
 }
