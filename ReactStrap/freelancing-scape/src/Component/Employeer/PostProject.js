@@ -49,7 +49,7 @@ function PostProject() {
     minBudget: "",
     maxBudget: "",
     skillLevel: { id: 1 },
-    status: { id: 6 },
+    status: { id: 5 },
   });
 
   let projectID;
@@ -153,12 +153,16 @@ function PostProject() {
           <DashboardTopNav />
           <Col xs="10" id="form-col" className="flex-box">
             <section id="postproject-form">
+            <section id="dashboardTitleEmp" className="dashboardTitleTextEmp">
+               Post Project
+                <Mdicons.MdOutlinePostAdd size={30} style={{marginLeft:"1rem"}} color="blue"/>
+              </section>
               {postStatus && (
                 <Alert color="success" onClick={() => {setPostStatus(false)}}>
                   Well done ! your project is successfully posted
                 </Alert>
               )}
-              <FormGroup floating>
+              <FormGroup floating className="mt-5">
                 <Input
                   placeholder="Project Name"
                   type="text"

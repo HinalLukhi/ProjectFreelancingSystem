@@ -6,24 +6,26 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "freelancerskills")
 @Getter
 @Setter
+@Table(name = "freelancerskills")
 public class Freelancerskill {
-    @EmbeddedId
-    private FreelancerskillId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @MapsId("skillId")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "skill_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "skill_id")
     private Skill skill;
 
-    @MapsId("userId")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private Userprofile user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "freelancer_id")
+    private Userprofile freelancer;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "skill_level_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "skill_level_id")
     private Skilllevel skillLevel;
+
+
 }

@@ -195,8 +195,8 @@ header {
 .banner-headline{
     position: relative;
     left: 2rem;
-    display: block;
     margin-bottom:2%;
+    width: 80%;
 }
 
 .banner-headline h3 {
@@ -384,7 +384,7 @@ header {
     width: 10em;
 }
 #profile-popup :hover{
-    cursor: default;
+    cursor: pointer;
     color: white;
 }
 .list-freelancer-form{
@@ -506,6 +506,34 @@ header {
     background-color: white;
     -webkit-box-shadow: -2px -1px 33px 8px rgba(190,190,190,0.78); 
     box-shadow: -2px -1px 33px 8px rgba(190,190,190,0.78);
+}
+#dashboardTitle {
+    background-color:	#f0f8ff;
+    margin-top: -6.3rem;
+    margin-right: -6.3rem;
+    margin-left:-6.3rem ;
+    height: 3rem;
+    border-bottom: 0.1rem solid lightgray;
+}
+.dashboardTitleText{
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+    font-size: 1.2rem;
+}
+#dashboardTitleEmp {
+    background-color:	#f0f8ff;
+    margin-top: -7rem;
+    margin-right: -7rem;
+    margin-left:-7rem ;
+    height: 3rem;
+    border-bottom: 0.1rem solid lightgray;
+}
+.dashboardTitleTextEmp{
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+    font-size: 1.2rem;
 }
 .flex-box{
     margin-left: auto;
@@ -1039,6 +1067,14 @@ b {
    
 }
 /*end*/
+#modalHeight{
+    height: 20rem;
+}
+.dashboard{
+    display: flex;
+}
+
+
  /*Media starts*/ 
 @media (max-width:1125px) {
     #sidebarnav{

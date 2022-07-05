@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/bids")
 @CrossOrigin(origins = "*")
-
 public class BidsController {
 
     @Autowired

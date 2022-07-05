@@ -1,34 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-    Container,
-    Col,
-    Row,
-    InputGroup,
-    Input,
-    Button,
-    Label,
-    Card,
-    CardTitle,
-    CardText,
-    CardBody,
-    CardSubtitle,
-    Toast,
-    ToastBody,
-    ToastHeader,
-    Spinner,
-  } from "reactstrap";
+  Container,
+  Col,
+  Row,
+  InputGroup,
+  Input,
+  Button,
+  Label,
+  Card,
+  CardTitle,
+  CardText,
+  CardBody,
+  CardSubtitle,
+  Toast,
+  ToastBody,
+  ToastHeader,
+  Spinner,
+} from "reactstrap";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
 import * as Aiicons from "react-icons/ai";
 import * as Biicons from "react-icons/bi";
 import EditBids from "./../Freelancer/EditBids";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import * as RiIcons from 'react-icons/ri'
 
 function ManageBids() {
-
-  const [editForm,setEditForm] = useState(false)
+  const navigate = useNavigate();
+  const [tokenstr] = localStorage.getItem("token");
+  useEffect(() => {
+    if (localStorage.getItem("loginStatus") === "false") {
+      navigate("/");
+    } else {
+      setList();
+    }
+  }, [localStorage.getItem("loginStatus")]);
+  const [data, setdata] = useState([]);
+  const setList = () => {
+    axios.get("localhost:8082/bids/freelancer/51").then((res) => {
+      setdata(res.data);
+    });
+  };
+  const [editForm, setEditForm] = useState(false);
   const toggleOfferForm = () => {
     setEditForm(!editForm);
   };
+
+  console.log(data)
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
@@ -37,7 +56,11 @@ function ManageBids() {
           <DashboardTopNav />
           <Col xs="10" id="form-col" className="flex-box">
             <section id="postproject-form">
-              <Card style={{ marginBottom: ".5rem", borderRadius: "1rem" }}>
+            <section id="dashboardTitle" className="dashboardTitleText">
+                Your Bids !
+                <RiIcons.RiAuctionLine size={30} style={{marginLeft:"1rem"}} color="blue"/>
+              </section>
+              <Card style={{ marginBottom: ".5rem", borderRadius: "1rem" }} className="mt-4">
                 <CardBody>
                   <Row>
                     <Col md="6">
@@ -90,14 +113,22 @@ function ManageBids() {
                         <ToastBody className="text-center">1000 $</ToastBody>
                       </Toast>
                       <Row className="mt-4">
-                        <Col md="6"><Biicons.BiEdit size={40} color="blue" onClick={toggleOfferForm}/></Col>
-                        <Col md="6"><Aiicons.AiOutlineDelete size={40} color="red"/></Col>
+                        <Col md="6">
+                          <Biicons.BiEdit
+                            size={40}
+                            color="blue"
+                            onClick={toggleOfferForm}
+                          />
+                        </Col>
+                        <Col md="6">
+                          <Aiicons.AiOutlineDelete size={40} color="red" />
+                        </Col>
                       </Row>
                     </Col>
                   </Row>
                 </CardBody>
               </Card>
-              {editForm && <EditBids toggle={toggleOfferForm}/>}
+              {editForm && <EditBids toggle={toggleOfferForm} />}
             </section>
           </Col>
         </Row>

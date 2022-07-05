@@ -15,7 +15,7 @@ import TaskList from "./Component/Freelancer/TaskList";
 import TaskDescription from "./Component/Freelancer/ProjectDescription";
 import { UserContext } from "./UserContext";
 import { useState } from "react";
-import AddTasks from "./Component/Employeer/AddTasks";
+import AddTasks from "./Component/Freelancer/AddTasks";
 import ManageBidders from "./Component/Employeer/ManageBidders";
 import Plans from "./Component/common/Plans";
 import ContactUs from "./Component/common/ContactUs";
@@ -25,6 +25,8 @@ import UserProfile from "./Component/Freelancer/UserProfile";
 import UserProfileEmployer from "./Component/Employeer/UserProfile";
 import MyAllProjects from "./Component/Employeer/AllProjects"
 import EditProject from "./Component/Employeer/EditProject";
+import FreeDashboard from "./Component/Freelancer/Dashboard";
+import EmpDashboard from "./Component/Employeer/Dashboard";
 function App() {
 
   return (
@@ -46,6 +48,8 @@ function App() {
             <Route path="contactus" element={<ContactUs />}/>
             <Route path="userprofile" element={<UserProfileEmployer />}/>
             <Route path="allprojects" element={<MyAllProjects />}/>
+            <Route path="dashboard" element={<EmpDashboard />}/>
+
           </Route>
           <Route path="/freelancer" element={<Freelancer />} >
              <Route path="Home" element={<GuestIntroBanner />} />
@@ -57,6 +61,8 @@ function App() {
              <Route path="assignedprojects" element={<AssignedProject />}/>
              <Route path="managebids" element={<ManageBids />}/>
              <Route path="userprofile" element={<UserProfile />}/>
+             <Route path="dashboard" element={<FreeDashboard />}/>
+             <Route path="assignedprojects/addtask" element={<AddTasks/>}/>
           </Route>
         </Routes>
       </Router>

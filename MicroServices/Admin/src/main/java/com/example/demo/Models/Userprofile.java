@@ -53,6 +53,6 @@ public class Userprofile {
     @OneToMany(mappedBy = "user")
     private Set<Bid> bids = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "freelancer")
     private Set<Freelancerskill> freelancerskills = new LinkedHashSet<>();
 }

@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
+import * as RiIcons from 'react-icons/ri'
+
 function ManageBidders() {
 
   const [activeProjects, setActiveProjects] = useState([]);
@@ -31,18 +33,23 @@ function ManageBidders() {
           <DashboardTopNav />
           <Col xs="10" id="form-col" className="flex-box">
             <section id="postproject-form">
+            <section id="dashboardTitleEmp" className="dashboardTitleTextEmp">
+                Active Bids
+                <RiIcons.RiAuctionLine size={30} style={{marginLeft:"1rem"}} color="blue"/>
+              </section>
               {activeProjects.map((d) => (
-                <Toast style={{ width: "100%" }} className="mb-1">
+                <Toast style={{ width: "100%" }} className="mb-1 mt-4"> 
                 <ToastHeader>{d.projectName}</ToastHeader>
                 <ToastBody>
                   <Row>
                     <Col md="6">
                       {d.projectDescription}
-                      <section>Budget: {d.minBudget} - {d.maxBudget}</section>
+                      <section>Budget: {d.minBudget}$ - {d.maxBudget}$</section>
                     </Col>
                     <Col md="6">
                       <Toast>
-                        <ToastBody>Number Of Bids Placed :- {d.bids.length}</ToastBody>
+                        <ToastHeader>Bids on this project</ToastHeader>
+                        <ToastBody>{d.bids.length}</ToastBody>
                       </Toast>
                     </Col>
                   </Row>

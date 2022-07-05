@@ -22,4 +22,7 @@ public class Skilllevel {
 
     @OneToMany(mappedBy = "skillLevel")
     private Set<Freelancerskill> freelancerskills = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "skillLevel")
+    private Set<Project> projectSkill;
 }

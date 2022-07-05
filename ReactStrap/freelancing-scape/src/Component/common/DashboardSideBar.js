@@ -12,7 +12,7 @@ function DashboardSideBar(props) {
         {props.pageType=="employer" &&
         <section id="dashboardSidebar" className="hide-in-small-screen">
           <ul >
-            <li >
+            <li onClick={()=>navigate("/employer/dashboard")}>
               <Mdicons.MdDashboard size={25} style={{ margin: "6%" }} />
               Dashboard
             </li>
@@ -42,7 +42,7 @@ function DashboardSideBar(props) {
         {props.pageType=="freelancer" &&
         <section id="dashboardSidebar" className="hide-in-small-screen">
           <ul >
-            <li>
+            <li onClick={()=>navigate("/freelancer/dashboard")}>
               <Mdicons.MdDashboard size={25} style={{ margin: "6%" }} />
               Dashboard
             </li>

@@ -74,23 +74,17 @@ function AddTasks() {
           //FilePath: editMode[0].FilePath,
         }); 
     }
-
     const updateTask=()=>{
-
-
-
         setAddButtonStatus(true)
     }
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
-        <DashboardTopNav />
-        <Row>
-          <Col id="sidebarul" style={{ color: "gray", margin: "0%" }} xs="2">
-            <DashboardSideBar pageType="employer" />
-          </Col>
-          <Col xs="10" id="form-col">
-            <aside style={{ backgroundColor: "", margin: "2%" }}>
+        <DashboardSideBar pageType="freelancer" />
+        <Row id="post-project-form">
+          <DashboardTopNav />
+          <Col xs="10" id="form-col" className="flex-box">
+            <section id="postproject-form">
               <Row>
                 <Col md="4">
                   <Label>Task Name</Label>
@@ -241,7 +235,7 @@ function AddTasks() {
                   })}
                 </section>
               </Row>
-            </aside>
+            </section>
           </Col>
         </Row>
       </Container>

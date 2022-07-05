@@ -24,15 +24,15 @@ function EditBids(props) {
   const [projectData, setProjectData] = useState([]);
   const [deleveryTime, setDelevryTime] = useState(1);
   const [typeDuration, setTypeDuration] = useState();
-//   const [formData, setFormData] = useState({
-//     project: { id: location.state.id },
-//     user: { id: user.id },
-//     amount: range,
-//     bidDate: new Date().toISOString().slice(0,10),
-//     deliveryTime: 1,
-//     status: { id: 9 },
-//   });
-  const setValues=()=>{
+  //   const [formData, setFormData] = useState({
+  //     project: { id: location.state.id },
+  //     user: { id: user.id },
+  //     amount: range,
+  //     bidDate: new Date().toISOString().slice(0,10),
+  //     deliveryTime: 1,
+  //     status: { id: 9 },
+  //   });
+  const setValues = () => {
     // formData.amount = range;
     // if (typeDuration == "Months") {
     //   formData.deliveryTime = deleveryTime * 30;
@@ -41,12 +41,12 @@ function EditBids(props) {
     // } else {
     //   formData.deliveryTime = deleveryTime;
     // }
-  }
+  };
   return (
-    <div>
+    <React.Fragment>
       <Modal toggle isOpen={props.toggle}>
         <ModalHeader toggle={props.toggle}>Edit Your Bid</ModalHeader>
-        <ModalBody>
+        <ModalBody id="modalHeight">
           <section id="bid-header">
             <h4 className="text-muted">Edit Your Bid Now !</h4>
           </section>
@@ -111,22 +111,13 @@ function EditBids(props) {
                 </FormGroup>
               </Col>
             </Row>
-            <section className="display-flex">
-              <Button
-                color="primary"
-                style={{ width: "60%" }}
-                onClick={setValues}
-              >
-                Place Bid
-              </Button>
-            </section>
           </article>
         </ModalBody>
         <ModalFooter>
           <Button color="primary">Update</Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 }
 

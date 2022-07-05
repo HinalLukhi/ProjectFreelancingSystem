@@ -168,7 +168,7 @@ function NavBar(props) {
                       </ul>
                     </li>
                     <li>
-                      <Link to="managebidders" className="headerLinkStyle">
+                      <Link to="dashboard" className="headerLinkStyle">
                         Dashboard
                       </Link>
                     </li>
@@ -254,7 +254,7 @@ function NavBar(props) {
                       </ul>
                     </li>
                     <li>
-                      <Link to="assignedprojects" className="headerLinkStyle">
+                      <Link to="dashboard" className="headerLinkStyle">
                         Dashboard
                       </Link>
                     </li>

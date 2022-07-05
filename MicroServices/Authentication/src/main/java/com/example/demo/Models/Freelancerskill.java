@@ -27,5 +27,4 @@ public class Freelancerskill {
     @JoinColumn(name = "skill_level_id")
     private Skilllevel skillLevel;
 
-
 }

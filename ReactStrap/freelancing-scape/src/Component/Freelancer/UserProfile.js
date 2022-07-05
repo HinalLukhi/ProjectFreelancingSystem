@@ -74,6 +74,10 @@ function UserProfile() {
             <DashboardTopNav />
             <Col xs="10" id="form-col" className="flex-box">
               <section id="postproject-form" style={{ padding: "5%" }}>
+              {/* <section id="dashboardTitle" className="dashboardTitleText">
+                Profile
+                <Biicons.BiUserCircle size={30} style={{marginLeft:"1rem"}} color="blue"/>
+              </section> */}
                 <Row id="user-profile">
                   <Col md="2">
                     <input 

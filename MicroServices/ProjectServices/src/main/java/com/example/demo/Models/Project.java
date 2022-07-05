@@ -56,7 +56,7 @@ public class Project {
 
     @Column(name = "max_budget", precision = 10)
     private BigDecimal maxBudget;
-
+  
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skill_level_id")
     private Skilllevel skillLevel;

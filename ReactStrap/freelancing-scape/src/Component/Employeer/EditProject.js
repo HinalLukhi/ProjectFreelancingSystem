@@ -16,27 +16,19 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import * as Hiicons from "react-icons/hi";
-import * as Aiicons from "react-icons/ai";
-import * as Faicons from "react-icons/fa";
 import * as Mdicons from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 function EditProject(props) {
     var user = JSON.parse(localStorage.getItem("userData"));
     let navigate = useNavigate();
-    const GoToTasksPage = () => {
-      navigate("posttasks");
-    };
-  
-    useEffect(() => {
-      if (localStorage.getItem("loginStatus") === "false") {
-        navigate("/");
-      } else {
-        loadSkills()
-      }
-    }, [localStorage.getItem("loginStatus")]);
-  
+    var projectID = props.data.projectId 
+    const setEditdata=()=>{
+      setFormData(prevState=>({
+        ...prevState,
+        ...props.data
+      }))
+    }
     const [skill, setSkill] = useState("");
     const [skills, setSkills] = useState([]);
     const [formData, setFormData] = useState({
@@ -54,41 +46,33 @@ function EditProject(props) {
       status: { id: 6 },
     });
   
-    let projectID;
-  
     const [postStatus,setPostStatus]=useState(false)
   
     const [allSkills,setAllSkills] = useState()
     const loadSkills=()=>{
-      axios
-        .get("http://localhost:8081/skill/getall", {
-        })
-        .then((res) => {
-          setAllSkills(res.data);
-          console.log("inside")
-          console.log(allSkills)
-        });
+      // axios
+      //   .get("http://localhost:8081/skill/getall", {
+      //   })
+      //   .then((res) => {
+      //     setAllSkills(res.data);
+      //     console.log("inside")
+      //     console.log(allSkills)
+      //   });
     }
   
     const addProject = () => {
-      const date1 = new Date(formData.startDate);
-      const date2 = new Date(formData.completionDate);
-      var today = new Date().toISOString().slice(0, 10);
-      formData.duration = daysDiff(date1, date2);
-      formData.skillLevel.id = skillLevel;
-      formData.user.id = user.id;
-      formData.postDate = today;
-      axios
-        .post("http://localhost:8082/project/add", formData)
-        .then((response) => {
-          projectID = response.data.id;
-          console.log(projectID);
-          setPostStatus(true)
-        })
-        .catch((error) => {
-          console.error("There was an error!", error);
-        });
-       clearField();
+      
+      // axios
+      //   .post("http://localhost:8082/project/add", formData)
+      //   .then((response) => {
+      //     projectID = response.data.id;
+      //     console.log(projectID);
+      //     setPostStatus(true)
+      //   })
+      //   .catch((error) => {
+      //     console.error("There was an error!", error);
+      //   });
+      //  clearField();
     };
   
     const clearField = () => {
@@ -146,7 +130,38 @@ function EditProject(props) {
       const diffInMs = Math.abs(dateTo - dateFrom);
       return diffInMs / (1000 * 60 * 60 * 24);
     }
-  
+
+
+    const updateData=()=>{
+      const date1 = new Date(formData.startDate);
+      const date2 = new Date(formData.completionDate);
+      var today = new Date().toISOString().slice(0, 10);
+      formData.duration = daysDiff(date1, date2);
+      formData.skillLevel.id = skillLevel;
+      formData.user.id = user.id;
+      formData.postDate = today;
+      console.log(formData)
+      console.log(projectID)
+      axios
+        .put("http://localhost:8082/project/update/"+projectID,formData)
+        .then((res) => {
+          setAllSkills(res.data);
+        });
+    }
+
+
+    useEffect(()=>{
+      setEditdata()
+    },[props])
+
+    useEffect(() => {
+      if (localStorage.getItem("loginStatus") === "false") {
+        navigate("/");
+      } else {
+        loadSkills()
+      }
+    }, [localStorage.getItem("loginStatus")]);
+
   return (
     <React.Fragment>
       <Modal isOpen={props.open} toggle={true}>
@@ -296,13 +311,13 @@ function EditProject(props) {
             <Col xs="12">
               <FormGroup>
                 <Label for="exampleFile">File</Label>
-                <Input
+                {/* <Input
                   id="exampleFile"
                   type="file"
                   name="attachment"
                   value={formData.attachment}
                   onChange={handleChange}
-                />
+                /> */}
                 <FormText>
                   Images or documents that might be helpful in describing your
                   project
@@ -312,7 +327,7 @@ function EditProject(props) {
           </Row>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary">Update</Button>
+          <Button color="primary" onClick={updateData}>Update</Button>
         </ModalFooter>
       </Modal>
     </React.Fragment>
