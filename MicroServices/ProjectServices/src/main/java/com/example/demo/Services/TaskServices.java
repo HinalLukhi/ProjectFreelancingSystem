@@ -47,4 +47,9 @@ public class TaskServices {
     {
         return taskRepository.FindByProjectId(id);
     }
+
+    public  int isDividedIntoTaksOrNot(Integer id)
+    {
+        return taskRepository.isDividedIntoTaksOrNot(id);
+    }
 }

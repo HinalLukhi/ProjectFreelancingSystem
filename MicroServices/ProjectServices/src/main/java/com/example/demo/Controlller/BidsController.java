@@ -51,9 +51,27 @@ public class BidsController {
         return bidsServices.acceptBid(id);
     }
 
+    @PutMapping("/reject/{id}")
+    public Bid rejectBid(@PathVariable Integer id)
+    {
+        return bidsServices.rejectBid(id);
+    }
+
     @GetMapping("/freelancer/{id}")
     public List<Bid> fetchByFreelanceId(@PathVariable Integer id)
     {
         return bidsServices.DisplayByFreelanceID(id);
+    }
+
+    @GetMapping("/accepted/freelancer/{id}")
+    public List<Bid> AcceptedBidsList(@PathVariable Integer id)
+    {
+        return bidsServices.DisplayAcceptedBidsByFreelanceID(id);
+    }
+
+    @GetMapping("/rejected/freelancer/{id}")
+    public List<Bid> RejectedBidsList(@PathVariable Integer id)
+    {
+        return bidsServices.DisplayRejectedBidsByFreelanceID(id);
     }
 }
