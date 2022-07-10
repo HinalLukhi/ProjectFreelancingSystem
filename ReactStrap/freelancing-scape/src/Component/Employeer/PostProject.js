@@ -102,7 +102,7 @@ function PostProject() {
       minBudget: "",
       maxBudget: "",
       skillLevel: { id: 1 },
-      status: { id: 6 },
+      status: { id: 5 },
     })
 
    

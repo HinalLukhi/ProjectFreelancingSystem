@@ -11,8 +11,11 @@ import {
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
 import * as RiIcons from 'react-icons/ri'
+import { useNavigate } from "react-router-dom";
 
 function ManageBidders() {
+
+  const navigate = useNavigate();
 
   const [activeProjects, setActiveProjects] = useState([]);
 
@@ -24,7 +27,10 @@ function ManageBidders() {
       });
   }, localStorage.getItem("loginStatus"));
 
-  
+  const handleBidsListing = (id) => {
+    navigate("/employer/bids", {state: {projectId : id}});
+  }
+
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
@@ -38,7 +44,7 @@ function ManageBidders() {
                 <RiIcons.RiAuctionLine size={30} style={{marginLeft:"1rem"}} color="blue"/>
               </section>
               {activeProjects.map((d) => (
-                <Toast key={d.id} style={{ width: "100%" }} className="mb-1 mt-4"> 
+                <Toast key={d.id} style={{ width: "100%" }} className="mb-1 mt-4" onClick={() => handleBidsListing(d.id)}> 
                 <ToastHeader>{d.projectName}</ToastHeader>
                 <ToastBody>
                   <Row>
@@ -49,7 +55,7 @@ function ManageBidders() {
                     <Col md="6">
                       <Toast>
                         <ToastHeader>Bids on this project</ToastHeader>
-                        <ToastBody>{d.bids.length}</ToastBody>
+                        <ToastBody>{d.bids.filter(bid => bid.status.id === 9).length}</ToastBody>
                       </Toast>
                     </Col>
                   </Row>

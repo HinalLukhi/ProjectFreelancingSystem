@@ -27,6 +27,8 @@ import MyAllProjects from "./Component/Employeer/AllProjects"
 import EditProject from "./Component/Employeer/EditProject";
 import FreeDashboard from "./Component/Freelancer/Dashboard";
 import EmpDashboard from "./Component/Employeer/Dashboard";
+import Bids from "./Component/Employeer/Bids";
+
 function App() {
 
   return (
@@ -49,7 +51,7 @@ function App() {
             <Route path="userprofile" element={<UserProfileEmployer />}/>
             <Route path="allprojects" element={<MyAllProjects />}/>
             <Route path="dashboard" element={<EmpDashboard />}/>
-
+            <Route path="bids" element={<Bids/>} />
           </Route>
           <Route path="/freelancer" element={<Freelancer />} >
              <Route path="Home" element={<GuestIntroBanner />} />

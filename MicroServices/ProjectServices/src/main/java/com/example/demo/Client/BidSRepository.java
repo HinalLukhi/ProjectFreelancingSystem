@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface BidSRepository extends JpaRepository<Bid,Integer> {
-    @Query(value = "select * from bids where project_id=?1", nativeQuery = true)
+    @Query(value = "select * from bids where project_id=?1 and status_id=9", nativeQuery = true)
     List<Bid> findByProjectId(Integer id);
 
     @Transactional

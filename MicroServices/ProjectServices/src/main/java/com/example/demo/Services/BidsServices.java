@@ -79,7 +79,6 @@ public class BidsServices {
         Bid acceptedBid =  bidSRepository.save(bid);
 
         project = acceptedBid.getProject();
-        System.out.println(project.getId());
         bidSRepository.rejectedAllBids(project.getId());
         projectRepository.updateStatusTOActive(project.getId());
 
@@ -133,6 +132,7 @@ public class BidsServices {
 
         helper.setText(content, true);
 
+        System.out.println("mail");
         mailSender.send(message);
     }
 
