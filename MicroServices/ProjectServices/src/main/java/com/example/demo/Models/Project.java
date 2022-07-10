@@ -70,6 +70,7 @@ public class Project {
     @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
     private Set<Projectskill> projectskills = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Bid> bids = new LinkedHashSet<>();
 }
