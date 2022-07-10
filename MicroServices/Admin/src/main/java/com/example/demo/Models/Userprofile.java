@@ -34,9 +34,6 @@ public class Userprofile {
     @Column(name = "tag_line", length = 50)
     private String tagLine;
 
-    @Column(name = "user_description")
-    private String userDescription;
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "city_id", nullable = false)
     private City city;

@@ -1,5 +1,6 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,21 +9,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
+@Getter@Setter
 @Table(name = "skills")
-@Getter
-@Setter
 public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "skill_id", nullable = false)
     private Integer id;
 
-        @Column(name = "skill_name", nullable = false, length = 20)
+    @Column(name = "skill_name", nullable = false, length = 20)
     private String skillName;
 
-    @OneToMany(mappedBy = "skill")
-    private Set<Projectskill> projectskills = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "skill")
-    private Set<Freelancerskill> freelancerskills = new LinkedHashSet<>();
 }
