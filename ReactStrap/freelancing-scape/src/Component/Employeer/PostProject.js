@@ -37,6 +37,10 @@ function PostProject() {
 
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
+  const [allSkills,setAllSkills] = useState([])
+  //const [projectSkills, setprojectSkills] = useState([{}])
+  //const [projectID, setProjectID] = useState();
+
   const [formData, setFormData] = useState({
     user: { id: 0 },
     projectName: "",
@@ -52,19 +56,16 @@ function PostProject() {
     status: { id: 5 },
   });
 
-  let projectID;
-
+  
   const [postStatus,setPostStatus]=useState(false)
 
-  const [allSkills,setAllSkills] = useState()
+  
   const loadSkills=()=>{
     axios
-      .get("http://localhost:8081/skill/getall", {
+      .get("http://localhost:8081/skill/all", {
       })
       .then((res) => {
         setAllSkills(res.data);
-        console.log("inside")
-        console.log(allSkills)
       });
   }
 
@@ -79,16 +80,47 @@ function PostProject() {
     axios
       .post("http://localhost:8082/project/add", formData)
       .then((response) => {
-        projectID = response.data.id;
-        console.log(projectID);
+         //setProjectID(response.data);
+         AddprojectSkills(response.data);
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
+        clearField();
+  };
+
+  const AddprojectSkills = (pId) => {
+    console.log(pId);
+    let skillObject = [];
+    for (let index=0;index<skills.length; index++){
+
+      skillObject.push({
+        skill: { id: skills[index] },
+        project: { id: pId }
+      });
+    //  setprojectSkills(prevState=>([
+    //   ...prevState,
+    //   skillobj,
+    //  ]))
+    
+    }
+    //setprojectSkills(skillObject);
+    console.log(skillObject);
+    insertSkills(skillObject);
+  }
+  
+
+  const  insertSkills = (skills) => {
+    axios
+      .post("http://localhost:8082/project/addSkills", skills)
+      .then((response) => {
+        console.log(response);
         setPostStatus(true)
       })
       .catch((error) => {
         console.error("There was an error!", error);
       });
-     clearField();
-  };
-
+  }
   const clearField = () => {
     setFormData({
       user: { id: 0 },
@@ -102,16 +134,18 @@ function PostProject() {
       minBudget: "",
       maxBudget: "",
       skillLevel: { id: 1 },
-      status: { id: 6 },
+      status: { id: 5 },
     })
 
    
   };
 
+
   const addSkill = () => {
+    // console.log(skill);
     if (skill != "") {
       setSkills([...skills, skill]);
-      setLevels([...Levels, skillLevel]);
+      //setLevels([...Levels, skillLevel]);
       setSkill("");
     }
   };
@@ -242,9 +276,9 @@ function PostProject() {
                       value={skill}
                       onChange={(e) => setSkill(e.target.value)}
                     >
-                    {skillLevels.map((Level) => (
-                      <option value={Level.key} key={Level.key}>
-                        {Level.value}
+                    {allSkills.map((Level) => (
+                      <option name={Level.skillName} value={Level.id} key={Level.skillName} >
+                        {Level.skillName}
                       </option>
                     ))}
                    </Input>
@@ -259,14 +293,19 @@ function PostProject() {
 
                 <Col md="6" style={{ marginTop: "2rem" }}>
                   <section style={{ display: "flex", flexWrap: "wrap" }}>
-                    {skills.map((element, index) => {
+                    {skills.map((elementId, index) => {
                       return (
                         <span
                           className="skill-badge"
                           key={index}
                           style={{ margin: 0, width: "30%", margin: 2 }}
                         >
-                          {element}
+                          {allSkills.map(obj => {
+                            if (obj.id == elementId){
+                              return obj.skillName
+                            }
+                          })}
+
                           <Mdicons.MdClose
                             size={25}
                             style={{ margin: 10 }}

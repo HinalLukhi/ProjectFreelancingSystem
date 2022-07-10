@@ -1,5 +1,6 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class Freelancerskill {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skill_id")
+    @JsonBackReference
     private Skill skill;
 
     @ManyToOne(fetch = FetchType.EAGER)
