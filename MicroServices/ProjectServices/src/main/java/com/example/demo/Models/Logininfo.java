@@ -45,6 +45,7 @@ public class Logininfo {
     @Column(name = "verification_code", length = 64)
     private String verificationCode;
 
-    @OneToMany(mappedBy = "login")
+    @OneToMany(mappedBy = "login", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Userprofile> userprofiles = new LinkedHashSet<>();
 }

@@ -1,5 +1,6 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,10 +21,17 @@ public class Userprofile {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "login_id", nullable = false)
+    @JsonBackReference
     private Logininfo login;
 
     @Column(name = "profile_image", length = 100)
     private String profileImage;
+
+    @Column(name = "first_name", length = 100)
+    private String firstName;
+
+    @Column(name = "last_name", length = 100)
+    private String lastName;
 
     @Column(name = "company_name", length = 30)
     private String companyName;
