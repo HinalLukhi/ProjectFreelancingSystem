@@ -69,9 +69,10 @@ public class BidsController {
     }
 
     @GetMapping("/accepted/freelancer/{id}")
-    public List<Bid> AcceptedBidsList(@PathVariable Integer id)
+    public List<FreelancerBids> AcceptedBidsList(@PathVariable Integer id)
     {
-        return bidsServices.DisplayAcceptedBidsByFreelanceID(id);
+        //return bidsServices.DisplayAcceptedBidsByFreelanceID(id);
+        return freelancerBidsService.getAcceptedBids(id);
     }
 
     @GetMapping("/rejected/freelancer/{id}")

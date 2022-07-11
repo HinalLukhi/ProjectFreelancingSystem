@@ -10,8 +10,8 @@ import java.sql.Date;
 @Setter
 public class FreelancerBids {
     private Integer id;
-    private Integer projectId;
-    private String projectName;
+    private Project project;
+    //private String projectName;
     private BigDecimal amount;
     private Date bidDate;
     private Integer deliveryTime;
