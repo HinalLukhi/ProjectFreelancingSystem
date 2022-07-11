@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   Container,
   Col,
@@ -17,6 +17,7 @@ import {
   ToastHeader,
   Spinner,
 } from "reactstrap";
+import axios from "axios";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
 import * as Aiicons from "react-icons/ai";
@@ -26,6 +27,27 @@ import * as VscIcons from 'react-icons/vsc'
 
 function AssignedProject() {
   const navigate = useNavigate()
+  var user = JSON.parse(localStorage.getItem("userData"));
+
+  const [data, setdata] = useState([]);
+  const setList = () => {
+    setTimeout(()=>{
+      axios
+      .get("http://localhost:8082/bids/freelancer/"+user.id,{
+      })
+      .then((res) => {
+        setdata(res.data);
+      });
+    })
+  };
+  useEffect(() => {
+    if (localStorage.getItem("loginStatus") === "false") {
+      navigate("/");
+    } else {
+      setList();
+    }
+  }, [localStorage.getItem("loginStatus")]);
+   console.log(data)
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
@@ -38,14 +60,17 @@ function AssignedProject() {
                 Projects
                 <VscIcons.VscProject size={30} style={{marginLeft:"1rem"}} color="blue"/>
               </section>
-              <Card style={{ marginBottom: ".5rem", borderRadius: "1rem" }} className="mt-3">
+              {
+                data.map((element)=>{
+                  return (
+                  <Card style={{ marginBottom: ".5rem", borderRadius: "1rem" }} className="mt-3">
                 <CardBody>
                   <Row>
                     <Col md="6">
                       <CardTitle tag="h5">Food Delevery App</CardTitle>
                       <CardSubtitle className="mb-2 text-muted" tag="h6">
                         {"Duration : "}
-                        <span> 30 Days</span>
+                        <span> {element.deliveryTime} Days</span>
                         <Aiicons.AiOutlineClockCircle
                           size={20}
                           style={{ margin: "10px" }}
@@ -85,10 +110,10 @@ function AssignedProject() {
                     <Col md="6" className="p-3  rounded" id="budget-card">
                       <Toast>
                         <ToastHeader className="text-center">
-                          Budget of the project
+                          Bid Amount
                         </ToastHeader>
                         <ToastBody className="text-center">
-                          1000 $ - 2000 $
+                         {element.amount}
                         </ToastBody>
                       </Toast>
 
@@ -103,6 +128,13 @@ function AssignedProject() {
                   </Row>
                 </CardBody>
               </Card>
+                  )
+                })
+              }
+
+
+
+              
             </section>
           </Col>
         </Row>
