@@ -2,7 +2,10 @@ package com.example.demo.Controlller;
 
 
 import com.example.demo.Models.Bid;
+import com.example.demo.Models.FreelancerBids;
+import com.example.demo.Models.Project;
 import com.example.demo.Services.BidsServices;
+import com.example.demo.Services.FreelancerBidsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +18,8 @@ public class BidsController {
 
     @Autowired
     BidsServices bidsServices;
+    @Autowired
+    FreelancerBidsService freelancerBidsService;
 
     @PostMapping("/add")
     public Bid add(@RequestBody Bid bid)
@@ -58,9 +63,9 @@ public class BidsController {
     }
 
     @GetMapping("/freelancer/{id}")
-    public List<Bid> fetchByFreelanceId(@PathVariable Integer id)
+    public List<FreelancerBids> fetchByFreelanceId(@PathVariable Integer id)
     {
-        return bidsServices.DisplayByFreelanceID(id);
+        return freelancerBidsService.getBids(id);
     }
 
     @GetMapping("/accepted/freelancer/{id}")
@@ -73,5 +78,11 @@ public class BidsController {
     public List<Bid> RejectedBidsList(@PathVariable Integer id)
     {
         return bidsServices.DisplayRejectedBidsByFreelanceID(id);
+    }
+
+    @GetMapping("/projectByBid/{id}")
+    public Project displayProjectByBidId(@PathVariable Integer id)
+    {
+        return bidsServices.DisplayProjectByBidId(id);
     }
 }

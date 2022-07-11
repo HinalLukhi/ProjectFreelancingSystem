@@ -150,4 +150,10 @@ public class BidsServices {
     {
         return bidSRepository.findRejectedBidByFreelanceId(id);
     }
+
+    public Project DisplayProjectByBidId(Integer id)
+    {
+        Bid bid=bidSRepository.findById(id).get();
+        return projectRepository.findById(bid.getProject().getId()).get();
+    }
 }

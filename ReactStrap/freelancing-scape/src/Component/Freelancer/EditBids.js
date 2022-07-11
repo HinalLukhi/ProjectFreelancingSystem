@@ -42,6 +42,7 @@ function EditBids(props) {
     //   formData.deliveryTime = deleveryTime;
     // }
   };
+ console.log(props.data)
   return (
     <React.Fragment>
       <Modal toggle isOpen={props.toggle}>
