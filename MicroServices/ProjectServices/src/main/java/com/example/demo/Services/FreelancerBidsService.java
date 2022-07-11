@@ -25,9 +25,26 @@ public class FreelancerBidsService {
             bid1.setAmount(bid.getAmount());
             bid1.setDeliveryTime(bid.getDeliveryTime());
             bid1.setLoginId(bid.getUser().getId());
-            bid1.setProjectId(bid.getProject().getId());
-            bid1.setProjectName(bid.getProject().getProjectName());
+            bid1.setProject(bid.getProject());
+            //bid1.setProjectName(bid.getProject().getProjectName());
             return bid1;
         }).collect(Collectors.toList());
     }
+
+    public List<FreelancerBids> getAcceptedBids(Integer id) {
+        List<Bid> bids = bidSRepository.findAcceptedBidByFreelanceId(id);
+        return bids.stream().map(bid -> {
+            FreelancerBids bid1 = new FreelancerBids();
+            bid1.setId(bid.getId());
+            bid1.setBidDate(bid.getBidDate());
+            bid1.setStatus(bid.getStatus().getId());
+            bid1.setAmount(bid.getAmount());
+            bid1.setDeliveryTime(bid.getDeliveryTime());
+            bid1.setLoginId(bid.getUser().getId());
+            bid1.setProject(bid.getProject());
+            //bid1.setProjectName(bid.getProject().getProjectName());
+            return bid1;
+        }).collect(Collectors.toList());
+    }
+
 }
