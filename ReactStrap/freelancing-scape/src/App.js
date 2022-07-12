@@ -56,7 +56,7 @@ function App() {
           <Route path="/freelancer" element={<Freelancer />} >
              <Route path="Home" element={<GuestIntroBanner />} />
              <Route path="browseproject" element={<FindProject/>}/>
-             <Route path="browseproject/tasklist" element={<TaskList/>}/>
+             <Route path="assignedprojects/tasklist" element={<TaskList/>}/>
              <Route path="browseproject/projectdescription" element={<TaskDescription/>}/>
              <Route path="plans" element={<Plans />} />
              <Route path="contactus" element={<ContactUs />}/>
