@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Col,
@@ -21,25 +23,66 @@ import {
 } from "reactstrap";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
-import * as Cgicons from "react-icons/cg";
 import * as Biicons from "react-icons/bi";
 import * as Mdicons from "react-icons/md";
-import * as FAicons from "react-icons/fa";
 
 function UserProfile() {
-  const [userType, setuserType] = useState("Freelancer");
+  const [userType, setuserType] = useState();
+  const [UserData, setUserData] = useState({})
+  const [profileData, setProfileData] = useState({})
+
+  var user = JSON.parse(localStorage.getItem("userData"));
+  var userID = user.userprofiles[0].id
+  // console.log(userID)
+  let navigate = useNavigate();
+
   const toggleClass = () => {
-    if (userType == "Freelancer") {
+    if (userType == 3) {
       setuserType("Employer");
-    } else {
+    } else if (userType == 2) {
       setuserType("Freelancer");
     }
+  };
+
+
+  useEffect(() => {
+    if (localStorage.getItem("loginStatus") === "false") {
+      navigate("/");
+    } else {
+      getData()
+    }
+  }, [localStorage.getItem("loginStatus")]);
+
+  useEffect(() => {
+    toggleClass()
+    console.log(updateData)
+    updateData.firstName = profileData.firstName
+    updateData.lastName=profileData.lastName
+    updateData.mobileNo = profileData.mobileNo
+    updateData.companyName = profileData.companyName
+    updateData.userDescription = profileData.userDescription
+
+  }, [userType])
+
+  const getData = () => {
+    // console.log(user.id);
+    axios
+      .get('http://localhost:8083/' + user.id, {
+      })
+      .then((res) => {
+        setUserData(res.data);
+        var x = res.data.userprofiles
+        setuserType(res.data.userType.id)
+        setProfileData(...x.slice(0, 1))
+        toggleClass()
+        //setuserType(res.data.userType.userType);
+      });
   };
   const [range, setRange] = useState("");
   const handleBudgetRange = (e) => {
     setRange(e.target.value);
   };
-  const [skill, setSkill] = useState("");
+  /*const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
   const addSkill = () => {
     console.log("hello");
@@ -54,7 +97,7 @@ function UserProfile() {
       return index != id;
     });
     setSkills(updatedSkills);
-  };
+  };*/
 
 
   const hiddenFileInput = React.useRef(null);
@@ -65,6 +108,27 @@ function UserProfile() {
     const fileUploaded = event;
     console.log(fileUploaded);
   };
+
+
+  const [updateData, setUpdateData] = useState({
+    login: { id: user.id },
+    firstName: "",
+    lastName: "",
+    profileImage: "",
+    companyName: "",
+    hourlyRate: "",
+    tagLine: "",
+    city: { id: 3 },
+    mobileNo: "",
+    userDescription: ""
+  })
+  let name, value;
+  const handleFormDataChange = (e) => {
+    name = e.target.name;
+    value = e.target.value;
+    setUpdateData({ ...updateData, [name]: value })
+  }
+
   return (
     <React.Fragment>
       <React.Fragment>
@@ -94,10 +158,11 @@ function UserProfile() {
                       <Col md="6">
                         <FormGroup floating>
                           <Input
-                            id="exampleEmail"
-                            name="email"
+                            name="firstName"
                             placeholder="First Name"
                             type="text"
+                            value={updateData.firstName}
+                            onChange={handleFormDataChange}
                           />
                           <Label for="exampleEmail">First Name</Label>
                         </FormGroup>
@@ -105,10 +170,11 @@ function UserProfile() {
                       <Col>
                         <FormGroup floating>
                           <Input
-                            id="examplePassword"
-                            name="text"
-                            placeholder="Password"
-                            type="password"
+                            name="lastName"
+                            placeholder="Last Name"
+                            type="text"
+                            value={updateData.lastName}
+                            onChange={handleFormDataChange}
                           />
                           <Label for="examplePassword">Last Name</Label>
                         </FormGroup>
@@ -120,9 +186,7 @@ function UserProfile() {
                           <Button
                             className="user-button-defualt"
                             id={userType == "Employer" ? "user-button" : ""}
-                            onClick={toggleClass}
-                            outline
-                          >
+                            outline>
                             <span className="hide-in-small-screen">
                               <Mdicons.MdOutlineBusinessCenter
                                 style={{
@@ -137,7 +201,6 @@ function UserProfile() {
                           <Button
                             id={userType == "Freelancer" ? "user-button" : ""}
                             className="user-button-defualt"
-                            onClick={toggleClass}
                             outline
                           >
                             <span className="hide-in-small-screen">
@@ -150,10 +213,11 @@ function UserProfile() {
                       <Col className="mt-2">
                         <FormGroup floating>
                           <Input
-                            id="exampleEmail"
                             name="email"
-                            placeholder="First Name"
+                            placeholder="Email"
                             type="text"
+                            value={UserData.email}
+                            readOnly
                           />
                           <Label for="exampleEmail">Email</Label>
                         </FormGroup>
@@ -169,10 +233,11 @@ function UserProfile() {
                         <Col md="6">
                           <FormGroup floating>
                             <Input
-                              id="exampleEmail"
-                              name="email"
-                              placeholder="First Name"
+                              name="companyName"
                               type="text"
+                              value={updateData.companyName}
+                            onChange={handleFormDataChange}
+
                             />
                             <Label for="exampleEmail">Company Name</Label>
                           </FormGroup>
@@ -180,10 +245,10 @@ function UserProfile() {
                         <Col md="6">
                           <FormGroup floating>
                             <Input
-                              id="exampleEmail"
-                              name="email"
-                              placeholder="First Name"
+                              name="mobileNo"
                               type="text"
+                              value={updateData.mobileNo}
+                              onChange={handleFormDataChange}
                             />
                             <Label for="exampleEmail">Mobile Number</Label>
                           </FormGroup>
@@ -203,8 +268,7 @@ function UserProfile() {
                             <Input
                               id="exampleSelect"
                               name="select"
-                              type="select"
-                            >
+                              type="select">
                               <option>1</option>
                               <option>2</option>
                             </Input>
@@ -248,10 +312,11 @@ function UserProfile() {
                         <FormGroup>
                           <Label for="exampleText">Description</Label>
                           <Input
-                            id="exampleText"
-                            name="text"
+                            name="userDescription"
                             type="textarea"
                             Rows="8"
+                            value={updateData.userDescription}
+                            onChange={handleFormDataChange}
                           />
                         </FormGroup>
                       </Row>

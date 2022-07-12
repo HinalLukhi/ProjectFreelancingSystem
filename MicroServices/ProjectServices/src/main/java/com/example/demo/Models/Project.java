@@ -64,10 +64,12 @@ public class Project {
     @Column(name = "user_description")
     private String userDescription;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Task> tasks = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project",fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Projectskill> projectskills = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)

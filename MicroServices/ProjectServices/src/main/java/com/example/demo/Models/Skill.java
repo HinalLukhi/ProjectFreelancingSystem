@@ -1,5 +1,6 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class Skill {
     private String skillName;
 
     @OneToMany(mappedBy = "skill",fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Projectskill> projectskills = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "skill")
