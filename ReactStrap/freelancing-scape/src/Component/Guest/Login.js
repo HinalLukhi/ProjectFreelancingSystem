@@ -42,7 +42,7 @@ function Login() {
     localStorage.setItem("token",token);
     let user = jwt_decode(token.split(' ')[1])
     axios.post("http://localhost:8083/email",{"email":user.sub}).then((res) => {
-      console.log(res.data);
+      //console.log(res.data);
       setData(res.data);
     });
   }

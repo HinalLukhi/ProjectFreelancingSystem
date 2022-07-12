@@ -20,7 +20,7 @@ public class Userprofile {
     @Column(name = "user_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "login_id", nullable = false)
     @JsonBackReference
     private Logininfo login;
