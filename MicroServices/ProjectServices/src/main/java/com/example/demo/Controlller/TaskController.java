@@ -51,4 +51,11 @@ public class TaskController {
     public int isDividedIntoTaksOrNot(@PathVariable Integer id){
         return taskServices.isDividedIntoTaksOrNot(id);
     }
+
+    @PutMapping("/markTaskAsDone/{id}")
+    public int updateTask(@PathVariable Integer id)
+    {
+        return taskServices.updateStatus(id);
+    }
+
 }

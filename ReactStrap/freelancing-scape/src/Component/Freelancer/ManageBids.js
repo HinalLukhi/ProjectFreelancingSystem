@@ -35,6 +35,7 @@ function ManageBids() {
       navigate("/");
     } else {
       setList();
+      console.log(data)
     }
   }, [localStorage.getItem("loginStatus")]);
   const [data, setdata] = useState([]);
@@ -78,7 +79,7 @@ function ManageBids() {
                     <CardBody>
                       <Row>
                         <Col md="6">
-                          <CardTitle tag="h5">{element.projectName}</CardTitle>
+                          <CardTitle tag="h5">{element.project.projectName}</CardTitle>
                           <CardSubtitle className="mb-2 text-muted" tag="h6">
                             {"Duration : "}
                             <span> {element.deliveryTime} Days</span>
@@ -89,6 +90,7 @@ function ManageBids() {
                             <span>date : {element.bidDate}</span>
                           </CardSubtitle>
                           <CardText className="mt-3">
+                            {element.project.projectDescription}
                             <section
                               className="inline mt-3"
                               style={{

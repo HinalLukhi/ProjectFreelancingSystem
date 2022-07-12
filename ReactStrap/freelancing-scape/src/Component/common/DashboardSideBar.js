@@ -48,7 +48,7 @@ function DashboardSideBar(props) {
             </li>
             <li onClick={()=>navigate("/freelancer/assignedprojects")}>
               <Aiicons.AiFillProject size={25} style={{ margin: "6%" }} />
-              My Projects
+             Project's Won
             </li>
             <li onClick={()=>navigate("/freelancer/managebids")}>
                 <Riicons.RiAuctionFill size={25} style={{ margin: "6%" }} />

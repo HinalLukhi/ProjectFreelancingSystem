@@ -16,6 +16,7 @@ public class TaskServices {
 
     public Task insertData(Task task)
     {
+        System.out.println(task.getTaskName());
         return taskRepository.save(task);
     }
 
@@ -51,5 +52,9 @@ public class TaskServices {
     public  int isDividedIntoTaksOrNot(Integer id)
     {
         return taskRepository.isDividedIntoTaksOrNot(id);
+    }
+
+    public int updateStatus(Integer id){
+            return taskRepository.updateStatusTOComplete(id);
     }
 }

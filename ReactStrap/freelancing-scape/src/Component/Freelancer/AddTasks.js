@@ -1,7 +1,8 @@
 import React,{useState} from "react";
-
+import axios from "axios";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
+import { useNavigate } from "react-router-dom";
 import {
   Row,
   Col,
@@ -17,17 +18,20 @@ import {
 } from "reactstrap";
 import * as Fiicons from 'react-icons/fi'
 import * as AIicons from 'react-icons/ai'
-
+import { Navigate, useLocation } from "react-router-dom";
 function AddTasks() {
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  var today = new Date().toISOString().slice(0, 10);
     const [formData,SetFormData] = useState({
-        TaskName:"",
-        StartDate:"",
-        EndDate:"",
-        MinBudget:"",
-        MaxBudget:"",
-        TaskDesc:"",
-        FilePath:""
+        project: {"id":location.state.id},
+        taskName:"",
+        startDate:"",
+        endDate:"",
+        taskDescription:"",
+        postDate: today,
+        paymentStatus: {"id" : 9},
+        status: {"id": 13}
     })
     const [Tasks,setTasks] = useState([])
 
@@ -42,13 +46,26 @@ function AddTasks() {
     const addTasks=()=>{
         setTasks([...Tasks,formData])
         SetFormData({
-          TaskName: "",
-          StartDate: "",
-          EndDate: "",
-          MinBudget: "",
-          MaxBudget: "",
-          TaskDesc: "",
-          FilePath: "",
+        project: {"id":location.state.id},
+        taskName:"",
+        startDate:"",
+        endDate:"",
+        taskDescription:"",
+        postDate: today,
+        paymentStatus: {"id" : 9},
+        status: {"id": 13}
+        });
+    }
+    
+    const addTasksList = () => {
+      console.log(Tasks);
+      axios
+      .post("http://localhost:8082/task/add", Tasks)
+      .then((response) => {
+        navigate("tasklist")
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
         });
     }
     const deleteTask=(index)=>{
@@ -68,10 +85,7 @@ function AddTasks() {
           TaskName: editMode[0].TaskName,
           StartDate: editMode[0].StartDate,
           EndDate: editMode[0].EndDate,
-          MinBudget: editMode[0].MinBudget,
-          MaxBudget: editMode[0].MaxBudget,
           TaskDesc: editMode[0].TaskDesc,
-          //FilePath: editMode[0].FilePath,
         }); 
     }
     const updateTask=()=>{
@@ -90,8 +104,8 @@ function AddTasks() {
                   <Label>Task Name</Label>
                   <Input
                     type="text"
-                    name="TaskName"
-                    value={formData.TaskName}
+                    name="taskName"
+                    value={formData.taskName}
                     onChange={handelChange}
                   />
                 </Col>
@@ -99,8 +113,8 @@ function AddTasks() {
                   <Label>Start Date</Label>
                   <Input
                     type="date"
-                    name="StartDate"
-                    value={formData.StartDate}
+                    name="startDate"
+                    value={formData.startDate}
                     onChange={handelChange}
                   />
                 </Col>
@@ -108,35 +122,10 @@ function AddTasks() {
                   <Label>End Date</Label>
                   <Input
                     type="date"
-                    name="EndDate"
-                    value={formData.EndDate}
+                    name="endDate"
+                    value={formData.endDate}
                     onChange={handelChange}
                   />
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Label>Budget</Label>
-                <Col md="4">
-                  <InputGroup>
-                    <Input
-                      placeholder="Min"
-                      name="MinBudget"
-                      value={formData.MinBudget}
-                      onChange={handelChange}
-                    />
-                    <InputGroupText className="lead">USD</InputGroupText>
-                  </InputGroup>
-                </Col>
-                <Col md="4">
-                  <InputGroup>
-                    <Input
-                      placeholder="Max"
-                      name="MaxBudget"
-                      value={formData.MaxBudget}
-                      onChange={handelChange}
-                    />
-                    <InputGroupText className="lead">USD</InputGroupText>
-                  </InputGroup>
                 </Col>
               </Row>
               <Row className="mt-4">
@@ -144,31 +133,13 @@ function AddTasks() {
                   <Label>Task Description</Label>
                   <Input
                     id="exampleText"
-                    name="TaskDesc"
+                    name="taskDescription"
                     type="textarea"
                     ss
                     rows="7"
-                    value={formData.TaskDesc}
+                    value={formData.taskDescription}
                     onChange={handelChange}
                   />
-                </Col>
-              </Row>
-              <Row className="mt-2">
-                <Col xs="12">
-                  <FormGroup>
-                    <Label for="exampleFile">File</Label>
-                    <Input
-                      id="exampleFile"
-                      name="FilePath"
-                      type="file"
-                      value={formData.FilePath}
-                      onChange={handelChange}
-                    />
-                    <FormText>
-                      Images or documents that might be helpful in describing
-                      your Task
-                    </FormText>
-                  </FormGroup>
                 </Col>
               </Row>
               <Row className="mt-2">
@@ -182,7 +153,7 @@ function AddTasks() {
                   )}
                 </Col>
                 <Col xs="4" md="2">
-                  <Button color="primary">Post Task</Button>
+                  <Button color="primary" onClick={addTasksList}>Post Task</Button>
                 </Col>
                 <Col xs="4" md="2">
                   <Button
@@ -205,18 +176,18 @@ function AddTasks() {
                         id="task-card"
                       >
                         <CardBody>
-                          <CardTitle tag="h5">{element.TaskName}</CardTitle>
-                          <CardSubtitle className="mb-2 text-muted" tag="h6">
+                          <CardTitle tag="h5">{element.taskName}</CardTitle>
+                          {/* <CardSubtitle className="mb-2 text-muted" tag="h6">
                             {element.MinBudget +
                               "$" +
                               "-" +
                               element.MaxBudget +
                               "$"}
-                          </CardSubtitle>
+                          </CardSubtitle> */}
                           <CardText style={{ width: "50%" }}>
-                            {element.TaskDesc.length > 250
-                              ? element.TaskDesc.substring(0, 250) + "..."
-                              : element.TaskDesc.substring(0, 250)}
+                            {element.taskDescription.length > 250
+                              ? element.taskDescription.substring(0, 250) + "..."
+                              : element.taskDescription.substring(0, 250)}
                           </CardText>
                           <Fiicons.FiEdit
                             size={30}

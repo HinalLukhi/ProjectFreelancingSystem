@@ -1,12 +1,11 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.Instant;
 
 @Entity
 @Table(name = "task")
@@ -20,6 +19,7 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "project_id", nullable = false)
+    @JsonBackReference
     private Project project;
 
     @Column(name = "task_name", nullable = false, length = 50)
@@ -33,9 +33,6 @@ public class Task {
 
     @Column(name = "end_date", nullable = false)
     private Date endDate;
-
-    @Column(name = "attachment", length = 100)
-    private String attachment;
 
     @Column(name = "post_date", nullable = false)
     private Date postDate;

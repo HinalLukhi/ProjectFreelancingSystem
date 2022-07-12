@@ -16,7 +16,8 @@ function Freelancer() {
         location.pathname !== "/freelancer/managebids" &&
         location.pathname !== "/freelancer/userprofile" &&
         location.pathname !== "/freelancer/dashboard" &&
-        location.pathname !== "/freelancer/assignedprojects/addtask"
+        location.pathname !== "/freelancer/assignedprojects/addtask" &&
+        location.pathname !== "/freelancer/assignedprojects/TaskList"
         ) && <Footer />}
     </>
   );
