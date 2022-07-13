@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -70,7 +73,11 @@ public class Project {
 
     @OneToMany(mappedBy = "project",fetch = FetchType.EAGER)
     @JsonManagedReference
+<<<<<<< Updated upstream
     private Set<Projectskill> projectskills = new LinkedHashSet<>();
+=======
+    private List<Projectskill> projectskills;
+>>>>>>> Stashed changes
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     @JsonManagedReference

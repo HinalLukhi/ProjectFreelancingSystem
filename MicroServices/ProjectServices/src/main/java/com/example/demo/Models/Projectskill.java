@@ -1,16 +1,15 @@
 package com.example.demo.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "projectskills")
 @Getter
 @Setter
-@Table(name = "projectskills")
 public class Projectskill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +18,11 @@ public class Projectskill {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "skill_id", nullable = false)
+    @JsonBackReference
     private Skill skill;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
+    @JsonBackReference
     private Project project;
-
-
-
 }
