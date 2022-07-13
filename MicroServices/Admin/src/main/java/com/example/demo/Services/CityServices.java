@@ -25,4 +25,9 @@ public class CityServices {
     }
 
     public List<City> All(){return cityRepository.findAll();}
+
+    public List<City> getByStateId(Integer id)
+    {
+        return cityRepository.findByState_Id(id);
+    }
 }

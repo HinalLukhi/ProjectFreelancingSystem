@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+
 import com.example.demo.Models.City;
 import com.example.demo.Services.CityServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class CityController {
     public Optional<City> getcityById(@PathVariable Integer id){
         return cityServices.getById(id);
     }
+
     @GetMapping("/all")
     public List<City> all(){return cityServices.All();}
+
+    @GetMapping("/state/{id}")
+    public List<City> getcityByStateId(@PathVariable Integer id){
+        return cityServices.getByStateId(id);
+    }
 }
