@@ -1,5 +1,6 @@
-package com.example.demo.Models;
+package com.example.demo.Models.DTO;
 
+import com.example.demo.Models.Project;
 import lombok.Getter;
 import lombok.Setter;
 

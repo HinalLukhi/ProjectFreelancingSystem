@@ -2,7 +2,7 @@ package com.example.demo.Controlller;
 
 
 import com.example.demo.Models.Bid;
-import com.example.demo.Models.FreelancerBids;
+import com.example.demo.Models.DTO.FreelancerBids;
 import com.example.demo.Models.Project;
 import com.example.demo.Services.BidsServices;
 import com.example.demo.Services.FreelancerBidsService;

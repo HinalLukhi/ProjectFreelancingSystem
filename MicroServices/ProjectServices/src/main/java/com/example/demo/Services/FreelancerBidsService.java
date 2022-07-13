@@ -2,11 +2,10 @@ package com.example.demo.Services;
 
 import com.example.demo.Client.BidSRepository;
 import com.example.demo.Models.Bid;
-import com.example.demo.Models.FreelancerBids;
+import com.example.demo.Models.DTO.FreelancerBids;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
