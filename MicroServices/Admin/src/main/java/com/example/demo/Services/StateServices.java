@@ -25,4 +25,9 @@ public class StateServices {
     }
 
     public List<Statedetail> All(){return stateRepository.findAll();}
+
+    public List<Statedetail> getBycounty_Id(Integer id)
+    {
+        return stateRepository.findByCountry_Id(id);
+    }
 }

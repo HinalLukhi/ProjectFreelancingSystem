@@ -24,5 +24,5 @@ public class CountryServices {
         return countryRepository.findById(id);
     }
 
-    public List<Country> All(){return countryRepository.findAll();}
+    public List<Country> all(){return countryRepository.findAll();}
 }
