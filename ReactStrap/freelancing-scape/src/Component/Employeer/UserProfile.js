@@ -307,7 +307,6 @@ function UserProfile() {
                               name="select"
                               type="select"
                               onChange={onCountryChange}
-                              value
                             >
                               <option>Select Country</option>
                               {Array.isArray(country) &&
