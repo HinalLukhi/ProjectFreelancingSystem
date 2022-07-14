@@ -57,5 +57,9 @@ public class TaskController {
     {
         return taskServices.updateStatus(id);
     }
-
+    @PutMapping("/markTaskAsActive/{id}")
+    public int updateTaskToActive(@PathVariable Integer id)
+    {
+        return taskServices.updateStatusToActive(id);
+    }
 }

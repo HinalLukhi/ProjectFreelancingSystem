@@ -17,6 +17,7 @@ public class ProjectTo {
     private Logininfo user;
     private String projectName;
     private Integer duration;
+    private Statusdetail status;
     private String projectDescription;
     private String attachment;
     private Date postDate;

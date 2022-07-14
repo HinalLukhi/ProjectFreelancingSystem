@@ -3,6 +3,7 @@ package com.example.demo.Services;
 import com.example.demo.Client.BidSRepository;
 import com.example.demo.Models.Bid;
 import com.example.demo.Models.DTO.FreelancerBids;
+import com.example.demo.Services.transformers.ProjectTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FreelancerBidsService {
     private final BidSRepository bidSRepository;
+    private final ProjectTransformer projectTransformer;
 
     public List<FreelancerBids> getBids(Integer id) {
         List<Bid> bids = bidSRepository.findByFreelanceId(id);
@@ -24,7 +26,7 @@ public class FreelancerBidsService {
             bid1.setAmount(bid.getAmount());
             bid1.setDeliveryTime(bid.getDeliveryTime());
             bid1.setLoginId(bid.getUser().getId());
-            bid1.setProject(bid.getProject());
+            bid1.setProject(projectTransformer.toTransferObject(bid.getProject()));
             //bid1.setProjectName(bid.getProject().getProjectName());
             return bid1;
         }).collect(Collectors.toList());
@@ -40,7 +42,7 @@ public class FreelancerBidsService {
             bid1.setAmount(bid.getAmount());
             bid1.setDeliveryTime(bid.getDeliveryTime());
             bid1.setLoginId(bid.getUser().getId());
-            bid1.setProject(bid.getProject());
+            bid1.setProject(projectTransformer.toTransferObject(bid.getProject()));
             //bid1.setProjectName(bid.getProject().getProjectName());
             return bid1;
         }).collect(Collectors.toList());

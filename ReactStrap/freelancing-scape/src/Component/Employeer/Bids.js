@@ -176,24 +176,6 @@ function Bids() {
                                     flexWrap: "wrap",
                                   }}
                                 >
-                                  <span
-                                    className="skill-badge"
-                                    style={{ width: "100px" }}
-                                  >
-                                    css
-                                  </span>
-                                  <span
-                                    className="skill-badge"
-                                    style={{ width: "100px" }}
-                                  >
-                                    Html
-                                  </span>{" "}
-                                  <span
-                                    className="skill-badge"
-                                    style={{ width: "100px" }}
-                                  >
-                                    Java
-                                  </span>
                                 </section>
                               </CardText>
                             </Col>

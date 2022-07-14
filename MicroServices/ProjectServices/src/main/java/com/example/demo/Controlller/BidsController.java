@@ -2,6 +2,7 @@ package com.example.demo.Controlller;
 
 
 import com.example.demo.Models.Bid;
+import com.example.demo.Models.DTO.BidsTo;
 import com.example.demo.Models.DTO.FreelancerBids;
 import com.example.demo.Models.Project;
 import com.example.demo.Services.BidsServices;
@@ -45,7 +46,7 @@ public class BidsController {
     }
 
     @GetMapping("/project/{id}")
-    public List<Bid> fetchById(@PathVariable Integer id)
+    public List<BidsTo> fetchById(@PathVariable Integer id)
     {
         return bidsServices.DisplayByProjectID(id);
     }

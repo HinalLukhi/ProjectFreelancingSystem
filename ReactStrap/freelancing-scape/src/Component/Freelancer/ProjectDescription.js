@@ -65,7 +65,7 @@ function TaskDescription() {
     amount: range,
     bidDate: new Date().toISOString().slice(0,10),
     deliveryTime: 1,
-    status: { id: 9 },
+    status: { id: 6 },
   });
   const [postStatus,setPostStatus]=useState(false)
 

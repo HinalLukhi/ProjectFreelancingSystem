@@ -39,6 +39,7 @@ function AllProjects() {
       SetSpinner(false);
     });
   };
+  console.log(data)
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("loginStatus") === "false") {
@@ -82,6 +83,15 @@ function AllProjects() {
     setIsEdit(!isEdit);
   };
 
+  const goToTaskList=(id)=>{
+    navigate("tasks",{state:{id:id}})
+   }
+   const deleteProject=(id)=>{
+    console.log(id);
+    axios.delete("http://localhost:8082/project/"+id).then((res) => {
+      window.Location.reload();
+    });
+   }
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
@@ -95,8 +105,13 @@ function AllProjects() {
                 <VcsIcons.VscProject size={30} style={{marginLeft:"1rem"}} color="blue"/>
               </section>
               {data.map((element) => {
+                console.log(element?.status?.id);
                 return (
-                  <Card style={{ marginBottom: ".5rem", borderRadius: "1rem" }} className="mt-3">
+                  <Card
+                    style={{ marginBottom: ".5rem", borderRadius: "1rem" }}
+                    className="mt-3"
+                    
+                  >
                     <CardBody>
                       <Row>
                         <Col md="6">
@@ -122,18 +137,50 @@ function AllProjects() {
                               {element.projectskills.map((skill) => {
                                 return (
                                   <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                {skill.name}
-                              </span>
+                                    className="skill-badge"
+                                    style={{ width: "100px" }}
+                                  >
+                                    {skill.name}
+                                  </span>
                                 );
                               })}
                             </section>
                           </CardText>
+                          <Button
+                                color="primary"
+                                className="mt-4"
+                                style={{ width: "100%" }}
+                                onClick={()=>goToTaskList(element.id)}
+                              >
+                                View Task
+                              </Button>
                         </Col>
                         <Col md="6" className="p-3  rounded" id="budget-card">
-                          <Toast>
+                          <Badge
+                            color={
+                              element.status.id == 7
+                                ? "success"
+                                : element.status.id == 5
+                                ? "primary"
+                                : "danger"
+                            }
+                            style={{
+                              height: "2rem",
+                              fontWeight: "500",
+                              width: "auto",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: "1rem",
+                            }}
+                          >
+                            { element.status.id == 7
+                              ? "In Progress"
+                              : element.status.id == 5
+                              ? "Active"
+                              : "Inactive"}
+                          </Badge>
+                          <Toast className="mt-5">
                             <ToastHeader className="text-center">
                               Budget
                             </ToastHeader>
@@ -149,28 +196,13 @@ function AllProjects() {
                               <Biicons.BiEdit
                                 size={40}
                                 color="blue"
-                                onClick={()=>toggleForm(element)}
+                                onClick={() => toggleForm(element)}
                               />
                             </Col>
                             <Col md="4">
-                              <Aiicons.AiOutlineDelete size={40} color="red" />
+                              <Aiicons.AiOutlineDelete size={40} color="red" onClick={()=>deleteProject(element.id)}/>
                             </Col>
-                            <Col md="4">
-                              <Badge
-                                color="primary"
-                                style={{
-                                  height: "2rem",
-                                  fontWeight: "500",
-                                  width: "4rem",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  fontSize: "1rem",
-                                }}
-                              >
-                                Active
-                              </Badge>
-                            </Col>
+                            <Col md="4"></Col>
                           </Row>
                         </Col>
                       </Row>

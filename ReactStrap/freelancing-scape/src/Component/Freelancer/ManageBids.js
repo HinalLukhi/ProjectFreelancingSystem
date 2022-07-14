@@ -16,6 +16,7 @@ import {
   ToastBody,
   ToastHeader,
   Spinner,
+  Badge,
 } from "reactstrap";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
@@ -75,11 +76,14 @@ function ManageBids() {
                 return (
                   <Card
                     style={{ marginBottom: ".5rem", borderRadius: "1rem" }}
-                    className="mt-4">
+                    className="mt-4"
+                  >
                     <CardBody>
                       <Row>
                         <Col md="6">
-                          <CardTitle tag="h5">{element.project.projectName}</CardTitle>
+                          <CardTitle tag="h5">
+                            {element.project.projectName}
+                          </CardTitle>
                           <CardSubtitle className="mb-2 text-muted" tag="h6">
                             {"Duration : "}
                             <span> {element.deliveryTime} Days</span>
@@ -98,34 +102,49 @@ function ManageBids() {
                                 flexWrap: "wrap",
                               }}
                             >
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                css
-                              </span>
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                Html
-                              </span>{" "}
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                Java
-                              </span>
+                              {element.project.projectskills.map((skill) => (
+                                <span
+                                  className="skill-badge"
+                                  style={{ width: "100px" }}
+                                >
+                                  {skill.name}
+                                </span>
+                              ))}
                             </section>
                           </CardText>
                         </Col>
                         <Col md="6" className="p-3  rounded" id="budget-card">
-                          <Toast>
+                          <Badge
+                            color={
+                              element.status == 7
+                                ? "success"
+                                : element.status == 8
+                                ? "danger"
+                                : "primary"
+                            }
+                            style={{
+                              height: "2rem",
+                              fontWeight: "500",
+                              width: "5rem",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: "1rem",
+                            }}
+                          >
+                            {element.status == 7
+                              ? "Accepted"
+                              : element.status == 8
+                              ? "Rejected"
+                              : "Placed"}
+                          </Badge>
+
+                          <Toast className="mt-5">
                             <ToastHeader className="text-center">
                               Your Bid
                             </ToastHeader>
                             <ToastBody className="text-center">
-                              {element.amount}
+                              {element.amount} $
                             </ToastBody>
                           </Toast>
                           <Row className="mt-4">
@@ -133,7 +152,7 @@ function ManageBids() {
                               <Biicons.BiEdit
                                 size={40}
                                 color="blue"
-                                onClick={()=>toggleOfferForm(element)}
+                                onClick={() => toggleOfferForm(element)}
                               />
                             </Col>
                             <Col md="6">

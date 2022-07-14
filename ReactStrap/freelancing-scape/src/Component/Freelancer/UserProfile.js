@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Col,
@@ -25,29 +25,89 @@ import * as Cgicons from "react-icons/cg";
 import * as Biicons from "react-icons/bi";
 import * as Mdicons from "react-icons/md";
 import * as FAicons from "react-icons/fa";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function UserProfile() {
-  const [userType, setuserType] = useState("Freelancer");
+  let navigate = useNavigate();
+  const [userType, setuserType] = useState();
+  const [UserData, setUserData] = useState({});
+  const [profileData, setProfileData] = useState({});
+  const [country, setCountry] = useState({});
+  const [state, setState] = useState({});
+  const [city, setCity] = useState({});
+  const [cityID, setCityID] = useState({});
+  const [profileImg, setProfileImg] = useState("");
+  const [allSkills,setAllSkills] = useState([])
+  var user = JSON.parse(localStorage.getItem("userData"));
+  var userID = user.userprofiles[0].id;
+
   const toggleClass = () => {
-    if (userType == "Freelancer") {
+    if (userType == 3) {
       setuserType("Employer");
-    } else {
+    } else if (userType == 2) {
       setuserType("Freelancer");
     }
   };
+
+  const loadSkills=()=>{
+    axios
+      .get("http://localhost:8081/skill/all", {
+      })
+      .then((res) => {
+        setAllSkills(res.data);
+      });
+  }
+
+  const getData = () => {
+    axios.get("http://localhost:8083/" + user.id, {}).then((res) => {
+      setUserData(res.data);
+      var x = res.data.userprofiles;
+      setuserType(res.data.userType.id);
+      setProfileData(...x.slice(0, 1));
+      toggleClass();
+      loadSkills();
+    });
+  };
+
+  const getCountry = () => {
+    axios.get("http://localhost:8081/country/all").then((res) => {
+      setCountry(res.data);
+    });
+  };
+
+  const getState = (CountryID) => {
+    axios
+      .get("http://localhost:8081/state/country/" + CountryID)
+      .then((res) => {
+        setState(res.data);
+      });
+  };
+
+  const getCity = (cityID) => {
+    axios.get("http://localhost:8081/city/state/" + cityID).then((res) => {
+      setCity(res.data);
+    });
+  };
+
   const [range, setRange] = useState("");
   const handleBudgetRange = (e) => {
     setRange(e.target.value);
   };
-  const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState([]);
+  const [skill, setSkill] = useState({});
+  const [skills, setSkills] = useState([{}]);
   const addSkill = () => {
-    console.log("hello");
     if (skill != "") {
       setSkills([...skills, skill]);
-      setSkill("");
+      let fSkill = {
+        skill: {id:skill},
+        freelancer : {id: profileData.id}
+      }
+      setUpdateSkills([
+          ...updateSkills,
+          fSkill
+        ]
+      );
     }
-    console.log(skills);
   };
   const deleteSkill = (index) => {
     const updatedSkills = skills.filter((element, id) => {
@@ -56,15 +116,90 @@ function UserProfile() {
     setSkills(updatedSkills);
   };
 
-
   const hiddenFileInput = React.useRef(null);
-  const handleClick = event => {
+  const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
-  const handleChange = event => {
+  const handleChange = (event) => {
     const fileUploaded = event;
     console.log(fileUploaded);
   };
+  useEffect(() => {
+    if (localStorage.getItem("loginStatus") === "false") {
+      navigate("/");
+    } else {
+      getCountry();
+      getData();
+    }
+  }, [localStorage.getItem("loginStatus")]);
+
+  const onCountryChange = (e) => {
+    getState(e.target.value);
+  };
+
+  const onStateChange = (e) => {
+    getCity(e.target.value);
+  };
+  const onCitySelect = (e) => {
+    setCityID(e.target.value);
+  };
+
+  const [updateData, setUpdateData] = useState({
+    login: { id: user.id },
+    firstName: "",
+    lastName: "",
+    profileImage: "",
+    companyName: "",
+    hourlyRate: "",
+    tagLine: "",
+    city: { id: "" },
+    mobileNo: "",
+    userDescription: "",
+  });
+  let name, value;
+  const handleFormDataChange = (e) => {
+    name = e.target.name;
+    value = e.target.value;
+    setUpdateData({ ...updateData, [name]: value });
+  };
+
+
+  const [updateSkills, setUpdateSkills] = useState([{}]);
+
+
+  useEffect(() => {
+    toggleClass()
+    updateData.firstName = profileData.firstName
+    updateData.lastName=profileData.lastName
+    updateData.mobileNo = profileData.mobileNo
+    updateData.userDescription = profileData.userDescription
+    updateData.profileImage = profileData.profileImage
+    updateData.city.id = cityID
+    updateData.hourlyRate = profileData.hourlyRate
+    updateData.tagLine = profileData.tagLine
+    updateData.mobileNo = profileData.mobileNo
+  }, [userType])
+  useEffect(() => {
+    updateData.city.id = cityID
+  }, [cityID])
+
+  useEffect(() => {
+    updateData.profileImage = profileImg
+  }, [profileImg])
+
+  const updateProfile=()=>{
+    axios
+        .put("http://localhost:8083/update/"+userID, updateData)
+        .then((response) => {
+          axios.post("http://localhost:8083/addSkills", updateSkills)
+          .catch(error => console.error(error));
+          alert("Your Profile Has Been Updated")
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
+  };
+   
   return (
     <React.Fragment>
       <React.Fragment>
@@ -77,14 +212,15 @@ function UserProfile() {
               {/* <section id="dashboardTitle" className="dashboardTitleText">
                 Profile
                 <Biicons.BiUserCircle size={30} style={{marginLeft:"1rem"}} color="blue"/>
-              </section> */}
+              </section> */
+              }
                 <Row id="user-profile">
                   <Col md="2">
-                    <input 
-                    type="file" 
-                    style={{display:'none'}}  
-                    ref={hiddenFileInput}
-                    onChange={handleChange}
+                    <input
+                      type="file"
+                      style={{ display: "none" }}
+                      ref={hiddenFileInput}
+                      onChange={handleChange}
                     />
                     <img
                       src="../images/profile/OIP.png"
@@ -98,10 +234,11 @@ function UserProfile() {
                       <Col md="6">
                         <FormGroup floating>
                           <Input
-                            id="exampleEmail"
-                            name="email"
+                            name="firstName"
                             placeholder="First Name"
                             type="text"
+                            value={updateData.firstName}
+                            onChange={handleFormDataChange}
                           />
                           <Label for="exampleEmail">First Name</Label>
                         </FormGroup>
@@ -109,10 +246,10 @@ function UserProfile() {
                       <Col>
                         <FormGroup floating>
                           <Input
-                            id="examplePassword"
-                            name="text"
-                            placeholder="Password"
-                            type="password"
+                            name="lastName"
+                            type="text"
+                            value={updateData.lastName}
+                            onChange={handleFormDataChange}
                           />
                           <Label for="examplePassword">Last Name</Label>
                         </FormGroup>
@@ -154,10 +291,11 @@ function UserProfile() {
                       <Col className="mt-2">
                         <FormGroup floating>
                           <Input
-                            id="exampleEmail"
                             name="email"
-                            placeholder="First Name"
                             type="text"
+                            value={UserData.email}
+                            onChange={handleFormDataChange}
+                            readOnly
                           />
                           <Label for="exampleEmail">Email</Label>
                         </FormGroup>
@@ -173,24 +311,30 @@ function UserProfile() {
                         <Col md="6">
                           <Label>Hourly Rate</Label>
                           <br />
-                          <Label>{range} $</Label>
                           <Input
                             id="exampleRange"
-                            name="range"
-                            type="range"
-                            value={range}
-                            onChange={handleBudgetRange}
+                            name="hourlyRate"
+                            type="text"
+                            value={updateData.hourlyRate}
+                            onChange={handleFormDataChange}
                           />
                         </Col>
                         <Col md="6">
                           <Label className="">Skills</Label>
                           <InputGroup>
                             <Input
-                              type="text"
+                              type="select"
                               placeholder="php,reactjs"
                               value={skill}
                               onChange={(e) => setSkill(e.target.value)}
-                            />
+                            >
+                              {allSkills.map((Level) => (
+                                
+                                <option name={Level.skillName} value={Level.id} key={Level.id} >
+                                  {Level.skillName}
+                                </option>
+                    ))}
+                            </Input>
                             <Button
                               style={{
                                 backgroundColor: "white",
@@ -211,14 +355,20 @@ function UserProfile() {
                                   className="skill-badge"
                                   key={index}
                                   style={{ margin: 0, width: "30%", margin: 2 }}
-                                >
-                                  {element}
-                                  <Mdicons.MdClose
-                                    size={25}
-                                    style={{ margin: 10 }}
-                                    onClick={() => deleteSkill(index)}
-                                  />
-                                </span>
+                                  >
+                          
+                          {allSkills.map(obj => {
+                            if (obj.id == element){
+                              return obj.skillName
+                            }
+                          })}
+
+                          <Mdicons.MdClose
+                            size={25}
+                            style={{ margin: 10 }}
+                            onClick={() => deleteSkill(index)}
+                          />
+                        </span>
                               );
                             })}
                           </section>
@@ -239,9 +389,17 @@ function UserProfile() {
                               id="exampleSelect"
                               name="select"
                               type="select"
+                              onChange={onCountryChange}
                             >
-                              <option>1</option>
-                              <option>2</option>
+                              <option>Select Country</option>
+                              {Array.isArray(country) &&
+                                country.map((element) => {
+                                  return (
+                                    <option value={element.id}>
+                                      {element.countryName}
+                                    </option>
+                                  );
+                                })}
                             </Input>
                           </FormGroup>
                         </Col>
@@ -252,9 +410,17 @@ function UserProfile() {
                               id="exampleSelect"
                               name="select"
                               type="select"
+                              onChange={onStateChange}
                             >
-                              <option>1</option>
-                              <option>2</option>
+                              <option>Select State</option>
+                              {Array.isArray(state) &&
+                                state.map((element) => {
+                                  return (
+                                    <option value={element.id}>
+                                      {element.stateName}
+                                    </option>
+                                  );
+                                })}
                             </Input>
                           </FormGroup>
                         </Col>
@@ -265,9 +431,17 @@ function UserProfile() {
                               id="exampleSelect"
                               name="select"
                               type="select"
+                              onChange={onCitySelect}
                             >
-                              <option>1</option>
-                              <option>2</option>
+                              <option>Select City</option>
+                              {Array.isArray(city) &&
+                                city.map((element) => {
+                                  return (
+                                    <option value={element.id}>
+                                      {element.cityName}
+                                    </option>
+                                  );
+                                })}
                             </Input>
                           </FormGroup>
                         </Col>
@@ -283,10 +457,10 @@ function UserProfile() {
                         <Col md="6">
                           <FormGroup floating>
                             <Input
-                              id="exampleEmail"
-                              name="email"
-                              placeholder="Email"
+                              name="tagLine"
                               type="email"
+                              value={updateData.tagLine}
+                              onChange={handleFormDataChange}
                             />
                             <Label for="exampleEmail">Tag Line</Label>
                           </FormGroup>
@@ -294,10 +468,10 @@ function UserProfile() {
                         <Col md="6">
                           <FormGroup floating>
                             <Input
-                              id="exampleEmail"
-                              name="email"
-                              placeholder="Email"
+                              name="mobileNo"
                               type="email"
+                              value={updateData.mobileNo}
+                              onChange={handleFormDataChange}
                             />
                             <Label for="exampleEmail">Mobile Number</Label>
                           </FormGroup>
@@ -307,10 +481,11 @@ function UserProfile() {
                         <FormGroup>
                           <Label for="exampleText">Description</Label>
                           <Input
-                            id="exampleText"
-                            name="text"
+                            name="userDescription"
                             type="textarea"
                             Rows="8"
+                            value={updateData.userDescription}
+                            onChange={handleFormDataChange}
                           />
                         </FormGroup>
                       </Row>
@@ -318,6 +493,7 @@ function UserProfile() {
                         color="primary"
                         style={{ width: "20%", float: "right" }}
                         className="mb-3"
+                        onClick={()=>updateProfile()}
                       >
                         Update Profile
                       </Button>

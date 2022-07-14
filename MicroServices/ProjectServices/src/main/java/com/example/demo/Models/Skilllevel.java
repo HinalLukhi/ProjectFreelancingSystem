@@ -21,8 +21,5 @@ public class Skilllevel {
     private String skillName;
 
     @OneToMany(mappedBy = "skillLevel")
-    private Set<Freelancerskill> freelancerskills = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "skillLevel")
     private Set<Project> projectSkill;
 }

@@ -57,4 +57,8 @@ public class TaskServices {
     public int updateStatus(Integer id){
             return taskRepository.updateStatusTOComplete(id);
     }
+
+    public int updateStatusToActive(Integer id){
+        return taskRepository.updateStatusTOActive(id);
+    }
 }

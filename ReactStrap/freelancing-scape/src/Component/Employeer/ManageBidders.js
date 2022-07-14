@@ -18,6 +18,7 @@ function ManageBidders() {
   const navigate = useNavigate();
 
   const [activeProjects, setActiveProjects] = useState([]);
+  const [allSkills, setAllSkills] = useState({});
 
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem('userData')).id; 
@@ -51,11 +52,20 @@ function ManageBidders() {
                     <Col md="6">
                       {d.projectDescription}
                       <section>Budget: {d.minBudget}$ - {d.maxBudget}$</section>
+                      <section>{
+                          d.projectskills.map((s) => (
+                            <span className="skill-badge"
+                            key={s.id}
+                            style={{ margin: 0, width: "30%", margin: 2 }}>
+                              {s.name}
+                            </span>
+                          ))
+                        }</section>
                     </Col>
                     <Col md="6">
                       <Toast>
                         <ToastHeader>Bids on this project</ToastHeader>
-                        <ToastBody>{d.bids.filter(bid => bid.status.id === 9).length}</ToastBody>
+                        <ToastBody>{d.bids.filter(bid => bid.status.id === 6).length}</ToastBody>
                       </Toast>
                     </Col>
                   </Row>

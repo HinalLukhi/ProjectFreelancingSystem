@@ -34,26 +34,15 @@ function TaskList() {
   const navigate = useNavigate();
 
   const [data, setdata] = useState([]);
-  const setList = async () => {
+  const setList = () => {
     setTimeout(() => {
-       axios
+      axios
         .get("http://Localhost:8082/task/project/" + location.state.id)
         .then((res) => {
           setdata(res.data);
         });
-      });
-    };
-
-    if(data.length==0){
-        navigate("/freelancer/assignedprojects")
-      }
-    const ifHasData=()=>{
-      // data.length===0?"":navigate("assignedprojects")
-      console.log(data.length)
-      // if(data.length==0){
-      //   navigate("/freelancer/assignedprojects")
-      // }
-  }
+    });
+  };
 
   const goToTaskDesc = () => {
     navigate("taskdescription");
@@ -63,13 +52,13 @@ function TaskList() {
       navigate("/");
     } else {
       setList();
-      ifHasData();
     }
   }, [localStorage.getItem("loginStatus")]);
 
   const[tooltipOpen,setTooltipOpen] =useState(false)
 
   const markTaskAsDone = (id) => {
+    console.log(id);
     axios
       .put('http://localhost:8082/task/markTaskAsDone/'+id)
       .then((response) => {
@@ -79,38 +68,17 @@ function TaskList() {
           console.error("There was an error!", error);
         });
   }
-  const markTaskAsActive = (id) => {
-    axios
-      .put('http://localhost:8082/task/markTaskAsActive/'+id)
-      .then((response) => {
-        window.location.reload();
-        })
-        .catch((error) => {
-          console.error("There was an error!", error);
-        });
-  }
-  const deleteTask = (id) => {
-    console.log(id);
-    axios
-      .delete('http://localhost:8082/task/'+id)
-      .then((response) => {
-        window.location.reload()
-        })
-        .catch((error) => {
-          console.error("There was an error!", error);
-        });
-  }
   console.log(data);
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
-        <DashboardSideBar pageType="freelancer" />
+        <DashboardSideBar pageType="employer" />
         <Row id="post-project-form">
           <DashboardTopNav />
           <Col xs="10" id="form-col" className="flex-box">
             <section id="postproject-form">
               <section id="dashboardTitle" className="dashboardTitleText">
-                Projects
+                Tasks
                 <VscIcons.VscProject
                   size={30}
                   style={{ marginLeft: "1rem" }}
@@ -118,7 +86,6 @@ function TaskList() {
                 />
               </section>
               {data.map((element) => {
-                
                 return (
                   <Card
                     style={{ marginBottom: ".5rem", borderRadius: "1rem" }}
@@ -139,48 +106,18 @@ function TaskList() {
                           <CardText>{element.taskDescription}</CardText>
                         </Col>
                         <Col md="6" className="text-center">
-                          
-                        <Badge color={element.status.statusName=="complete"?"success":"primary"}>
+                        <Badge color={element.status.statusName=="complete"?"success":"primary"}
+                        style={{
+                          height: "2rem",
+                          fontWeight: "500",
+                          width: "auto",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          fontSize: "1rem",
+                        }}>
                             {element.status.statusName}
                         </Badge>
-                          <Biicons.BiEdit
-                            size={40}
-                            color="blue"
-                            style={{ margin: "2rem" }}
-                          />
-                          <Aiicons.AiOutlineDelete
-                            size={40}
-                            color="red"
-                            style={{ margin: "2rem" }}
-                            onClick={() => deleteTask(element.id)}
-                          />
-                          {element.status.statusName=="complete"?
-                            <Aiicons.AiOutlineReload
-                            size={30}
-                            color="blue"
-                            style={{ margin: "2rem" }}
-                            id="done"
-                            onClick={() => markTaskAsActive(element.id)}
-                            /> 
-                          :
-                            <Ioicons.IoMdDoneAll
-                            size={40}
-                            color="green"
-                            style={{ margin: "2rem" }}
-                            id="done"
-                            onClick={() => markTaskAsDone(element.id)}
-                            />
-                          }
-                          <Tooltip
-                            isOpen={tooltipOpen}
-                            placement="bottom"
-                            target="done"
-                            toggle={() => {
-                              setTooltipOpen(!tooltipOpen);
-                            }}
-                          >
-                           Mark as done
-                          </Tooltip>
                         </Col>
                       </Row>
                     </CardBody>

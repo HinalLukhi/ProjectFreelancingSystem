@@ -19,4 +19,9 @@ public interface TaskRepository extends JpaRepository<Task,Integer> {
     @Modifying
     @Query(value = "update task set status_id=1 where task_id=?1",nativeQuery = true)
     int updateStatusTOComplete(Integer id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update task set status_id=5 where task_id=?1",nativeQuery = true)
+    int updateStatusTOActive(Integer id);
 }
