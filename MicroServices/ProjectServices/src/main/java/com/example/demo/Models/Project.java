@@ -68,18 +68,14 @@ public class Project {
     private String userDescription;
 
     @OneToMany(mappedBy = "project",fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonManagedReference(value = "project-tasks")
     private Set<Task> tasks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "project",fetch = FetchType.EAGER)
-    @JsonManagedReference
-<<<<<<< Updated upstream
-    private Set<Projectskill> projectskills = new LinkedHashSet<>();
-=======
-    private List<Projectskill> projectskills;
->>>>>>> Stashed changes
+    @JsonManagedReference(value = "project-skills")
+    private Set<Projectskill> projectskills;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonManagedReference(value = "project-bids")
     private Set<Bid> bids = new LinkedHashSet<>();
 }

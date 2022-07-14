@@ -6,14 +6,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ProjectSkillToService {
 
-    public List<ProjectSkillTo> toTransferObject(List<Projectskill> projectSkills){
-        List<ProjectSkillTo> projectSkillTos = new ArrayList<>();
+    public Set<ProjectSkillTo> toTransferObject(Set<Projectskill> projectSkills){
+        Set<ProjectSkillTo> projectSkillTos = new LinkedHashSet<>();
         for (Projectskill skill:
              projectSkills) {
             ProjectSkillTo skillTo = new ProjectSkillTo();
