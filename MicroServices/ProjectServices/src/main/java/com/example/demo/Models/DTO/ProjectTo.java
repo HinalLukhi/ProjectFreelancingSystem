@@ -26,6 +26,6 @@ public class ProjectTo {
     private Skilllevel skillLevel;
     private String userDescription;
     private Set<Task> tasks = new LinkedHashSet<Task>();
-    private List<ProjectSkillTo> projectskills;
+    private Set<ProjectSkillTo> projectskills;
     private Set<Bid> bids = new LinkedHashSet<>();
 }

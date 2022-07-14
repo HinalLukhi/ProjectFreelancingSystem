@@ -20,7 +20,6 @@ public class Skill {
 
     @Column(name = "skill_name", length = 20, nullable = false)
     private String skillName;
-<<<<<<< Updated upstream
 
     @OneToMany(mappedBy = "skill",fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -28,6 +27,4 @@ public class Skill {
 
     @OneToMany(mappedBy = "skill")
     private Set<Freelancerskill> freelancerskills = new LinkedHashSet<>();
-=======
->>>>>>> Stashed changes
 }

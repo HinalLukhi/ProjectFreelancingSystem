@@ -105,7 +105,7 @@ function TaskDescription() {
         <Row>
           <Col xs="6" id="free-aboutme">
             <h3 style={{ fontWeight: "400", marginBottom: "3%" }}>
-              Task Description
+              Project Description
             </h3>
             <p style={{ lineHeight: "35px", textAlign: "left" }}>
               {projectData.projectDescription}
@@ -121,15 +121,16 @@ function TaskDescription() {
             <section className="mt-4">
               <h3 style={{ fontWeight: "400", marginBottom: "3%" }}>Skills</h3>
               <article style={{ display: "flex", flexWrap: "wrap" }}>
-                <span className="skill-badge" style={{ width: "100px" }}>
-                  css
-                </span>
-                <span className="skill-badge" style={{ width: "100px" }}>
-                  css
-                </span>
-                <span className="skill-badge" style={{ width: "100px" }}>
-                  css
-                </span>
+              {Array.isArray(projectData.projectskills) && projectData.projectskills.map(s => {
+                return(
+                  <span
+                                className="skill-badge"
+                                style={{ width: "100px" }}
+                              >
+                                {s.name}
+                              </span>
+                )
+              })}
               </article>
             </section>
           </Col>

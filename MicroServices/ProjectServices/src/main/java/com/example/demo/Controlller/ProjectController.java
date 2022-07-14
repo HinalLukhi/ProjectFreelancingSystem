@@ -32,7 +32,7 @@ public class ProjectController {
     public List<ProjectTo> all(){ return projectToService.getProjects(); }
 
     @GetMapping("/{id}")
-    public Project getDataById(@PathVariable Integer id){ return projectServices.getDataById(id).get(); }
+    public ProjectTo getDataById(@PathVariable Integer id){ return projectToService.getDataById(id); }
 
     @DeleteMapping("/{id}")
     public Boolean deleteProject(@PathVariable Integer id)

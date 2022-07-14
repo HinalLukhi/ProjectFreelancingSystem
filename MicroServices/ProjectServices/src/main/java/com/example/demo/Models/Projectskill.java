@@ -23,6 +23,6 @@ public class Projectskill {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "project-skills")
     private Project project;
 }
