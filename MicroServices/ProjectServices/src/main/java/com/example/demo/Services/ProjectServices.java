@@ -2,14 +2,17 @@ package com.example.demo.Services;
 
 import com.example.demo.Client.ProjectRepository;
 import com.example.demo.Client.ProjectskillRepository;
+import com.example.demo.Models.DTO.ProjectTo;
 import com.example.demo.Models.Project;
 import com.example.demo.Models.Projectskill;
+import com.example.demo.Services.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServices {
@@ -20,6 +23,11 @@ public class ProjectServices {
     @Autowired
     public ProjectskillRepository projectskillRepository;
 
+    @Autowired
+    public ProjectToService projectToService;
+
+    @Autowired
+    public ProjectTransformer projectTransformer;
 
     public int insert(Project project)
     {
@@ -50,9 +58,13 @@ public class ProjectServices {
         return projectRepository.findByUserId(id);
     }
 
-    public List<Project> displayActiveProject(Integer id)
+    public List<ProjectTo> displayActiveProject(Integer id)
     {
-        return projectRepository.findActiveProjectByUserId(id);
+        List<Project> projects = projectRepository.findActiveProjectByUserId(id);
+
+        return  projects.stream().map(project ->
+             projectTransformer.toTransferObject(project)
+        ).collect(Collectors.toList());
     }
 
     public Projectskill addSkills(Projectskill projectskill){

@@ -42,14 +42,18 @@ function ProfileDescription(props) {
   const [spinner, SetSpinner] = useState(true);
   const [data, setdata] = useState([]);
   const [profile, setProfile] = useState({});
+  const [freelancerSkills, setFreelancerSkills] = useState([]);
   const setList =  () => {
     let response =  axios
       .get("http://localhost:8083/"+location.state.id,{
       })
       .then((res) => {
+        axios.get("http://localhost:8083/skill/"+res.data.userprofiles[0].id
+        ).then(res => {
+          setFreelancerSkills(res.data);
+        });
         setdata(res.data);
         setProfile(res.data.userprofiles[0]);
-        console.log(res.data)
         SetSpinner(false);
       });
   };
@@ -260,25 +264,14 @@ function ProfileDescription(props) {
               >
                 Skills
               </h3>
-              <span className="skill-badge" style={{ width: "100px" }}>
-                css
-              </span>
-              <span className="skill-badge" style={{ width: "100px" }}>
-                css
-              </span>
-              <span className="skill-badge" style={{ width: "100px" }}>
-                css
-              </span>
-              <span className="skill-badge" style={{ width: "100px" }}>
-                css
-              </span>
-
-              <span className="skill-badge" style={{ width: "100px" }}>
-                css
-              </span>
-              <span className="skill-badge" style={{ width: "100px" }}>
-                css
-              </span>
+              {freelancerSkills.map(s => (
+                (
+                  <span className="skill-badge"
+                  key={s.skill.id}>
+                    {s.skill.skillName}
+                  </span>
+                )
+              ))}
             </Row>
           </Col>
         </Row>

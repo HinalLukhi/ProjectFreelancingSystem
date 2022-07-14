@@ -25,9 +25,5 @@ public class Freelancerskill {
     @JoinColumn(name = "freelancer_id")
     private Userprofile freelancer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "skill_level_id")
-    private Skilllevel skillLevel;
-
 
 }

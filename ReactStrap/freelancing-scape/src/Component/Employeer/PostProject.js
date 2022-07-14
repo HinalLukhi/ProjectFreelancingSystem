@@ -38,8 +38,6 @@ function PostProject() {
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
   const [allSkills,setAllSkills] = useState([])
-  //const [projectSkills, setprojectSkills] = useState([{}])
-  //const [projectID, setProjectID] = useState();
 
   const [formData, setFormData] = useState({
     user: { id: 0 },
@@ -80,7 +78,6 @@ function PostProject() {
     axios
       .post("http://localhost:8082/project/add", formData)
       .then((response) => {
-         //setProjectID(response.data);
          AddprojectSkills(response.data);
         })
         .catch((error) => {
@@ -90,7 +87,6 @@ function PostProject() {
   };
 
   const AddprojectSkills = (pId) => {
-    console.log(pId);
     let skillObject = [];
     for (let index=0;index<skills.length; index++){
 
@@ -98,14 +94,8 @@ function PostProject() {
         skill: { id: skills[index] },
         project: { id: pId }
       });
-    //  setprojectSkills(prevState=>([
-    //   ...prevState,
-    //   skillobj,
-    //  ]))
     
     }
-    //setprojectSkills(skillObject);
-    console.log(skillObject);
     insertSkills(skillObject);
   }
   

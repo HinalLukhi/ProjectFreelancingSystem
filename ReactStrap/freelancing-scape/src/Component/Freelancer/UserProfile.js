@@ -37,6 +37,7 @@ function UserProfile() {
   const [city, setCity] = useState({});
   const [cityID, setCityID] = useState({});
   const [profileImg, setProfileImg] = useState("");
+  const [allSkills,setAllSkills] = useState([])
   var user = JSON.parse(localStorage.getItem("userData"));
   var userID = user.userprofiles[0].id;
 
@@ -48,6 +49,15 @@ function UserProfile() {
     }
   };
 
+  const loadSkills=()=>{
+    axios
+      .get("http://localhost:8081/skill/all", {
+      })
+      .then((res) => {
+        setAllSkills(res.data);
+      });
+  }
+
   const getData = () => {
     axios.get("http://localhost:8083/" + user.id, {}).then((res) => {
       setUserData(res.data);
@@ -55,7 +65,7 @@ function UserProfile() {
       setuserType(res.data.userType.id);
       setProfileData(...x.slice(0, 1));
       toggleClass();
-      //setuserType(res.data.userType.userType);
+      loadSkills();
     });
   };
 
@@ -83,15 +93,21 @@ function UserProfile() {
   const handleBudgetRange = (e) => {
     setRange(e.target.value);
   };
-  const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState([]);
+  const [skill, setSkill] = useState({});
+  const [skills, setSkills] = useState([{}]);
   const addSkill = () => {
-    console.log("hello");
     if (skill != "") {
       setSkills([...skills, skill]);
-      setSkill("");
+      let fSkill = {
+        skill: {id:skill},
+        freelancer : {id: profileData.id}
+      }
+      setUpdateSkills([
+          ...updateSkills,
+          fSkill
+        ]
+      );
     }
-    console.log(skills);
   };
   const deleteSkill = (index) => {
     const updatedSkills = skills.filter((element, id) => {
@@ -146,6 +162,11 @@ function UserProfile() {
     value = e.target.value;
     setUpdateData({ ...updateData, [name]: value });
   };
+
+
+  const [updateSkills, setUpdateSkills] = useState([{}]);
+
+
   useEffect(() => {
     toggleClass()
     updateData.firstName = profileData.firstName
@@ -170,7 +191,8 @@ function UserProfile() {
     axios
         .put("http://localhost:8083/update/"+userID, updateData)
         .then((response) => {
-          console.log("test");
+          axios.post("http://localhost:8083/addSkills", updateSkills)
+          .catch(error => console.error(error));
           alert("Your Profile Has Been Updated")
         })
         .catch((error) => {
@@ -187,10 +209,11 @@ function UserProfile() {
             <DashboardTopNav />
             <Col xs="10" id="form-col" className="flex-box">
               <section id="postproject-form" style={{ padding: "5%" }}>
-                {/* <section id="dashboardTitle" className="dashboardTitleText">
+              {/* <section id="dashboardTitle" className="dashboardTitleText">
                 Profile
                 <Biicons.BiUserCircle size={30} style={{marginLeft:"1rem"}} color="blue"/>
-              </section> */}
+              </section> */
+              }
                 <Row id="user-profile">
                   <Col md="2">
                     <input
@@ -304,7 +327,14 @@ function UserProfile() {
                               placeholder="php,reactjs"
                               value={skill}
                               onChange={(e) => setSkill(e.target.value)}
-                            />
+                            >
+                              {allSkills.map((Level) => (
+                                
+                                <option name={Level.skillName} value={Level.id} key={Level.id} >
+                                  {Level.skillName}
+                                </option>
+                    ))}
+                            </Input>
                             <Button
                               style={{
                                 backgroundColor: "white",
@@ -325,14 +355,20 @@ function UserProfile() {
                                   className="skill-badge"
                                   key={index}
                                   style={{ margin: 0, width: "30%", margin: 2 }}
-                                >
-                                  {element}
-                                  <Mdicons.MdClose
-                                    size={25}
-                                    style={{ margin: 10 }}
-                                    onClick={() => deleteSkill(index)}
-                                  />
-                                </span>
+                                  >
+                          
+                          {allSkills.map(obj => {
+                            if (obj.id == element){
+                              return obj.skillName
+                            }
+                          })}
+
+                          <Mdicons.MdClose
+                            size={25}
+                            style={{ margin: 10 }}
+                            onClick={() => deleteSkill(index)}
+                          />
+                        </span>
                               );
                             })}
                           </section>

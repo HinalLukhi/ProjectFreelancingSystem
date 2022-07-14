@@ -57,7 +57,6 @@ function AssignedProject() {
       setList();
     }
   }, [localStorage.getItem("loginStatus")]);
-  console.log(data);
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
@@ -106,24 +105,12 @@ function AssignedProject() {
                                 flexWrap: "wrap",
                               }}
                             >
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                css
-                              </span>
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                Html
-                              </span>{" "}
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                Java
-                              </span>
+                              {element.project.projectskills.map(skill => (
+                                <span className="skill-badge"
+                                style={{width:"100px"}}>
+                                  {skill.name}
+                                </span>
+                              ))}
                             </section>
                           </CardText>
                         </Col>

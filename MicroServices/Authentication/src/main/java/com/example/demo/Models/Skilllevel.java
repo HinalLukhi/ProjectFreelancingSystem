@@ -19,7 +19,4 @@ public class Skilllevel {
 
     @Column(name = "skill_name", nullable = false, length = 20)
     private String skillName;
-
-    @OneToMany(mappedBy = "skillLevel")
-    private Set<Freelancerskill> freelancerskills = new LinkedHashSet<>();
 }

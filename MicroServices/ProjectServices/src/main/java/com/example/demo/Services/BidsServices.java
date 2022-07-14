@@ -5,9 +5,11 @@ import com.example.demo.Client.LogininfoRepository;
 import com.example.demo.Client.ProjectRepository;
 import com.example.demo.Client.StatusdetailRepository;
 import com.example.demo.Models.Bid;
+import com.example.demo.Models.DTO.BidsTo;
 import com.example.demo.Models.Logininfo;
 import com.example.demo.Models.Project;
 import com.example.demo.Models.Statusdetail;
+import com.example.demo.Services.transformers.BidsTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BidsServices {
@@ -37,6 +40,9 @@ public class BidsServices {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private BidsTransformer bidsTransformer;
 
     private Project project;
 
@@ -67,9 +73,12 @@ public class BidsServices {
         }
     }
 
-   public List<Bid> DisplayByProjectID(Integer id)
+   public List<BidsTo> DisplayByProjectID(Integer id)
     {
-        return bidSRepository.findByProjectId(id);
+         List<Bid> bids = bidSRepository.findByProjectId(id);
+
+         return bids.stream().map(bid ->
+             bidsTransformer.toTransferObject(bid)).collect(Collectors.toList());
     }
 
     public Bid acceptBid(Integer id)
