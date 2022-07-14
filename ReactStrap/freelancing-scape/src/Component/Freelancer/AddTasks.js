@@ -62,7 +62,7 @@ function AddTasks() {
       axios
       .post("http://localhost:8082/task/add", Tasks)
       .then((response) => {
-        navigate("tasklist")
+        navigate("/freelancer/assignedprojects")
         })
         .catch((error) => {
           console.error("There was an error!", error);
