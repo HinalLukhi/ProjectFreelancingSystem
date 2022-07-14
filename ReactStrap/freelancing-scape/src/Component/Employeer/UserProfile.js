@@ -30,7 +30,11 @@ function UserProfile() {
   const [userType, setuserType] = useState();
   const [UserData, setUserData] = useState({})
   const [profileData, setProfileData] = useState({})
-
+  const [country,setCountry] = useState({})
+  const [state,setState] = useState({})
+  const [city,setCity] = useState({})
+  const [cityID,setCityID] = useState({})
+  const [profileImg,setProfileImg] = useState("")
   var user = JSON.parse(localStorage.getItem("userData"));
   var userID = user.userprofiles[0].id
   // console.log(userID)
@@ -43,29 +47,7 @@ function UserProfile() {
       setuserType("Freelancer");
     }
   };
-
-
-  useEffect(() => {
-    if (localStorage.getItem("loginStatus") === "false") {
-      navigate("/");
-    } else {
-      getData()
-    }
-  }, [localStorage.getItem("loginStatus")]);
-
-  useEffect(() => {
-    toggleClass()
-    console.log(updateData)
-    updateData.firstName = profileData.firstName
-    updateData.lastName=profileData.lastName
-    updateData.mobileNo = profileData.mobileNo
-    updateData.companyName = profileData.companyName
-    updateData.userDescription = profileData.userDescription
-
-  }, [userType])
-
   const getData = () => {
-    // console.log(user.id);
     axios
       .get('http://localhost:8083/' + user.id, {
       })
@@ -78,37 +60,41 @@ function UserProfile() {
         //setuserType(res.data.userType.userType);
       });
   };
-  const [range, setRange] = useState("");
-  const handleBudgetRange = (e) => {
-    setRange(e.target.value);
-  };
-  /*const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState([]);
-  const addSkill = () => {
-    console.log("hello");
-    if (skill != "") {
-      setSkills([...skills, skill]);
-      setSkill("");
-    }
-    console.log(skills);
-  };
-  const deleteSkill = (index) => {
-    const updatedSkills = skills.filter((element, id) => {
-      return index != id;
+ console.log(UserData)
+  const getCountry=()=>{
+    axios
+    .get('http://localhost:8081/country/all')
+    .then((res) => {
+      setCountry(res.data)
     });
-    setSkills(updatedSkills);
-  };*/
+  }
 
+  const getState=(CountryID)=>{
+    axios
+    .get('http://localhost:8081/state/country/'+CountryID)
+    .then((res) => {
+      setState(res.data)
+    });
+  }
 
+  const getCity=(cityID)=>{
+    axios
+    .get('http://localhost:8081/city/state/'+cityID)
+    .then((res) => {
+      setCity(res.data)
+    });
+  }
+  
   const hiddenFileInput = React.useRef(null);
   const handleClick = event => {
     hiddenFileInput.current.click();
   };
   const handleChange = event => {
     const fileUploaded = event;
-    console.log(fileUploaded);
+    //console.log(fileUploaded.target.value);
+    setProfileImg(fileUploaded.target.value)
   };
-
+  console.log(profileImg)
 
   const [updateData, setUpdateData] = useState({
     login: { id: user.id },
@@ -118,7 +104,7 @@ function UserProfile() {
     companyName: "",
     hourlyRate: "",
     tagLine: "",
-    city: { id: 3 },
+    city: { id: "" },
     mobileNo: "",
     userDescription: ""
   })
@@ -128,7 +114,58 @@ function UserProfile() {
     value = e.target.value;
     setUpdateData({ ...updateData, [name]: value })
   }
+  useEffect(() => {
+    if (localStorage.getItem("loginStatus") === "false") {
+      navigate("/");
+    } else {
+      getCountry()
+      getData()
+    }
+  }, [localStorage.getItem("loginStatus")]);
 
+  useEffect(() => {
+    toggleClass()
+    updateData.firstName = profileData.firstName
+    updateData.lastName=profileData.lastName
+    updateData.mobileNo = profileData.mobileNo
+    updateData.companyName = profileData.companyName
+    updateData.userDescription = profileData.userDescription
+    updateData.profileImage = profileData.profileImage
+    updateData.city.id = cityID
+  }, [userType])
+  useEffect(() => {
+    updateData.city.id = cityID
+  }, [cityID])
+
+  useEffect(() => {
+    updateData.profileImage = profileImg
+  }, [profileImg])
+
+  const onCountryChange=(e)=>{
+    getState(e.target.value);
+  }
+
+  const onStateChange=(e)=>{
+    getCity(e.target.value)
+  }
+ const onCitySelect=(e)=>{
+   setCityID(e.target.value)
+ }
+ 
+ const updateProfile=()=>{
+  axios
+      .put("http://localhost:8083/update/"+userID, updateData)
+      .then((response) => {
+        console.log("test");
+        alert("Your Profile Has Been Updated")
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
+};
+ 
+
+ console.log(updateData)
   return (
     <React.Fragment>
       <React.Fragment>
@@ -186,7 +223,8 @@ function UserProfile() {
                           <Button
                             className="user-button-defualt"
                             id={userType == "Employer" ? "user-button" : ""}
-                            outline>
+                            outline
+                          >
                             <span className="hide-in-small-screen">
                               <Mdicons.MdOutlineBusinessCenter
                                 style={{
@@ -236,8 +274,7 @@ function UserProfile() {
                               name="companyName"
                               type="text"
                               value={updateData.companyName}
-                            onChange={handleFormDataChange}
-
+                              onChange={handleFormDataChange}
                             />
                             <Label for="exampleEmail">Company Name</Label>
                           </FormGroup>
@@ -268,9 +305,19 @@ function UserProfile() {
                             <Input
                               id="exampleSelect"
                               name="select"
-                              type="select">
-                              <option>1</option>
-                              <option>2</option>
+                              type="select"
+                              onChange={onCountryChange}
+                              value
+                            >
+                              <option>Select Country</option>
+                              {Array.isArray(country) &&
+                                country.map((element) => {
+                                  return (
+                                    <option value={element.id}>
+                                      {element.countryName}
+                                    </option>
+                                  );
+                                })}
                             </Input>
                           </FormGroup>
                         </Col>
@@ -281,9 +328,17 @@ function UserProfile() {
                               id="exampleSelect"
                               name="select"
                               type="select"
+                              onChange={onStateChange}
                             >
-                              <option>1</option>
-                              <option>2</option>
+                               <option>Select State</option>
+                              {Array.isArray(state) &&
+                                state.map((element) => {
+                                  return (
+                                    <option value={element.id}>
+                                      {element.stateName}
+                                    </option>
+                                  );
+                                })}
                             </Input>
                           </FormGroup>
                         </Col>
@@ -294,9 +349,16 @@ function UserProfile() {
                               id="exampleSelect"
                               name="select"
                               type="select"
+                              onChange={onCitySelect}
                             >
-                              <option>1</option>
-                              <option>2</option>
+                              {Array.isArray(city) &&
+                                city.map((element) => {
+                                  return (
+                                    <option value={element.id}>
+                                      {element.cityName}
+                                    </option>
+                                  );
+                                })}
                             </Input>
                           </FormGroup>
                         </Col>
@@ -324,6 +386,7 @@ function UserProfile() {
                         color="primary"
                         style={{ width: "20%", float: "right" }}
                         className="mb-3"
+                        onClick={()=>updateProfile()}
                       >
                         Update Profile
                       </Button>

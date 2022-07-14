@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Guest from "./Pages/Guest/Index.jsx";
 import Employer from "./Pages/Employer/Index.jsx";
 import { Route, Link, Routes, BrowserRouter as Router } from "react-router-dom";
-import Freelancer from "./Pages/Freelancer";
+import Freelancer from "./Pages/Freelancer/index";
 import IntroBanner from "./Component/Employeer/IntroBanner";
 import GuestIntroBanner from "./Component/Guest/IntroBanner";
 import ListFreelancer from "./Component/Employeer/ListFreelancer";

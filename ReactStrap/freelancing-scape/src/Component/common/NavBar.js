@@ -35,7 +35,7 @@ function NavBar(props) {
     localStorage.setItem("loginStatus",false);
     localStorage.setItem("user","");
     localStorage.setItem("token","");
-    navigate("/");
+    navigate("/home");
   }
   useEffect(() =>{
     if(localStorage.getItem('loginstatus')==false){
@@ -168,7 +168,7 @@ function NavBar(props) {
                       </ul>
                     </li>
                     <li>
-                      <Link to="dashboard" className="headerLinkStyle">
+                      <Link to="dashboard"  className="headerLinkStyle">
                         Dashboard
                       </Link>
                     </li>
