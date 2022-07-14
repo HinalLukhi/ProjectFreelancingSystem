@@ -30,7 +30,7 @@ public class Bid {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "project-bids")
     private Project project;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

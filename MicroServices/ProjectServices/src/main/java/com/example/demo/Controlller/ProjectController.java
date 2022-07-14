@@ -1,8 +1,10 @@
 package com.example.demo.Controlller;
 
+import com.example.demo.Models.DTO.ProjectTo;
 import com.example.demo.Models.Project;
 import com.example.demo.Models.Projectskill;
 import com.example.demo.Services.ProjectServices;
+import com.example.demo.Services.ProjectToService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,9 @@ public class ProjectController {
     @Autowired
     public ProjectServices projectServices;
 
+    @Autowired
+    public ProjectToService projectToService;
+
     @PostMapping("/add")
     public int add(@RequestBody Project project)
     {
@@ -24,10 +29,10 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public List<Project> all(){ return projectServices.all();}
+    public List<ProjectTo> all(){ return projectToService.getProjects(); }
 
     @GetMapping("/{id}")
-    public Project getDataById(@PathVariable Integer id){ return projectServices.getDataById(id).get(); }
+    public ProjectTo getDataById(@PathVariable Integer id){ return projectToService.getDataById(id); }
 
     @DeleteMapping("/{id}")
     public Boolean deleteProject(@PathVariable Integer id)
@@ -42,8 +47,8 @@ public class ProjectController {
     }
 
     @GetMapping("/user/{id}")
-    public List<Project> getDataByUser(@PathVariable  Integer id){
-        return projectServices.displayByUser(id);
+    public List<ProjectTo> getDataByUser(@PathVariable  Integer id){
+        return projectToService.displayByUser(id);
     }
 
     @GetMapping("/activeprojects/{id}")

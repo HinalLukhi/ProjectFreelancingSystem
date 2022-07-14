@@ -18,7 +18,7 @@ public class Skill {
     @Column(name = "skill_id", nullable = false)
     private Integer id;
 
-    @Column(name = "skill_name", nullable = true, length = 20)
+    @Column(name = "skill_name", length = 20, nullable = false)
     private String skillName;
 
     @OneToMany(mappedBy = "skill",fetch = FetchType.LAZY)

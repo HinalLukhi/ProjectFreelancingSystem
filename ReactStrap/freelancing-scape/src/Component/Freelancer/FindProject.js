@@ -172,24 +172,16 @@ function FindProject() {
                                     flexWrap: "wrap",
                                   }}
                                 >
+                                  {e.projectskills.map((skill) => {
+                                return (
                                   <span
-                                    className="skill-badge"
-                                    style={{ width: "100px" }}
-                                  >
-                                    css
-                                  </span>
-                                  <span
-                                    className="skill-badge"
-                                    style={{ width: "100px" }}
-                                  >
-                                    Html
-                                  </span>{" "}
-                                  <span
-                                    className="skill-badge"
-                                    style={{ width: "100px" }}
-                                  >
-                                    Java
-                                  </span>
+                                className="skill-badge"
+                                style={{ width: "100px" }}
+                              >
+                                {skill.name.toUpperCase()}
+                              </span>
+                                );
+                              })}
                                 </section>
                               </CardText>
                             </Col>

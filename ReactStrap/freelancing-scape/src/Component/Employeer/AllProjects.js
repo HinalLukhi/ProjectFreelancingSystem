@@ -119,24 +119,16 @@ function AllProjects() {
                                 flexWrap: "wrap",
                               }}
                             >
-                              <span
+                              {element.projectskills.map((skill) => {
+                                return (
+                                  <span
                                 className="skill-badge"
                                 style={{ width: "100px" }}
                               >
-                                css
+                                {skill.name}
                               </span>
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                Html
-                              </span>{" "}
-                              <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
-                              >
-                                Java
-                              </span>
+                                );
+                              })}
                             </section>
                           </CardText>
                         </Col>
