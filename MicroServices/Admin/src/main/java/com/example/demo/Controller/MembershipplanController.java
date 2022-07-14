@@ -9,6 +9,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/membership")
+@CrossOrigin(origins = "*")
+
 public class MembershipplanController {
 
     @Autowired
