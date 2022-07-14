@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {
   Container,
   Col,
@@ -10,7 +10,15 @@ import {
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
 import * as RiIcons from 'react-icons/ri'
+import {useNavigate} from 'react-router-dom'
+import Free from '../../Pages/Freelancer'
+
 function Dashboard() {
+  const navigate = useNavigate()
+  let user = localStorage.getItem("loginStatus")
+  // Free.updateFooter()
+
+
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>

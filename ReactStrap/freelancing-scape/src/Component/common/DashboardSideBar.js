@@ -9,26 +9,26 @@ function DashboardSideBar(props) {
   const navigate = useNavigate()
   return (
     <React.Fragment>
-        {props.pageType=="employer" &&
+      {props.pageType == "employer" && (
         <section id="dashboardSidebar" className="hide-in-small-screen">
-          <ul >
-            <li onClick={()=>navigate("/employer/dashboard")}>
+          <ul>
+            <li onClick={() => navigate("/employer/dashboard")}>
               <Mdicons.MdDashboard size={25} style={{ margin: "6%" }} />
               Dashboard
             </li>
-            <li onClick={()=>navigate("/employer/allprojects")}>
+            <li onClick={() => navigate("/employer/allprojects")}>
               <Aiicons.AiFillProject size={25} style={{ margin: "6%" }} />
               Manage Project
             </li>
-            <li onClick={()=>navigate("/employer/managebidders")}>
-                  <Riicons.RiAuctionFill size={25} style={{ margin: "6%" }} />
+            <li onClick={() => navigate("/employer/managebidders")}>
+              <Riicons.RiAuctionFill size={25} style={{ margin: "6%" }} />
               Manage Bidder
             </li>
-            <li onClick={()=>navigate("/employer/postproject")}>
+            <li onClick={() => navigate("/employer/postproject")}>
               <Mdicons.MdPostAdd size={25} style={{ margin: "6%" }} />
               Post Project
             </li>
-            <li onClick={()=>navigate("/employer/userprofile")}>
+            <li onClick={() => navigate("/employer/userprofile")}>
               <Aiicons.AiFillSetting size={25} style={{ margin: "6%" }} />
               Settings
             </li>
@@ -38,23 +38,27 @@ function DashboardSideBar(props) {
             </li>
           </ul>
         </section>
-        }
-        {props.pageType=="freelancer" &&
+      )}
+      {props.pageType == "freelancer" && (
         <section id="dashboardSidebar" className="hide-in-small-screen">
-          <ul >
-            <li onClick={()=>navigate("/freelancer/dashboard")}>
+          <ul>
+            <li
+              onClick={() => {
+                navigate("/freelancer/dashboard");
+              }}
+            >
               <Mdicons.MdDashboard size={25} style={{ margin: "6%" }} />
               Dashboard
             </li>
-            <li onClick={()=>navigate("/freelancer/assignedprojects")}>
+            <li onClick={() => navigate("/freelancer/assignedprojects")}>
               <Aiicons.AiFillProject size={25} style={{ margin: "6%" }} />
-             Project's Won
+              Project's Won
             </li>
-            <li onClick={()=>navigate("/freelancer/managebids")}>
-                <Riicons.RiAuctionFill size={25} style={{ margin: "6%" }} />
-                 Manage Bids
+            <li onClick={() => navigate("/freelancer/managebids")}>
+              <Riicons.RiAuctionFill size={25} style={{ margin: "6%" }} />
+              Manage Bids
             </li>
-            <li onClick={()=>navigate("/freelancer/userprofile")}>
+            <li onClick={() => navigate("/freelancer/userprofile")}>
               <Aiicons.AiFillSetting size={25} style={{ margin: "6%" }} />
               Settings
             </li>
@@ -64,7 +68,7 @@ function DashboardSideBar(props) {
             </li>
           </ul>
         </section>
-        }
+      )}
     </React.Fragment>
   );
 }

@@ -52,10 +52,10 @@ function Login() {
     localStorage.setItem("userData",JSON.stringify(data));
     if(data.userType.userType==="Employer")
     {
-      navigate("/Employer/home");
+      navigate("/employer/home");
     }
     else if(data.userType.userType==="Freelancer"){
-      navigate("/Freelancer/home");
+      navigate("/freelancer/home");
     }    
   }
 
