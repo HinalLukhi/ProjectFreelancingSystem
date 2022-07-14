@@ -25,6 +25,8 @@ public class ProjectToService {
             projectTo.setAttachment(project.getAttachment());
             projectTo.setBids(project.getBids());
             projectTo.setId(project.getId());
+            System.out.println(project.getStatus().getStatusName());
+            projectTo.setStatus(project.getStatus());
             projectTo.setProjectDescription(project.getProjectDescription());
             projectTo.setProjectskills(projectSkillToService.toTransferObject(project.getProjectskills()));
             projectTo.setDuration(project.getDuration());
@@ -50,6 +52,7 @@ public class ProjectToService {
             projectTo.setAttachment(project.getAttachment());
             projectTo.setBids(project.getBids());
             projectTo.setId(project.getId());
+            projectTo.setStatus(project.getStatus());
             projectTo.setProjectDescription(project.getProjectDescription());
             projectTo.setProjectskills(projectSkillToService.toTransferObject(project.getProjectskills()));
             projectTo.setDuration(project.getDuration());
