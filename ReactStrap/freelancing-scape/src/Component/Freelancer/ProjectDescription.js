@@ -26,6 +26,7 @@ function TaskDescription() {
   }
   const [projectData, setProjectData] = useState([]);
   const [isAlertOn,setAlert] = useState(false);
+  const [bidMessage, setBidMessage] = useState("");
   const setList = () => {
    let response =  axios
       .get("http://localhost:8082/project/"+location.state.id)
@@ -73,7 +74,14 @@ function TaskDescription() {
     axios
     .post("http://localhost:8082/bids/add", formData)
     .then((response) => {
-      setPostStatus(true)
+      if(response.data == ""){
+        setBidMessage("Your bid is already there!!");
+        setPostStatus(true)
+      } else {
+        setBidMessage("Bid posted successfully");
+        setPostStatus(true);
+      }
+      
     })
     .catch((error) => {
       console.error("There was an error!", error);
@@ -137,7 +145,7 @@ function TaskDescription() {
           <Col id="free-job-details">
             <Row>
               {postStatus &&
-              <Alert color="success" className="text-center" onClick={()=>setPostStatus(!postStatus)}>Your Bid Has Been Placed Sucessfully !</Alert>
+              <Alert color="success" className="text-center" onClick={()=>setPostStatus(!postStatus)}>{bidMessage}</Alert>
               }
             </Row>
             <Row id="days-left">{daysDiff(projectData.startDate)} 6 days</Row>

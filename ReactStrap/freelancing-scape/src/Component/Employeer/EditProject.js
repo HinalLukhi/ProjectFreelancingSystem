@@ -15,6 +15,7 @@ import {
   Label,
   Row,
   Col,
+  FormFeedback
 } from "reactstrap";
 import * as Mdicons from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +32,8 @@ function EditProject(props) {
     }
     const [skill, setSkill] = useState("");
     const [skills, setSkills] = useState([]);
+    const [disabled, setDisabled] = useState(true);
+    const [isInvalid, setIsInvalid] = useState(false);
     const [formData, setFormData] = useState({
       user: { id: 0 },
       projectName: "",
@@ -75,6 +78,18 @@ function EditProject(props) {
       //  clearField();
     };
   
+    const handleBlur = () => {
+      let min = parseFloat(formData.minBudget);
+      let max = parseFloat(formData.maxBudget);
+      if (min > max) {
+        setDisabled(true);
+        setIsInvalid(true);
+      } else {
+        setDisabled(false);
+        setIsInvalid(false);
+      }
+    }
+
     const clearField = () => {
       setFormData({
         user: { id: 0 },
@@ -194,6 +209,7 @@ function EditProject(props) {
                 <Input
                   placeholder="Minimum"
                   name="minBudget"
+                  type="number"
                   value={formData.minBudget}
                   onChange={handleChange}
                 />
@@ -204,11 +220,17 @@ function EditProject(props) {
               <InputGroup>
                 <Input
                   placeholder="Maximum"
+                  type="number"
                   name="maxBudget"
                   value={formData.maxBudget}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  invalid={isInvalid}
                 />
                 <InputGroupText className="lead">USD</InputGroupText>
+                <FormFeedback>
+                      Max budget is less than Min Budget
+                    </FormFeedback>
               </InputGroup>
             </Col>
             <Col md="4">
@@ -234,6 +256,7 @@ function EditProject(props) {
                 type="date"
                 name="startDate"
                 value={formData.startDate}
+                min={new Date().toISOString().split('T')[0]}
                 onChange={handleChange}
               />
             </Col>
@@ -243,6 +266,7 @@ function EditProject(props) {
                 type="date"
                 name="completionDate"
                 value={formData.completionDate}
+                min={new Date().toISOString().split('T')[0]}
                 onChange={handleChange}
               />
             </Col>

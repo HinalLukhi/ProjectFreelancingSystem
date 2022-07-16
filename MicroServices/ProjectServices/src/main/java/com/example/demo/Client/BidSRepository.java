@@ -2,6 +2,8 @@ package com.example.demo.Client;
 
 
 import com.example.demo.Models.Bid;
+import com.example.demo.Models.Logininfo;
+import com.example.demo.Models.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +29,6 @@ public interface BidSRepository extends JpaRepository<Bid,Integer> {
 
     @Query(value = "select * from bids where user_id=?1 and status_id=8",nativeQuery = true)
     List<Bid> findRejectedBidByFreelanceId(Integer id);
+
+    Boolean existsByUserAndProject(Logininfo user, Project project);
 }

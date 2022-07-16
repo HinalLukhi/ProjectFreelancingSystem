@@ -47,6 +47,7 @@ public class BidsServices {
     private Project project;
 
     public Bid insertData(Bid bid) {
+        if (bidSRepository.existsByUserAndProject(bid.getUser(), bid.getProject())) return null;
         return bidSRepository.save(bid);
     }
 

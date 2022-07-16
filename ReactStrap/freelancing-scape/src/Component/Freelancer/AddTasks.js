@@ -114,6 +114,7 @@ function AddTasks() {
                   <Input
                     type="date"
                     name="startDate"
+                    min={new Date().toISOString().split('T')[0]}
                     value={formData.startDate}
                     onChange={handelChange}
                   />
@@ -123,6 +124,7 @@ function AddTasks() {
                   <Input
                     type="date"
                     name="endDate"
+                    min={new Date().toISOString().split('T')[0]}
                     value={formData.endDate}
                     onChange={handelChange}
                   />

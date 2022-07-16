@@ -71,7 +71,7 @@ public class Project {
     @JsonManagedReference(value = "project-tasks")
     private Set<Task> tasks = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "project",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
     @JsonManagedReference(value = "project-skills")
     private Set<Projectskill> projectskills;
 

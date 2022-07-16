@@ -89,7 +89,7 @@ function AllProjects() {
    const deleteProject=(id)=>{
     console.log(id);
     axios.delete("http://localhost:8082/project/"+id).then((res) => {
-      window.Location.reload();
+      window.location.reload();
     });
    }
   return (

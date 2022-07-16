@@ -42,6 +42,11 @@ function Registration() {
   
 
   const onRegistrationBtnClick = () => {
+
+    let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if(usercred.email.match(validRegex)){
+
     if(userType=="Freelancer"){
       usercred.userType.id=2
     }
@@ -51,8 +56,12 @@ function Registration() {
     if(confirmPassword==usercred.password){
       axios.post("http://localhost:8080/auth/reg",usercred)
       .then((res) => res.status==200 ? registersuccess("Registered") : registersuccess("Something Went wrong!!"));
+    } else {
+      alert("Passwords didn't matched!!")
     }
-    
+  } else {
+    alert("Please provide proper details!!")
+  }
   }
 
   const registersuccess = (message) => {
@@ -100,7 +109,7 @@ function Registration() {
           <InputGroupText style={{ padding: "15px" }}>
             <Hiicons.HiOutlineMail />
           </InputGroupText>
-          <Input placeholder="Email" style={{ padding: "10px" }} onChange={(e) => { setusercred({ ...usercred, email: e.target.value }) }} />
+          <Input placeholder="Email" type="email" pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required style={{ padding: "10px" }} onChange={(e) => { setusercred({ ...usercred, email: e.target.value }) }} />
         </InputGroup>
         <InputGroup className="mt-3">
           <InputGroupText>
