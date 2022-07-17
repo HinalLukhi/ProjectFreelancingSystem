@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import axios from "axios";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
@@ -36,12 +36,17 @@ function AddTasks() {
     const [Tasks,setTasks] = useState([])
 
     const [addButtonStatus,setAddButtonStatus] = useState(true)
+    const [projectData, setProjectData] = useState({});
+
+    
+
     let name,value;
     const handelChange=(e)=>{
         name = e.target.name;
         value=e.target.value;
         SetFormData({...formData,[name]:value})
     }
+
 
     const addTasks=()=>{
         setTasks([...Tasks,formData])
@@ -91,6 +96,17 @@ function AddTasks() {
     const updateTask=()=>{
         setAddButtonStatus(true)
     }
+
+    useEffect(()=>{
+      axios
+      .get("http://localhost:8082/project/"+location.state.id)
+        .then((res) => {
+          setProjectData(res);
+          console.log(projectData);
+        });
+
+    }, {});
+
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
@@ -117,6 +133,7 @@ function AddTasks() {
                     min={new Date().toISOString().split('T')[0]}
                     value={formData.startDate}
                     onChange={handelChange}
+                    
                   />
                 </Col>
                 <Col md="4">
@@ -127,6 +144,7 @@ function AddTasks() {
                     min={new Date().toISOString().split('T')[0]}
                     value={formData.endDate}
                     onChange={handelChange}
+                    max={projectData.data.completionDate}
                   />
                 </Col>
               </Row>
