@@ -25,21 +25,19 @@ import DashboardTopNav from "../common/DashboardTopNav";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import EditProject from "./EditProject";
-import * as VcsIcons from 'react-icons/vsc'
+import * as VcsIcons from "react-icons/vsc";
 
 function AllProjects() {
- 
   var user = JSON.parse(localStorage.getItem("userData"));
   const [spinner, SetSpinner] = useState(true);
   const [data, setdata] = useState([]);
 
   const setList = () => {
-    axios.get("http://localhost:8082/project/user/"+user.id).then((res) => {
+    axios.get("http://localhost:8082/project/user/" + user.id).then((res) => {
       setdata(res.data);
       SetSpinner(false);
     });
   };
-  console.log(data)
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("loginStatus") === "false") {
@@ -50,7 +48,7 @@ function AllProjects() {
   }, [localStorage.getItem("loginStatus")]);
   const [isEdit, setIsEdit] = useState(false);
   const [editable, setEditable] = useState({
-    projectId:"",
+    projectId: "",
     user: { id: "" },
     projectName: "",
     duration: "",
@@ -64,24 +62,12 @@ function AllProjects() {
     status: { id: "" },
     completionDate: "",
   });
+  const [projID, setProjID] = useState();
   const toggleForm = (element) => {
-    if(!isEdit){
-    editable.projectId = element.id;
-    editable.user.id = element.user.id;
-    editable.projectName = element.projectName;
-    editable.duration = element.duration;
-    editable.projectDescription = element.projectDescription;
-    editable.attachment = element.attachment;
-    editable.postDate = element.postDate;
-    editable.startDate = element.startDate;
-    editable.completionDate = element.completionDate
-    editable.minBudget = element.minBudget;
-    editable.maxBudget = element.maxBudget;
-    editable.skillLevel.id = element.skillLevel.id;
-    editable.status.id = element.status.id
-    }
+    setProjID(element.id);
     setIsEdit(!isEdit);
   };
+
 
   const goToTaskList=(id)=>{
     navigate("tasks",{state:{id:id}})
@@ -91,7 +77,7 @@ function AllProjects() {
     axios.delete("http://localhost:8082/project/"+id).then((res) => {
       window.location.reload();
     });
-   }
+  };
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }}>
@@ -100,17 +86,19 @@ function AllProjects() {
           <DashboardTopNav />
           <Col xs="10" id="form-col" className="flex-box">
             <section id="postproject-form">
-            <section id="dashboardTitleEmp" className="dashboardTitleTextEmp">
+              <section id="dashboardTitleEmp" className="dashboardTitleTextEmp">
                 Projects
-                <VcsIcons.VscProject size={30} style={{marginLeft:"1rem"}} color="blue"/>
+                <VcsIcons.VscProject
+                  size={30}
+                  style={{ marginLeft: "1rem" }}
+                  color="blue"
+                />
               </section>
               {data.map((element) => {
-                console.log(element?.status?.id);
                 return (
                   <Card
                     style={{ marginBottom: ".5rem", borderRadius: "1rem" }}
                     className="mt-3"
-                    
                   >
                     <CardBody>
                       <Row>
@@ -147,13 +135,13 @@ function AllProjects() {
                             </section>
                           </CardText>
                           <Button
-                                color="primary"
-                                className="mt-4"
-                                style={{ width: "100%" }}
-                                onClick={()=>goToTaskList(element.id)}
-                              >
-                                View Task
-                              </Button>
+                            color="primary"
+                            className="mt-4"
+                            style={{ width: "100%" }}
+                            onClick={() => goToTaskList(element.id)}
+                          >
+                            View Task
+                          </Button>
                         </Col>
                         <Col md="6" className="p-3  rounded" id="budget-card">
                           <Badge
@@ -174,7 +162,7 @@ function AllProjects() {
                               fontSize: "1rem",
                             }}
                           >
-                            { element.status.id == 7
+                            {element.status.id == 7
                               ? "In Progress"
                               : element.status.id == 5
                               ? "Active"
@@ -200,7 +188,11 @@ function AllProjects() {
                               />
                             </Col>
                             <Col md="4">
-                              <Aiicons.AiOutlineDelete size={40} color="red" onClick={()=>deleteProject(element.id)}/>
+                              <Aiicons.AiOutlineDelete
+                                size={40}
+                                color="red"
+                                onClick={() => deleteProject(element.id)}
+                              />
                             </Col>
                             <Col md="4"></Col>
                           </Row>
@@ -214,7 +206,7 @@ function AllProjects() {
           </Col>
         </Row>
       </Container>
-      {isEdit && <EditProject open={toggleForm} data={editable}/>}
+      {isEdit && <EditProject open={toggleForm} projID={projID} />}
     </React.Fragment>
   );
 }

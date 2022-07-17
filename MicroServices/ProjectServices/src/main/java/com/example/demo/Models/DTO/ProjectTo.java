@@ -22,6 +22,7 @@ public class ProjectTo {
     private String attachment;
     private Date postDate;
     private Date completionDate;
+    private Date startDate;
     private BigDecimal minBudget;
     private BigDecimal maxBudget;
     private Skilllevel skillLevel;
