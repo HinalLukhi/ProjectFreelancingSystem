@@ -15,7 +15,6 @@ import {
   Label,
   Row,
   Col,
-  FormFeedback
 } from "reactstrap";
 import * as Mdicons from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -51,7 +50,6 @@ function EditProject(props) {
         setAllSkills(res.data);
       });
   }
-
   
   const addSkill = () => {
     // console.log(skill);
@@ -78,48 +76,6 @@ function EditProject(props) {
   const loadProject= async ()=>{
     await axios
       .get("http://localhost:8082/project/"+props.projID, {
-    const addProject = () => {
-      
-      // axios
-      //   .post("http://localhost:8082/project/add", formData)
-      //   .then((response) => {
-      //     projectID = response.data.id;
-      //     console.log(projectID);
-      //     setPostStatus(true)
-      //   })
-      //   .catch((error) => {
-      //     console.error("There was an error!", error);
-      //   });
-      //  clearField();
-    };
-  
-    const handleBlur = () => {
-      let min = parseFloat(formData.minBudget);
-      let max = parseFloat(formData.maxBudget);
-      if (min > max) {
-        setDisabled(true);
-        setIsInvalid(true);
-      } else {
-        setDisabled(false);
-        setIsInvalid(false);
-      }
-    }
-
-    const clearField = () => {
-      setFormData({
-        user: { id: 0 },
-        projectName: "",
-        duration: "",
-        projectDescription: "",
-        attachment: "",
-        postDate: "",
-        completionDate: "",
-        startDate: "",
-        minBudget: "",
-        maxBudget: "",
-        skillLevel: { id: 1 },
-        status: { id: 6 },
-
       })
       .then((res) => {
         setEditData(res.data) 
@@ -184,7 +140,6 @@ useEffect(() => {
                 <Input
                   placeholder="Minimum"
                   name="minBudget"
-                  type="number"
                   value={formData.minBudget}
                   onChange={handleChange}
                 />
@@ -195,17 +150,11 @@ useEffect(() => {
               <InputGroup>
                 <Input
                   placeholder="Maximum"
-                  type="number"
                   name="maxBudget"
                   value={formData.maxBudget}
                   onChange={handleChange}
-                  onBlur={handleBlur}
-                  invalid={isInvalid}
                 />
                 <InputGroupText className="lead">USD</InputGroupText>
-                <FormFeedback>
-                      Max budget is less than Min Budget
-                    </FormFeedback>
               </InputGroup>
             </Col>
             <Col md="4">
@@ -226,7 +175,6 @@ useEffect(() => {
                 type="date"
                 name="startDate"
                 value={formData.startDate}
-                min={new Date().toISOString().split('T')[0]}
                 onChange={handleChange}
               />
             </Col>
@@ -236,7 +184,6 @@ useEffect(() => {
                 type="date"
                 name="completionDate"
                 value={formData.completionDate}
-                min={new Date().toISOString().split('T')[0]}
                 onChange={handleChange}
               />
             </Col>
