@@ -57,7 +57,6 @@ function PostProject() {
   
   const [postStatus,setPostStatus]=useState(false)
 
-  
   const loadSkills=()=>{
     axios
       .get("http://localhost:8081/skill/all", {

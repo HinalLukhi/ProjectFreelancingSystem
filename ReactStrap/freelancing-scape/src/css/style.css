@@ -1074,6 +1074,11 @@ b {
     display: flex;
 }
 
+#EditProjectModal{
+    background-color: #0B5ED7 !important;
+    width: 100rem!important;
+    content: "hiii";
+}
 
  /*Media starts*/ 
 @media (max-width:1125px) {
