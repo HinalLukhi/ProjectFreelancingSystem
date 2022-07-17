@@ -68,12 +68,14 @@ function AllProjects() {
     setIsEdit(!isEdit);
   };
 
-  const goToTaskList = (id) => {
-    navigate("tasks", { state: { id: id } });
-  };
-  const deleteProject = (id) => {
-    axios.delete("http://localhost:8082/project/" + id).then((res) => {
-      window.Location.reload();
+
+  const goToTaskList=(id)=>{
+    navigate("tasks",{state:{id:id}})
+   }
+   const deleteProject=(id)=>{
+    console.log(id);
+    axios.delete("http://localhost:8082/project/"+id).then((res) => {
+      window.location.reload();
     });
   };
   return (

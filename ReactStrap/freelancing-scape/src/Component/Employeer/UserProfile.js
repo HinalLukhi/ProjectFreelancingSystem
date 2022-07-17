@@ -285,6 +285,7 @@ function UserProfile() {
                               name="mobileNo"
                               type="text"
                               value={updateData.mobileNo}
+                              maxLength="10"
                               onChange={handleFormDataChange}
                             />
                             <Label for="exampleEmail">Mobile Number</Label>

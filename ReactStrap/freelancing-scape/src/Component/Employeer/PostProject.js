@@ -3,6 +3,8 @@ import axios from "axios";
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
 import { UserContext } from "../../UserContext";
+import { useRef } from "react";
+
 import {
   Row,
   Col,
@@ -14,7 +16,8 @@ import {
   Label,
   FormText,
   InputGroupText,
-  Alert
+  Alert,
+  FormFeedback
 } from "reactstrap";
 import * as Faicons from "react-icons/fa";
 import * as Mdicons from "react-icons/md";
@@ -37,7 +40,11 @@ function PostProject() {
 
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
-  const [allSkills,setAllSkills] = useState([])
+  const [allSkills, setAllSkills] = useState([])
+  const [disabled, setDisabled] = useState(true);
+  const [isInvalid, setIsInvalid] = useState(false);
+
+  const ref = useRef();
 
   const [formData, setFormData] = useState({
     user: { id: 0 },
@@ -54,16 +61,30 @@ function PostProject() {
     status: { id: 5 },
   });
 
-  
-  const [postStatus,setPostStatus]=useState(false)
 
-  const loadSkills=()=>{
+
+  const [postStatus, setPostStatus] = useState(false)
+
+
+  const loadSkills = () => {
     axios
       .get("http://localhost:8081/skill/all", {
       })
       .then((res) => {
         setAllSkills(res.data);
       });
+  }
+
+  const handleBlur = () => {
+    let min = parseFloat(formData.minBudget);
+    let max = parseFloat(formData.maxBudget);
+    if (min > max) {
+      setDisabled(true);
+      setIsInvalid(true);
+    } else {
+      setDisabled(false);
+      setIsInvalid(false);
+    }
   }
 
   const addProject = () => {
@@ -74,32 +95,33 @@ function PostProject() {
     formData.skillLevel.id = skillLevel;
     formData.user.id = user.id;
     formData.postDate = today;
+
     axios
       .post("http://localhost:8082/project/add", formData)
       .then((response) => {
-         AddprojectSkills(response.data);
-        })
-        .catch((error) => {
-          console.error("There was an error!", error);
-        });
-        clearField();
+        AddprojectSkills(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
+    clearField();
   };
 
   const AddprojectSkills = (pId) => {
     let skillObject = [];
-    for (let index=0;index<skills.length; index++){
+    for (let index = 0; index < skills.length; index++) {
 
       skillObject.push({
         skill: { id: skills[index] },
         project: { id: pId }
       });
-    
+
     }
     insertSkills(skillObject);
   }
-  
 
-  const  insertSkills = (skills) => {
+
+  const insertSkills = (skills) => {
     axios
       .post("http://localhost:8082/project/addSkills", skills)
       .then((response) => {
@@ -126,7 +148,7 @@ function PostProject() {
       status: { id: 5 },
     })
 
-   
+
   };
 
 
@@ -171,17 +193,17 @@ function PostProject() {
   return (
     <React.Fragment>
       <Container fluid style={{ padding: "0px" }} >
-        <DashboardSideBar pageType="employer"/>
+        <DashboardSideBar pageType="employer" />
         <Row id="post-project-form">
           <DashboardTopNav />
           <Col xs="10" id="form-col" className="flex-box">
             <section id="postproject-form">
-            <section id="dashboardTitleEmp" className="dashboardTitleTextEmp">
-               Post Project
-                <Mdicons.MdOutlinePostAdd size={30} style={{marginLeft:"1rem"}} color="blue"/>
+              <section id="dashboardTitleEmp" className="dashboardTitleTextEmp">
+                Post Project
+                <Mdicons.MdOutlinePostAdd size={30} style={{ marginLeft: "1rem" }} color="blue" />
               </section>
               {postStatus && (
-                <Alert color="success" onClick={() => {setPostStatus(false)}}>
+                <Alert color="success" onClick={() => { setPostStatus(false) }}>
                   Well done ! your project is successfully posted
                 </Alert>
               )}
@@ -203,6 +225,7 @@ function PostProject() {
                       placeholder="Minimum"
                       name="minBudget"
                       value={formData.minBudget}
+                      type="number"
                       onChange={handleChange}
                     />
                     <InputGroupText className="lead">USD</InputGroupText>
@@ -215,8 +238,15 @@ function PostProject() {
                       name="maxBudget"
                       value={formData.maxBudget}
                       onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="number"
+                      invalid={isInvalid}
                     />
+
                     <InputGroupText className="lead">USD</InputGroupText>
+                    <FormFeedback>
+                      Max budget is less than Min Budget
+                    </FormFeedback>
                   </InputGroup>
                 </Col>
                 <Col md="4">
@@ -240,6 +270,7 @@ function PostProject() {
                   <Label>Project Start Date</Label>
                   <Input
                     type="date"
+                    min={new Date().toISOString().split('T')[0]}
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
@@ -250,6 +281,7 @@ function PostProject() {
                   <Input
                     type="date"
                     name="completionDate"
+                    min={new Date().toISOString().split('T')[0]}
                     value={formData.completionDate}
                     onChange={handleChange}
                   />
@@ -265,19 +297,19 @@ function PostProject() {
                       value={skill}
                       onChange={(e) => setSkill(e.target.value)}
                     >
-                    {allSkills.map((Level) => (
-                      <option name={Level.skillName} value={Level.id} key={Level.skillName} >
-                        {Level.skillName}
-                      </option>
-                    ))}
-                   </Input>
-                   <Button
+                      {allSkills.map((Level) => (
+                        <option name={Level.skillName} value={Level.id} key={Level.skillName} >
+                          {Level.skillName}
+                        </option>
+                      ))}
+                    </Input>
+                    <Button
                       style={{ backgroundColor: "white", color: "#2A41E8" }}
                       onClick={addSkill} >
                       ADD
                     </Button>
                   </InputGroup>
-                 
+
                 </Col>
 
                 <Col md="6" style={{ marginTop: "2rem" }}>
@@ -290,7 +322,7 @@ function PostProject() {
                           style={{ margin: 0, width: "30%", margin: 2 }}
                         >
                           {allSkills.map(obj => {
-                            if (obj.id == elementId){
+                            if (obj.id == elementId) {
                               return obj.skillName
                             }
                           })}
@@ -338,7 +370,7 @@ function PostProject() {
                   </FormGroup>
                 </Col>
               </Row>
-              <Button color="primary" onClick={addProject}>
+              <Button ref={ref} id="post-project" color="primary" disabled={disabled} onClick={addProject}>
                 Add Project
               </Button>
             </section>

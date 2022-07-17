@@ -314,7 +314,7 @@ function UserProfile() {
                           <Input
                             id="exampleRange"
                             name="hourlyRate"
-                            type="text"
+                            type="number"
                             value={updateData.hourlyRate}
                             onChange={handleFormDataChange}
                           />
@@ -470,6 +470,7 @@ function UserProfile() {
                             <Input
                               name="mobileNo"
                               type="email"
+                              maxLength={10}
                               value={updateData.mobileNo}
                               onChange={handleFormDataChange}
                             />
