@@ -87,6 +87,7 @@ public class ProjectToService {
         projectTo.setTasks(project.getTasks());
         projectTo.setUser(project.getUser());
         projectTo.setSkillLevel(project.getSkillLevel());
+        projectTo.setStartDate(project.getStartDate());
         return  projectTo;
     }
 }
