@@ -15,6 +15,7 @@ import {
   Label,
   Row,
   Col,
+  FormFeedback
 } from "reactstrap";
 import * as Mdicons from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -72,6 +73,8 @@ function EditProject(props) {
   ];
 
   const [editData,setEditData] = useState({})
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   
   const loadProject= async ()=>{
     await axios
@@ -81,7 +84,18 @@ function EditProject(props) {
         setEditData(res.data) 
       });
     }
-  console.log(editData)
+  
+    const handleBlur = () => {
+      let min = parseFloat(formData.minBudget);
+      let max = parseFloat(formData.maxBudget);
+      if (min > max) {
+        setDisabled(true);
+        setIsInvalid(true);
+      } else {
+        setDisabled(false);
+        setIsInvalid(false);
+      }
+    }
 
     
   useEffect(()=>{
@@ -142,6 +156,7 @@ useEffect(() => {
                   name="minBudget"
                   value={formData.minBudget}
                   onChange={handleChange}
+                  type="number"
                 />
                 <InputGroupText className="lead">USD</InputGroupText>
               </InputGroup>
@@ -153,8 +168,14 @@ useEffect(() => {
                   name="maxBudget"
                   value={formData.maxBudget}
                   onChange={handleChange}
+                  invalid={isInvalid}
+                  onBlur={handleBlur}
+                  type="number"
                 />
                 <InputGroupText className="lead">USD</InputGroupText>
+                <FormFeedback>
+                      Max budget is less than Min Budget
+                  </FormFeedback>
               </InputGroup>
             </Col>
             <Col md="4">
@@ -176,6 +197,7 @@ useEffect(() => {
                 name="startDate"
                 value={formData.startDate}
                 onChange={handleChange}
+                min={new Date().toISOString().split('T')[0]}
               />
             </Col>
             <Col xs="6" className="width-full">
@@ -185,6 +207,7 @@ useEffect(() => {
                 name="completionDate"
                 value={formData.completionDate}
                 onChange={handleChange}
+                min={new Date().toISOString().split('T')[0]}
               />
             </Col>
           </Row>
@@ -271,7 +294,7 @@ useEffect(() => {
           </Row>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary">Update</Button>
+          <Button color="primary" disabled={disabled}>Update</Button>
         </ModalFooter>
       </Modal>
     </React.Fragment>
