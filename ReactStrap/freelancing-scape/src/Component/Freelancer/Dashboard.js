@@ -10,13 +10,43 @@ import {
 import DashboardSideBar from "../common/DashboardSideBar";
 import DashboardTopNav from "../common/DashboardTopNav";
 import * as RiIcons from 'react-icons/ri'
-import {useNavigate} from 'react-router-dom'
-import Free from '../../Pages/Freelancer'
+import {useNavigate} from 'react-router-dom';
+
+import axios, { Axios } from "axios";
+import { useState } from "react";
 
 function Dashboard() {
-  const navigate = useNavigate()
-  let user = localStorage.getItem("loginStatus")
+  //const navigate = useNavigate()
+  //let user = localStorage.getItem("loginStatus")
   // Free.updateFooter()
+  const navigate = useNavigate();
+  var user = JSON.parse(localStorage.getItem("userData"));
+  const [data, setdata] = useState([]);
+  const [bidWin, setbidWin] = useState([])
+  const getData = () => {
+      axios
+        .get("http://localhost:8081/membership/user/"+user.id)
+        .then((res) => {
+          //console.log(res);
+          setdata(res.data);
+        });
+  };
+
+  const getBidData = () => {
+    axios
+      .get("http://localhost:8082/bids/accepted/freelancer/"+user.id)
+      .then((res) => {
+        setbidWin(res.data);
+      });
+};
+  useEffect(() => {
+    if (localStorage.getItem("loginStatus") === "false") {
+      //navigate("/");
+    } else {
+      getData()
+      getBidData()
+    }
+  }, [localStorage.getItem("loginStatus")]);
 
 
   return (
@@ -33,16 +63,13 @@ function Dashboard() {
               </section>
               <Toast style={{ margin: "1rem" }}>
                 <ToastHeader>Bid Won</ToastHeader>
-                <ToastBody style={{ backgroundColor: "#DBF7FD" }}>53</ToastBody>
+                <ToastBody style={{ backgroundColor: "#DBF7FD" }}>{bidWin.length}</ToastBody>
               </Toast>
               <Toast style={{ margin: "1rem" }}>
                 <ToastHeader>Bid Limit Left</ToastHeader>
-                <ToastBody style={{ backgroundColor: "#DBF7FD" }}>53</ToastBody>
+                <ToastBody style={{ backgroundColor: "#DBF7FD" }}>{data.bidsRemaining}</ToastBody>
               </Toast>
-              <Toast style={{ margin: "1rem" }}>
-                <ToastHeader>hello</ToastHeader>
-                <ToastBody style={{ backgroundColor: "#DBF7FD" }}>53</ToastBody>
-              </Toast>
+              
             </section>
           </Col>
         </Row>

@@ -1,5 +1,6 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,7 @@ public class Project {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "status_id", nullable = false)
+    @JsonBackReference
     private Statusdetail status;
 
     @Column(name = "start_date")
@@ -57,18 +59,21 @@ public class Project {
   
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skill_level_id")
+    @JsonBackReference
     private Skilllevel skillLevel;
 
     @Column(name = "user_description")
     private String userDescription;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "project-tasks")
     private Set<Task> tasks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
-    private Set<Projectskill> projectskills = new LinkedHashSet<>();
+    @JsonManagedReference(value = "project-skills")
+    private Set<Projectskill> projectskills;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonManagedReference(value = "project-bids")
     private Set<Bid> bids = new LinkedHashSet<>();
 }

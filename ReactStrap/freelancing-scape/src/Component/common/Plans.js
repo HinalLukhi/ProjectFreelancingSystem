@@ -1,7 +1,26 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Badge,Button } from "reactstrap";
+import {useNavigate} from 'react-router-dom';
+import axios, { Axios } from "axios";
+import { useState } from "react";
 
 function Plans() {
+  const [data, setdata] = useState([])
+  const getData = () => {
+    axios
+      .get("http://localhost:8081/membership")
+      .then((res) => {
+        setdata(res.data);
+      })
+  }
+  console.log(data);
+  useEffect(() => {
+    if (localStorage.getItem("loginStatus") === "false") {
+      //navigate("/");
+    } else {
+      getData()
+    }
+  }, [localStorage.getItem("loginStatus")]);
   return (
     <React.Fragment>
       <div>
@@ -9,73 +28,63 @@ function Plans() {
           <div className="item item1">
            
             <section>
-              <h3>Basic</h3>
+              <h3>{data[1].planName}</h3>
               <p>
-                <b>10€ / user</b>
+                <b>{data[1].amount}$ / user</b>
               </p>
             </section>
             <ul>
               <li>
                 <i className="bx bx-check" />
-                Get started with <b>messaging</b>
+                Post Limit <b>{data[1].postLimit}</b>
               </li>
               <li>
                 <i className="bx bx-check" />
-                Flexible <b>team meting</b>
+                Bid Limit <b>{data[1].bidLimit}</b>
               </li>
-              <li>
-                <i className="bx bx-check" />
-                <b>5 TB</b>
-                cloud storage
-              </li>
+              
             </ul>
             <Button className="border">Choose Plan</Button>
           </div>
           <div className="item color item2">
             <Badge color="primary">Popular</Badge>
             <section>
-              <h3>Startup</h3>
+              <h3>{data[2].planName}</h3>
               <p>
-                <b>24€ / user</b>
+                <b>{data[2].amount}$ / user</b>
               </p>
             </section>
             <ul>
               <li>
                 <i className="bx bx-check" />
-                All features in <b>Basic</b>
+                Post Limit <b>{data[2].postLimit}</b>
               </li>
               <li>
                 <i className="bx bx-check" />
-                Flexible <b>call scheduling</b>
+                Bid Limit <b>{data[2].bidLimit}</b>
               </li>
-              <li>
-                <i className="bx bx-check" />
-                <b>15 TB</b> cloud storage
-              </li>
+              
             </ul>
             <Button className="border">Choose Plan</Button>
           </div>
           <div className="item item3">
             
-            <section>
-              <h3>Enterprise</h3>
+          <section>
+              <h3>{data[3].planName}</h3>
               <p>
-                <b>35€ / user</b>
+                <b>{data[3].amount}$ / user</b>
               </p>
             </section>
             <ul>
               <li>
                 <i className="bx bx-check" />
-                All features in <b>Startup</b>
+                Post Limit <b>{data[3].postLimit}</b>
               </li>
               <li>
                 <i className="bx bx-check" />
-                Growth <b>oriented</b>
+                Bid Limit <b>{data[3].bidLimit}</b>
               </li>
-              <li>
-                <i className="bx bx-check" />
-                <b>Unlimited</b> cloud storage
-              </li>
+              
             </ul>
             <Button className="border">Choose Plan</Button>
           </div>
