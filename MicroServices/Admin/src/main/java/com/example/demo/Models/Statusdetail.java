@@ -2,6 +2,7 @@ package com.example.demo.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,12 +25,15 @@ public class Statusdetail {
     private String statusName;
 
     @OneToMany(mappedBy = "status")
+    @JsonManagedReference
     private Set<Task> tasks = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "status")
+    @JsonManagedReference
     private Set<Project> projects = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "status")
+    @JsonManagedReference
     private Set<Subscribersdetail> subscribersdetails = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "status")

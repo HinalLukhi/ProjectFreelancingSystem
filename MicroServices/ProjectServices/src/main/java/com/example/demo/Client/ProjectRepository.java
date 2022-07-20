@@ -17,7 +17,7 @@ public interface ProjectRepository extends JpaRepository<Project,Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "update projects set status_id=7 where project_id=?1",nativeQuery = true)
+    @Query(value = "update projects set status_id=5 where project_id=?1",nativeQuery = true)
     int updateStatusTOActive(Integer id);
 
 }

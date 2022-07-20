@@ -23,6 +23,7 @@ public class Freelancerskill {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "freelancer_id")
+    @JsonBackReference
     private Userprofile freelancer;
 
 

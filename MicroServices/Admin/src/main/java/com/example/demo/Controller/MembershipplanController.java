@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Models.Membership;
+import com.example.demo.Models.Subscribersdetail;
 import com.example.demo.Services.MemberShipPlanServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,9 @@ public class MembershipplanController {
         return memberShipPlanServices.insertPlan(membership);
     }
 
+    @GetMapping(path = "/user/{id}")
+    public Subscribersdetail allUserData(@PathVariable Integer id){
+        return memberShipPlanServices.getdataByUserId(id);
+    }
 
 }

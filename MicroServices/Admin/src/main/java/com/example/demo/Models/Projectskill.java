@@ -7,9 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "projectskills")
 @Getter
 @Setter
-@Table(name = "projectskills")
 public class Projectskill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +21,8 @@ public class Projectskill {
     @JsonBackReference
     private Skill skill;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
+    @JsonBackReference(value = "project-skills")
     private Project project;
-
-
-
 }

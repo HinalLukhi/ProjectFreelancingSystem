@@ -1,5 +1,6 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,5 +36,6 @@ public class Membership {
     private Usertype userTypeId;
 
     @OneToMany(mappedBy = "plan")
+    @JsonManagedReference
     private Set<Subscribersdetail> subscribersdetails = new LinkedHashSet<>();
 }
