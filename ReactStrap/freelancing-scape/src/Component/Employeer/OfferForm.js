@@ -8,7 +8,39 @@ InputGroup,InputGroupText,Input
 } from "reactstrap";
 import * as Hiicons from "react-icons/hi";
 import * as Aiicons from "react-icons/ai";
+import axios from "axios";
+
+
+
+
+
 function OfferForm(props) {
+  
+  const[mailInfo, setMailInfo] = useState({});
+  const[message, setMessage] = useState("");
+  const[subject, setSubject] = useState("");
+  
+  const sendOffer = () => {
+    axios.post("http://localhost:8083/offer", mailInfo).then(res => res);
+  }
+  
+  const subHandler = e => {
+    setSubject(e.target.value);
+  }
+  
+  const messageHandler = e => {
+    setMessage(e.target.value);
+  }
+  
+  const createOffer = () =>{
+    setMailInfo(prev => ({
+      sender: props.employerEmail,
+      receiver: props.freelancerEmail,
+      message: message,
+      subject:subject
+    }), sendOffer())
+  }
+  
   return (
     <React.Fragment>
       <Modal isOpen={props.formOpen}>
@@ -17,34 +49,17 @@ function OfferForm(props) {
           <h4 className="text-muted mb-4" style={{ textAlign: "center" }}>
             DiscussYour Project With Devid
           </h4>
-          <InputGroup style={{ marginBottom: "3%" }}>
-            <InputGroupText style={{ padding: "15px" }}>
-              <Aiicons.AiOutlineUser />
-            </InputGroupText>
-            <Input
-              placeholder="FirstName And LastName"
-              style={{ padding: "10px" }}
-            />
-          </InputGroup>
-
-          <InputGroup>
-            <InputGroupText style={{ padding: "15px" }}>
-              <Hiicons.HiOutlineMail />
-            </InputGroupText>
-            <Input placeholder="Email" style={{ padding: "10px" }} />
-          </InputGroup>
-
           <InputGroup className="mt-3">
             <InputGroupText>
               <Hiicons.HiOutlineMailOpen/>
             </InputGroupText>
-            <Input placeholder="Subject" style={{ padding: "10px" }} />
+            <Input placeholder="Subject" style={{ padding: "10px" }} onChange={subHandler}/>
           </InputGroup>
 
-          <Input id="exampleText" className="mt-4" name="text" type="textarea" placeholder="Message" rows="6"/>
+          <Input id="exampleText" onChange={messageHandler} className="mt-4" name="text" type="textarea" placeholder="Message" rows="6"/>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary">Make An Offer</Button>
+          <Button color="primary" onClick={()=>createOffer()}>Make An Offer</Button>
         </ModalFooter>
       </Modal>
     </React.Fragment>

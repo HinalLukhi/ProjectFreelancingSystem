@@ -38,11 +38,11 @@ function EditProject(props) {
     startDate: "",
     minBudget: "",
     maxBudget: "",
-    skillLevel: { id: 1 },
-    status: { id: 5 },
+    skillLevel: { id: "" },
+    status: { id: "" },
   });
 
-
+  
   const loadSkills=()=>{
     axios
       .get("http://localhost:8081/skill/all", {
@@ -82,6 +82,7 @@ function EditProject(props) {
       })
       .then((res) => {
         setEditData(res.data) 
+       
       });
     }
   
@@ -96,21 +97,23 @@ function EditProject(props) {
         setIsInvalid(false);
       }
     }
-
     
   useEffect(()=>{
    setFormData({
-   projectName : editData.projectName,
-   attachment : editData.attachment,
-   completionDate : editData.completionDate,
-   duration : editData.duration,
-   maxBudget : editData.maxBudget,
-   minBudget : editData.minBudget,
-   projectDescription : editData.projectDescription,
-  //  skillLevel : {id:editData.skillLevel.id},
-   postDate : editData.postDate,
-   startDate:editData.startDate
-   })
+     projectName: editData.projectName,
+     attachment: editData.attachment,
+     completionDate: editData.completionDate,
+     duration: editData.duration,
+     maxBudget: editData.maxBudget,
+     minBudget: editData.minBudget,
+     projectDescription: editData.projectDescription,
+     postDate: editData.postDate,
+     startDate: editData.startDate,
+    //  skillLevel: { id: skillLevelId },
+    //  status: { id: statusId },
+   });
+  //  formData.skillLevel.id = editData.skillLevel.id
+  // formData.status.id = editData.status.id
 },[editData]);
 let name,value
 const handleChange = (e) => {
@@ -119,8 +122,13 @@ const handleChange = (e) => {
   setFormData({ ...formData, [name]: value });
 };
 
+const updateProject=()=>{
+  
+  console.log(formData)
+}
 
 let [skillLevel, setSkillLevel] = useState();
+
 useEffect(() => {
   if (localStorage.getItem("loginStatus") === "false") {
     navigate("/");
@@ -294,7 +302,9 @@ useEffect(() => {
           </Row>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" disabled={disabled}>Update</Button>
+
+          <Button color="primary"  onClick={()=>updateProject()}>Update</Button>
+
         </ModalFooter>
       </Modal>
     </React.Fragment>

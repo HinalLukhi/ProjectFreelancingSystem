@@ -69,6 +69,7 @@ function TaskDescription() {
     status: { id: 6 },
   });
   const [postStatus,setPostStatus]=useState(false)
+  const [postMessage,setPostMessage] =useState(false)
 
   const insertBid=()=>{
     axios
@@ -77,9 +78,11 @@ function TaskDescription() {
       if(response.data == ""){
         setBidMessage("Your bid is already there!!");
         setPostStatus(true)
+        setPostMessage(false)
       } else {
         setBidMessage("Bid posted successfully");
         setPostStatus(true);
+        setPostMessage(true)
       }
       
     })
@@ -145,7 +148,7 @@ function TaskDescription() {
           <Col id="free-job-details">
             <Row>
               {postStatus &&
-              <Alert color="success" className="text-center" onClick={()=>setPostStatus(!postStatus)}>{bidMessage}</Alert>
+              <Alert color={postMessage?"success":"danger"} className="text-center" onClick={()=>setPostStatus(!postStatus)}>{bidMessage}</Alert>
               }
             </Row>
             <Row id="days-left">{daysDiff(projectData.startDate)} 6 days</Row>
