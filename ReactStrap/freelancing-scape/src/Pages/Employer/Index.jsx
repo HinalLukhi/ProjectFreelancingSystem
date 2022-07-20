@@ -18,7 +18,6 @@ function Employeer() {
         location.pathname !== "/employer/userprofile" &&
         location.pathname !== "/employer/allprojects" &&
         location.pathname !== "/employer/allprojects/tasks" &&
-
         location.pathname !== "/employer/dashboard" 
         ) 
        && <Footer />}

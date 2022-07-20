@@ -88,6 +88,7 @@ public class ProjectToService {
         projectTo.setUser(project.getUser());
         projectTo.setSkillLevel(project.getSkillLevel());
         projectTo.setStartDate(project.getStartDate());
+        projectTo.setStatus(project.getStatus());
         return  projectTo;
     }
 }

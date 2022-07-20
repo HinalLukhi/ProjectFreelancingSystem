@@ -43,6 +43,10 @@ function ProfileDescription(props) {
   const [data, setdata] = useState([]);
   const [profile, setProfile] = useState({});
   const [freelancerSkills, setFreelancerSkills] = useState([]);
+  const [fEmail, setFEmail] = useState("");
+  const [employer, setEmployer] = useState({});
+  const [eEmail, setEEmail] = useState("");
+
   const setList =  () => {
     let response =  axios
       .get("http://localhost:8083/"+location.state.id,{
@@ -52,7 +56,8 @@ function ProfileDescription(props) {
         ).then(res => {
           setFreelancerSkills(res.data);
         });
-        setdata(res.data);
+        setdata(res.data,
+          setFEmail(res.data.email));
         setProfile(res.data.userprofiles[0]);
         SetSpinner(false);
       });
@@ -67,12 +72,16 @@ function ProfileDescription(props) {
       navigate("/");
     } else {
       setList();
+      let emp = JSON.parse(localStorage.userData)
+      // axios.get("http://localhost:8083/"+ localStorage.userData.id)
+      //   .then(res => setEEmail(res))
+      setEEmail(emp.email);
     }
   },[location.state.id]);
   return (
     <React.Fragment>
       <Container fluid >
-            { offerForm && (<OfferForm formOpen={toggleOfferForm}/>)}
+            { offerForm && (<OfferForm formOpen={toggleOfferForm} freelancerEmail={fEmail} employerEmail={eEmail}/>)}
         <Row id="single-freelancer"  >
           <section id="background-white" className="mt-5">
             <Col
