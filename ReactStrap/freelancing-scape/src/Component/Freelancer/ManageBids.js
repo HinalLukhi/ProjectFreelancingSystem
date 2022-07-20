@@ -58,6 +58,13 @@ function ManageBids() {
   };
   console.log(data)
 
+  const deleteBid = (id) => {
+    axios
+      .delete("http://localhost:8082/bids/delete/" + id, {})
+      .then((res) => {
+        window.location.reload();
+      });
+  };
 
   return (
     <React.Fragment>
@@ -156,7 +163,7 @@ function ManageBids() {
                               />
                             </Col>
                             <Col md="6">
-                              <Aiicons.AiOutlineDelete size={40} color="red" />
+                              <Aiicons.AiOutlineDelete size={40} color="red" onClick={() => deleteBid(element.id)}/>
                             </Col>
                           </Row>
                         </Col>

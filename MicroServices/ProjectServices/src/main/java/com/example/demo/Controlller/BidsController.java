@@ -7,6 +7,7 @@ import com.example.demo.Models.DTO.FreelancerBids;
 import com.example.demo.Models.Project;
 import com.example.demo.Services.BidsServices;
 import com.example.demo.Services.FreelancerBidsService;
+import com.example.demo.Services.transformers.BidsTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,8 @@ public class BidsController {
     BidsServices bidsServices;
     @Autowired
     FreelancerBidsService freelancerBidsService;
+    @Autowired
+    BidsTransformer bidsTransformer;
 
     @PostMapping("/add")
     public Bid add(@RequestBody Bid bid)
@@ -44,6 +47,9 @@ public class BidsController {
     public List<Bid> all(){
         return bidsServices.all();
     }
+
+    @GetMapping("/{id}")
+    public BidsTo getBid(@PathVariable Integer id){return bidsTransformer.toTransferObject(bidsServices.getDataById(id).orElse(null));}
 
     @GetMapping("/project/{id}")
     public List<BidsTo> fetchById(@PathVariable Integer id)

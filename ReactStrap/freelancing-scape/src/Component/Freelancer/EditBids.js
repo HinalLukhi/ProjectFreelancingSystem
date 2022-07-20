@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Button,
@@ -15,8 +15,12 @@ import {
 } from "reactstrap";
 import * as Hiicons from "react-icons/hi";
 import * as Aiicons from "react-icons/ai";
+import axios from "axios";
+import { MdUpdateDisabled } from "react-icons/md";
 
 function EditBids(props) {
+  var user = JSON.parse(localStorage.getItem("userData"));
+
   const [range, setRange] = useState(0);
   const handleBudgetRange = (e) => {
     setRange(e.target.value);
@@ -24,14 +28,14 @@ function EditBids(props) {
   const [projectData, setProjectData] = useState([]);
   const [deleveryTime, setDelevryTime] = useState(1);
   const [typeDuration, setTypeDuration] = useState();
-  //   const [formData, setFormData] = useState({
-  //     project: { id: location.state.id },
-  //     user: { id: user.id },
-  //     amount: range,
-  //     bidDate: new Date().toISOString().slice(0,10),
-  //     deliveryTime: 1,
-  //     status: { id: 9 },
-  //   });
+  const [formData, setFormData] = useState({
+    project: { id: "" },
+    user: { id: user.id },
+    amount: range,
+    bidDate: new Date().toISOString().slice(0, 10),
+    deliveryTime: 1,
+    status: { id: 9 },
+  });
   const setValues = () => {
     // formData.amount = range;
     // if (typeDuration == "Months") {
@@ -42,7 +46,60 @@ function EditBids(props) {
     //   formData.deliveryTime = deleveryTime;
     // }
   };
- console.log(props.data)
+
+  const [bidData, setBidData] = useState({});
+  const [bidID,setBidID] = useState()
+  useEffect(() => {
+    axios.get("http://localhost:8082/bids/" + props.data.id)
+      .then(res => {
+        setBidData(res.data, setDatas(res.data));
+       
+      })
+  }, {})
+
+  
+
+  const setDatas = (data) => {
+    setBidID(data.id)
+    setRange(data.amount);
+    setProjectData(data.project);
+    setDelevryTime(data.deliveryTime)
+    setFormData(prev => ({
+      ...prev,
+      project:{id: data.project.id},
+      amount: range,
+      deliveryTime: deleveryTime,
+      bidDate: data.bidDate,
+      status: {id: data.status.id}
+    }))
+  }
+
+  const updateBid = () => {
+    if (typeDuration == "Months") {
+      formData.deliveryTime = deleveryTime * 30;
+    } else if (typeDuration == "Year") {
+      formData.deliveryTime = deleveryTime * 365;
+    } else {
+      formData.deliveryTime = deleveryTime;
+    }
+    formData.amount = range
+    console.log(formData);
+    console.log(bidID);
+    update()
+  }
+
+  const update=()=>{
+    axios
+        .put("http://localhost:8082/bids/update/"+bidID, formData)
+        .then((response) => {
+          alert("Bid Updated")
+          window.location.reload()
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
+  };
+
   return (
     <React.Fragment>
       <Modal toggle isOpen={props.toggle}>
@@ -115,7 +172,7 @@ function EditBids(props) {
           </article>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary">Update</Button>
+          <Button color="primary" onClick={()=>updateBid()}>Update</Button>
         </ModalFooter>
       </Modal>
     </React.Fragment>
