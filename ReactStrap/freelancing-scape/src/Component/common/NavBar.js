@@ -21,6 +21,8 @@ function NavBar(props) {
   const userLink = props.pageType ? props.pageType : "DropDown";
   const user=JSON.parse(localStorage.getItem("userData"));
 
+  console.log(user)
+
   let navigate = useNavigate();
 
   const [test,settest]= useState(false);
@@ -188,6 +190,7 @@ function NavBar(props) {
                   <section id="loginSection">
                     <section onMouseEnter={onHover} onMouseLeave={onHoverLeave}>
                       <img
+                        // src="/images/profile/pic1.jpg"
                         src={user.userprofiles[0].profileImage}
                         alt=""
                         id="userAvatar"

@@ -30,6 +30,7 @@ import axios from "axios";
 function FindProject() {
   const navigate = useNavigate();
   const [tokenstr] = localStorage.getItem("token");
+  const [searchField, setSearchField] = useState("")
   const goToProjectDesc = (id) => {
     navigate("projectdescription", { state: { id: id } });
   };
@@ -90,8 +91,12 @@ function FindProject() {
           <Col xs="3" id="filter-form">
             <h3>Search</h3>
             <InputGroup>
-              <Input />
-              <Button color="primary">Search</Button>
+              <Input
+                type="text"
+                onChange={(event) => {
+                  setSearchField(event.target.value);
+                }}
+              />
             </InputGroup>
             <h3>Budget </h3>
             <Label>0 - {range} $</Label>
@@ -145,73 +150,85 @@ function FindProject() {
               <section className="mt-2">
                 <Row>
                   <Col md="12">
-                    {data.map((e) => (
-                      <Card body style={{ marginBottom: ".5rem" }} key={e.id}>
-                        <CardBody>
-                          <Row>
-                            <Col md="6">
-                              <CardTitle tag="h5">{e.projectName}</CardTitle>
-                              <CardSubtitle
-                                className="mb-2 text-muted"
-                                tag="h6"
-                              >
-                                {"Duration : "}
-                                <span>{e.duration + "  Days"}</span>
-                                <Aiicons.AiOutlineClockCircle
-                                  size={20}
-                                  style={{ margin: "10px" }}
-                                />
-                                <span>{e.postDate}</span>
-                              </CardSubtitle>
-                              <CardText className="mt-3">
-                                {e.projectDescription}
-                                <section
-                                  className="inline mt-3"
-                                  style={{
-                                    display: "flex",
-                                    flexWrap: "wrap",
-                                  }}
+                    {data
+                      .filter((val) => {
+                        if (searchField == "") {
+                          return val;
+                        } else if (
+                          val.projectName
+                            .toLowerCase()
+                            .includes(searchField.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      })
+                      .map((val,e) => (
+                        <Card body style={{ marginBottom: ".5rem" }} key={e.id}>
+                          <CardBody>
+                            <Row>
+                              <Col md="6">
+                                <CardTitle tag="h5">{val.projectName}</CardTitle>
+                                <CardSubtitle
+                                  className="mb-2 text-muted"
+                                  tag="h6"
                                 >
-                                  {e.projectskills.map((skill) => {
-                                return (
-                                  <span
-                                className="skill-badge"
-                                style={{ width: "100px" }}
+                                  {"Duration : "}
+                                  <span>{val.duration + "  Days"}</span>
+                                  <Aiicons.AiOutlineClockCircle
+                                    size={20}
+                                    style={{ margin: "10px" }}
+                                  />
+                                  <span>{val.postDate}</span>
+                                </CardSubtitle>
+                                <CardText className="mt-3">
+                                  {val.projectDescription}
+                                  <section
+                                    className="inline mt-3"
+                                    style={{
+                                      display: "flex",
+                                      flexWrap: "wrap",
+                                    }}
+                                  >
+                                    {val.projectskills.map((skill) => {
+                                      return (
+                                        <span
+                                          className="skill-badge"
+                                          style={{ width: "100px" }}
+                                        >
+                                          {skill.name.toUpperCase()}
+                                        </span>
+                                      );
+                                    })}
+                                  </section>
+                                </CardText>
+                              </Col>
+                              <Col
+                                md="6"
+                                className="p-3  rounded"
+                                id="budget-card"
                               >
-                                {skill.name.toUpperCase()}
-                              </span>
-                                );
-                              })}
-                                </section>
-                              </CardText>
-                            </Col>
-                            <Col
-                              md="6"
-                              className="p-3  rounded"
-                              id="budget-card"
-                            >
-                              <Toast>
-                                <ToastHeader className="text-center">
-                                  Budget of the project
-                                </ToastHeader>
-                                <ToastBody className="text-center">
-                                  {e.minBudget + "$ - " + e.maxBudget + "$"}
-                                </ToastBody>
-                              </Toast>
+                                <Toast>
+                                  <ToastHeader className="text-center">
+                                    Budget of the project
+                                  </ToastHeader>
+                                  <ToastBody className="text-center">
+                                    {val.minBudget + "$ - " + val.maxBudget + "$"}
+                                  </ToastBody>
+                                </Toast>
 
-                              <Button
-                                color="primary"
-                                className="mt-4"
-                                style={{ width: "100%" }}
-                                onClick={() => goToProjectDesc(e.id)}
-                              >
-                                Bid Now
-                              </Button>
-                            </Col>
-                          </Row>
-                        </CardBody>
-                      </Card>
-                    ))}
+                                <Button
+                                  color="primary"
+                                  className="mt-4"
+                                  style={{ width: "100%" }}
+                                  onClick={() => goToProjectDesc(e.id)}
+                                >
+                                  Bid Now
+                                </Button>
+                              </Col>
+                            </Row>
+                          </CardBody>
+                        </Card>
+                      ))}
                   </Col>
                 </Row>
               </section>

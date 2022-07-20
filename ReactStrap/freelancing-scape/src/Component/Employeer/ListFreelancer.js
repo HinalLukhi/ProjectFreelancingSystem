@@ -67,119 +67,103 @@ function ListFreelancer() {
   const printRange=()=>{
 
   }
+  const [searchField, setSearchField] = useState("")
   return (
     <React.Fragment>
       <Container tag={"section"} className="list-freelancer-form" fluid>
         <Row className="mt-5">
-          <Col lg="3" id="filter-form">
-            <h3>Location</h3>
-            <InputGroup>
-              <Input placeholder="username" />
-              <InputGroupText style={{ backgroundColor: "white" }}>
-                <FAicons.FaSearchLocation size={25} color="gray" />
-              </InputGroupText>
-            </InputGroup>
-            <h3>Hourly Rate</h3>
-            <Label>0$ - {range}$</Label>
-            <Input id="exampleRange" name="range" type="range" value={range} onChange={
-            (e)=>{
-              setRange(e.target.value)
-            }
-            } />
-            <h3>Skills</h3>
-            <InputGroup>
-              <Input type="text" placeholder="php,reactjs" 
-              value={skill} 
-              onChange={(e)=>setSkill(e.target.value)}
-              />
-              <Button style={{ backgroundColor: "white", color: "#2A41E8" }}
-              onClick={addSkill}
-              >
-                <FAicons.FaPlus size={25} />
-              </Button>
-            </InputGroup>
-            <section style={{display:"flex",flexWrap:"wrap"}} className="mt-3">
-              {
-                skills.map((element,index)=>{
-                  return (
-                    <span className="skill-badge"  key={index}>
-                      {element}
-                      <Mdicons.MdClose size={25} style={{margin:10}} onClick={()=>deleteSkill(index)}/>
-                    </span>
-                  );
-                })
-              }
-             
-            </section>
-          </Col>
-          <Col lg="9" id="list-freelancer">
+          <Col
+            id="list-freelancer"
+            style={{ marginLeft: "10rem", marginRight: "10rem" }}
+          >
             <h3>Search</h3>
             <InputGroup>
-              <Input />
+              <Input
+                type="text"
+                onChange={(event) => {
+                  setSearchField(event.target.value);
+                }}
+              />
               <Button color="primary">Search</Button>
             </InputGroup>
             <section className="mt-5">
-              {data.map((e) => (
-                <Card body id="free-profile-list-card">
-                  <Row>
-                    <Col xs="1" id="free-avatar">
-                      <img
-                        src={e.userprofiles[0].profileImage}
-                        alt=""
-                        style={{
-                          borderRadius: "100px",
-                          width: "100px",
-                          height: "100px",
-                        }}
-                      />
-                    </Col>
-                    <Col xs="5" className=" text-align-center" id="free-name">
-                      <h5>{e.userprofiles[0].firstName + " " +e.userprofiles[0].lastName }</h5>
-                      <h6 className="fw-lighter">{e.tag_line}</h6>
-                    </Col>
-                    <Col xs="6" id="free-list-button">
-                      <CardText>
-                        <ListGroup horizontal>
-                          <ListGroupItem
-                            className="justify-content-between banner-list-item border-left"
-                            style={{ color: "black" }}
+              {data
+                .filter((val) => {
+                  if (searchField == "") {
+                    return val;
+                  } else if (
+                    val.userprofiles[0].firstName
+                      .toLowerCase()
+                      .includes(searchField.toLowerCase())
+                  ) {
+                    return val;
+                  }
+                })
+                .map((val,e) => (
+                  <Card body id="free-profile-list-card">
+                    <Row className="text-center">
+                      <Col xs="1" id="free-avatar">
+                        <img
+                          src={val.userprofiles[0].profileImage}
+                          alt=""
+                          style={{
+                            borderRadius: "100px",
+                            width: "100px",
+                            height: "100px",
+                          }}
+                        />
+                      </Col>
+                      <Col xs="5" className=" text-align-center" id="free-name">
+                        <h5>
+                          {val.userprofiles[0].firstName +
+                            " " +
+                            val.userprofiles[0].lastName}
+                        </h5>
+                        <h6 className="fw-lighter">{val.tag_line}</h6>
+                      </Col>
+                      <Col xs="6" id="free-list-button">
+                        <CardText>
+                          <ListGroup horizontal>
+                            <ListGroupItem
+                              className="justify-content-between banner-list-item border-left"
+                              style={{ color: "black" }}
+                            >
+                              <section className="count">Job Sucess</section>
+                              99%
+                            </ListGroupItem>
+                            <ListGroupItem
+                              className="justify-content-between banner-list-item"
+                              style={{ color: "black" }}
+                            >
+                              <section className="count">Rate</section>
+                              {val.userprofiles[0].hourlyRate} $/hr
+                            </ListGroupItem>
+                            <ListGroupItem
+                              className="justify-content-between banner-list-item"
+                              style={{ color: "black" }}
+                            >
+                              <section className="count">Location</section>
+                              London
+                            </ListGroupItem>
+                          </ListGroup>
+                          <Button
+                            color="primary"
+                            className="mt-3"
+                            style={{ width: "100%" }}
+                            onClick={() => goToProfileDesc(val.id)}
                           >
-                            <section className="count">Job Sucess</section>
-                            99%
-                          </ListGroupItem>
-                          <ListGroupItem
-                            className="justify-content-between banner-list-item"
-                            style={{ color: "black" }}
-                          >
-                            <section className="count">Rate</section>
-                            {e.userprofiles[0].hourlyRate} $/hr
-                          </ListGroupItem>
-                          <ListGroupItem
-                            className="justify-content-between banner-list-item"
-                            style={{ color: "black" }}
-                          >
-                            <section className="count">Location</section>
-                            London
-                          </ListGroupItem>
-                        </ListGroup>
-                        <Button
-                          color="primary"
-                          className="mt-3"
-                          style={{ width: "100%" }}
-                          onClick={()=>goToProfileDesc(e.id)}
-                        >
-                          View Profile
-                        </Button>
-                      </CardText>
-                    </Col>
-                  </Row>
-                </Card>
-              ))}
+                            View Profile
+                          </Button>
+                        </CardText>
+                      </Col>
+                    </Row>
+                  </Card>
+                ))}
             </section>
           </Col>
         </Row>
       </Container>
-      <Footer/>
+      <Footer />
     </React.Fragment>
   );
 }
