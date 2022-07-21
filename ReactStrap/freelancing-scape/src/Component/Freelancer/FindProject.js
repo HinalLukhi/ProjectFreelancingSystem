@@ -220,7 +220,7 @@ function FindProject() {
                                   color="primary"
                                   className="mt-4"
                                   style={{ width: "100%" }}
-                                  onClick={() => goToProjectDesc(e.id)}
+                                  onClick={() => goToProjectDesc(val.id)}
                                 >
                                   Bid Now
                                 </Button>

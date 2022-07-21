@@ -22,6 +22,7 @@ import { Navigate, useLocation } from "react-router-dom";
 function AddTasks() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [completionDate, setCompletionDate] = useState("");
   var today = new Date().toISOString().slice(0, 10);
     const [formData,SetFormData] = useState({
         project: {"id":location.state.id},
@@ -101,8 +102,7 @@ function AddTasks() {
       axios
       .get("http://localhost:8082/project/"+location.state.id)
         .then((res) => {
-          setProjectData(res);
-          console.log(projectData);
+          setProjectData(res, setCompletionDate(res.data.completionDate));
         });
 
     }, {});
@@ -133,6 +133,7 @@ function AddTasks() {
                     min={new Date().toISOString().split('T')[0]}
                     value={formData.startDate}
                     onChange={handelChange}
+                    max={completionDate}
                     
                   />
                 </Col>
@@ -144,7 +145,7 @@ function AddTasks() {
                     min={new Date().toISOString().split('T')[0]}
                     value={formData.endDate}
                     onChange={handelChange}
-                    max={projectData.data.completionDate}
+                    max={completionDate}
                   />
                 </Col>
               </Row>

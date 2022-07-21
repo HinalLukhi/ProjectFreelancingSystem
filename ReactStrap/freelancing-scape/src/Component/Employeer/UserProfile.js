@@ -156,7 +156,6 @@ function UserProfile() {
   axios
       .put("http://localhost:8083/update/"+userID, updateData)
       .then((response) => {
-        console.log("test");
         alert("Your Profile Has Been Updated")
       })
       .catch((error) => {

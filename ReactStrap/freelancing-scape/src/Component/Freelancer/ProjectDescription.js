@@ -35,6 +35,9 @@ function TaskDescription() {
         setRange(res.data.minBudget)
       });
   };
+
+  console.log(projectData);
+
   useEffect(() => {
     if (localStorage.getItem("loginStatus") === "false") {
       navigate("/");

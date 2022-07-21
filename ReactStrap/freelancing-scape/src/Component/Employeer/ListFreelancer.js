@@ -163,7 +163,7 @@ function ListFreelancer() {
           </Col>
         </Row>
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </React.Fragment>
   );
 }

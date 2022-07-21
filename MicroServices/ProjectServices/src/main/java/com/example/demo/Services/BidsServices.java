@@ -141,8 +141,6 @@ public class BidsServices {
 //        content = content.replace("[[URL]]", verifyURL);
 
         helper.setText(content, true);
-
-        System.out.println("mail");
         mailSender.send(message);
     }
 
